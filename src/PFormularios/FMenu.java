@@ -319,7 +319,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+    new PFormularios.FInventario().setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -383,7 +383,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                     int n = ps.executeUpdate();
                     acciones.conn.close();
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar Hora\ncodigo error:" + e.getMessage(),
+                    JOptionPane.showMessageDialog(null, e.getMessage(),
                             "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 }
                 

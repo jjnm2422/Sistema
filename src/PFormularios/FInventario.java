@@ -39,44 +39,119 @@ public class FInventario extends javax.swing.JFrame {
     private final ImageIcon iconCorrecto = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/correcto.png"));
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
     public DefaultTableModel model;
-    
+    private int iva = 0;
+
     public FInventario() {
         this.setlook();
         initComponents();
         setLocationRelativeTo(null);
         this.restringir();
         this.Llenar();
+        this.getProveedores();
+        getTipoProducto();
     }
-    
+
     public void setlook() {
-       try{
-          UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        }catch(Exception e){
-          e.printStackTrace();
-        }  
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     public void setTitle(String title) {
         super.setTitle(title);
         lblTitulo.setText(title);
     }
-    public void restringir(){
+
+    public void restringir() {
         RestrictedTextField restricted3 = new RestrictedTextField(this.txtMinimo1);
         restricted3.setOnlyNums(true);
-        RestrictedTextField restricted4 = new RestrictedTextField(this.txtTotal1);
+        RestrictedTextField restricted4 = new RestrictedTextField(this.txtPrecio1);
         restricted4.setOnlyNums(true);
         RestrictedTextField restricted = new RestrictedTextField(this.txtCantidad1);
         restricted.setOnlyNums(true);
     }
-    
-    private void restaurarVentana() {
-        if(getExtendedState() == JFrame.MAXIMIZED_BOTH){//1
-            setExtendedState(JFrame.NORMAL);//2
-        }else{
-            setExtendedState(JFrame.MAXIMIZED_BOTH);//3
+
+    public void getProveedores() {
+        try {
+            String sql = "select * from proveedores";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                cbxProveedor1.addItem(rs.getString("nompro"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }
     
-    private void Llenar(){
+    public int getCodProveedores(String nombre) {
+        int cod = 0;
+        try {
+            String sql = "select * from proveedores where nompro = '"+nombre+"'";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                cod = rs.getInt("rifpro");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+        return cod;
+    }
+    
+    public float getIva() {
+        try {
+            String sql = "select * from variables where codvar = '1'";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                iva = rs.getInt("iva");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar Iva\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+        return iva;
+    }
+
+    public void getTipoProducto() {
+        try {
+            String sql = "select * from tipoproducto";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                cbxTipo1.addItem(rs.getString("tipprod"));
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+    }
+    
+       public int getCodTipoProducto(String nombre) {
+        int cod =0;
+        try {
+            String sql = "select * from tipoproducto where tipprod = '"+nombre+"'";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                cod = rs.getInt("codtip");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+        return cod;
+    }
+
+    private void restaurarVentana() {
+        if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {//1
+            setExtendedState(JFrame.NORMAL);//2
+        } else {
+            setExtendedState(JFrame.MAXIMIZED_BOTH);//3
+        }
+    }
+
+    private void Llenar() {
         try {
             String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
                 "Precio"};
@@ -97,17 +172,18 @@ public class FInventario extends javax.swing.JFrame {
             acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }
-    public void Ajustar(JLabel label, ImageIcon icon){
+
+    public void Ajustar(JLabel label, ImageIcon icon) {
         //esta funcion ajusta un icono(parametro) al tamaño del label (parametro)
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
         label.setIcon(icono);
         this.repaint();
     }
-    
-   /* private void Habilitar(int x) {
+
+    /* private void Habilitar(int x) {
         switch (x) {
             case 2:
             txtNombre2.setEnabled(true);
@@ -133,8 +209,7 @@ public class FInventario extends javax.swing.JFrame {
             default:
         }       
     }*/
-    
-   /* private void Borrar(int x) {
+ /* private void Borrar(int x) {
         switch (x) {
             case 1:
             txtNombre1.setText("");
@@ -168,8 +243,7 @@ public class FInventario extends javax.swing.JFrame {
             default:
         }
     }*/
-    
-   /* private boolean Verificacion1(){
+ /* private boolean Verificacion1(){
         if (txtNombre1.getText().equals("")
          || txtCedula1.getText().equals("") || txtTelefono11.getText().equals("")
          || txtDireccion1.getText().equals("")) {
@@ -190,7 +264,6 @@ public class FInventario extends javax.swing.JFrame {
             return true;
         }
     }*/
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -268,7 +341,7 @@ public class FInventario extends javax.swing.JFrame {
         btnSalir5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Proveedores");
+        setTitle("Inventario");
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -308,12 +381,14 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 20));
 
-        jLabel1.setBackground(new java.awt.Color(204, 0, 204));
+        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setOpaque(true);
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 30));
 
+        jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
+
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 204), 4));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 4));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitulo5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -367,6 +442,11 @@ public class FInventario extends javax.swing.JFrame {
                 txtTotal1ActionPerformed(evt);
             }
         });
+        txtTotal1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTotal1KeyReleased(evt);
+            }
+        });
         jPanel2.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 130, -1));
 
         btnBorrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
@@ -400,7 +480,6 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo15.setText("Tipo Producto");
         jPanel2.add(lblTitulo15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 90, 20));
 
-        cbxProveedor1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxProveedor1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxProveedor1ActionPerformed(evt);
@@ -416,7 +495,6 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo16.setText("Proveedor");
         jPanel2.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 90, 20));
 
-        cbxTipo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel2.add(cbxTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 150, -1));
 
         lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -430,12 +508,17 @@ public class FInventario extends javax.swing.JFrame {
                 txtPrecio1ActionPerformed(evt);
             }
         });
+        txtPrecio1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPrecio1KeyReleased(evt);
+            }
+        });
         jPanel2.add(txtPrecio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 130, -1));
 
         jTabbedPane1.addTab("Nuevo", jPanel2);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 204), 4));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 4));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitulo6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -465,17 +548,21 @@ public class FInventario extends javax.swing.JFrame {
         txtDescripcion2.setLineWrap(true);
         txtDescripcion2.setRows(1);
         txtDescripcion2.setWrapStyleWord(true);
+        txtDescripcion2.setEnabled(false);
         jScrollPane5.setViewportView(txtDescripcion2);
 
         jPanel4.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
 
         txtCantidad2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCantidad2.setEnabled(false);
         jPanel4.add(txtCantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 130, -1));
 
         txtMaximo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtMaximo2.setEnabled(false);
         jPanel4.add(txtMaximo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
 
         txtMinimo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtMinimo2.setEnabled(false);
         txtMinimo2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMinimo2ActionPerformed(evt);
@@ -524,7 +611,7 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo22.setText("Consultar");
         jPanel4.add(lblTitulo22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 20));
 
-        cbxProveedor2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxProveedor2.setEnabled(false);
         cbxProveedor2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxProveedor2ActionPerformed(evt);
@@ -540,7 +627,7 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo23.setText("Proveedor");
         jPanel4.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
 
-        cbxTipo2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxTipo2.setEnabled(false);
         jPanel4.add(cbxTipo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 140, -1));
 
         lblTitulo24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -549,6 +636,7 @@ public class FInventario extends javax.swing.JFrame {
         jPanel4.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 20));
 
         txtPrecio2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtPrecio2.setEnabled(false);
         txtPrecio2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtPrecio2ActionPerformed(evt);
@@ -663,23 +751,22 @@ public class FInventario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
-    x = evt.getX();
-    y = evt.getY();
+        x = evt.getX();
+        y = evt.getY();
     }//GEN-LAST:event_jPanel3MousePressed
 
     private void jPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseDragged
-    Point ubicacion = MouseInfo.getPointerInfo().getLocation();//1
-    System.out.println("Coordenadas: ("+ubicacion.x+","+ubicacion.y+")");//2
-    setLocation(ubicacion.x - x, ubicacion.y - y);//3
+        Point ubicacion = MouseInfo.getPointerInfo().getLocation();//1
+        setLocation(ubicacion.x - x, ubicacion.y - y);//3
     }//GEN-LAST:event_jPanel3MouseDragged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-dispose();
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-restaurarVentana();
-setExtendedState(JFrame.ICONIFIED);
+        restaurarVentana();
+        setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void txtTotal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal1ActionPerformed
@@ -687,38 +774,39 @@ setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_txtTotal1ActionPerformed
 
     private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
-  /*      if (Verificacion1()) {
+        if (Verificacion1()) {
         try {
-	String sql = "insert into proveedores(nompro, rifpro, telpro,"
-                + "tel2pro, dirpro, pagpro, despro, horpro) values(?,?,?,?,?,?,?,?)";
+	String sql = "insert into inventario(tippro, desprod, canprod,"
+                + "preprod, minprod, maxprod, codpro) values(?,?,?,?,?,?,?)";
 	PreparedStatement ps = acciones.Ingresar(sql);
-	ps.setString(1, txtNombre1.getText().toLowerCase());
-	ps.setString(2, txtCedula1.getText().toLowerCase());
-	ps.setString(3, txtTelefono11.getText().toLowerCase());
-	ps.setString(4, txtTelefono12.getText().toLowerCase());
-	ps.setString(5, txtDireccion1.getText().toLowerCase());
-	ps.setString(6, txtPagina1.getText().toLowerCase());
-	ps.setString(7, txtComentario1.getText().toLowerCase());
-	ps.setString(8, txtHorario1.getText().toLowerCase());
+        float total = Integer.parseInt(txtPrecio1.getText())+(Integer.parseInt(txtPrecio1.getText()) * getIva());
+	ps.setInt(1,getCodTipoProducto(cbxTipo1.getSelectedItem().toString()));
+	ps.setString(2, txtDescripcion1.getText().toLowerCase());
+	ps.setInt(3, Integer.parseInt(txtCantidad1.getText()));
+	ps.setFloat(4, total);
+	ps.setInt(5, Integer.parseInt(txtMinimo1.getText()));
+	ps.setInt(6, Integer.parseInt(txtMaximo1.getText()));
+	ps.setInt(7, getCodProveedores(cbxProveedor1.getSelectedItem().toString()));
 	int n = ps.executeUpdate();
 		if (n > 0) {
-			JOptionPane.showMessageDialog(null, "Proveedor ingresado con exito"
+			JOptionPane.showMessageDialog(null, "Producto ingresado con exito al inventario"
                         ,"Informacion",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
                         this.Borrar(1);
+                        this.Llenar();
 		}
 	} catch (Exception e) {
 	JOptionPane.showMessageDialog(null,"Error al guardar cliente\ncodigo error:"+e.getMessage()
         ,"Error",JOptionPane.PLAIN_MESSAGE,iconError);
 }
-    }*/
+}
     }//GEN-LAST:event_btnIngresar1ActionPerformed
 
     private void btnBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar1ActionPerformed
-       // this.Borrar(1);
+        Borrar(1);        // this.Borrar(1);
     }//GEN-LAST:event_btnBorrar1ActionPerformed
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
-dispose();        // TODO add your handling code here:
+        dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
     private void cbxProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor1ActionPerformed
@@ -784,14 +872,14 @@ dispose();        // TODO add your handling code here:
             }
             if (resultado == false) {
                 JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
-                    JOptionPane.PLAIN_MESSAGE, iconAd);
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
 //                this.Habilitar(3);
                 resultado = false;
             }
             acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
-                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -804,80 +892,80 @@ dispose();        // TODO add your handling code here:
             int var = cbxFiltro.getSelectedIndex();
             switch (var) {
                 case 0:
-                try {
-            String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                "Precio"};
-            String sql = "select * from inventario inner join tipoproducto"
-                    + " on tipoproducto.codtip = inventario.tippro "
-                    + "where codprod = '"+txtB.getText()+"'";
-            model = new DefaultTableModel(null, titulos);
-            ResultSet rs = acciones.Consultar(sql);
-            String[] fila = new String[5];
-            while (rs.next()) {
-                fila[0] = rs.getString("codprod");
-                fila[1] = rs.getString("tipprod");
-                fila[2] = rs.getString("desprod");
-                fila[3] = rs.getString("canprod");
-                fila[4] = rs.getString("preprod");
-                model.addRow(fila);
-            }
-            tbl.setModel(model);
-            acciones.conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-                break;
+                    try {
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                                + " on tipoproducto.codtip = inventario.tippro "
+                                + "where codprod = '" + txtB.getText() + "'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                    break;
                 case 1:
                     try {
-            String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                "Precio"};
-            String sql = "select * from inventario inner join tipoproducto"
-                    + " on tipoproducto.codtip = inventario.tippro "
-                    + "where tipprod like '"+txtB.getText()+"%'";
-            model = new DefaultTableModel(null, titulos);
-            ResultSet rs = acciones.Consultar(sql);
-            String[] fila = new String[5];
-            while (rs.next()) {
-                fila[0] = rs.getString("codprod");
-                fila[1] = rs.getString("tipprod");
-                fila[2] = rs.getString("desprod");
-                fila[3] = rs.getString("canprod");
-                fila[4] = rs.getString("preprod");
-                model.addRow(fila);
-            }
-            tbl.setModel(model);
-            acciones.conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-                break;
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                                + " on tipoproducto.codtip = inventario.tippro "
+                                + "where tipprod like '" + txtB.getText() + "%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                    break;
                 case 2:
                     try {
-            String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                "Precio"};
-            String sql = "select * from inventario inner join tipoproducto"
-                    + " on tipoproducto.codtip = inventario.tippro "
-                    + "where desprod like '"+txtB.getText()+"%'";
-            model = new DefaultTableModel(null, titulos);
-            ResultSet rs = acciones.Consultar(sql);
-            String[] fila = new String[5];
-            while (rs.next()) {
-                fila[0] = rs.getString("codprod");
-                fila[1] = rs.getString("tipprod");
-                fila[2] = rs.getString("desprod");
-                fila[3] = rs.getString("canprod");
-                fila[4] = rs.getString("preprod");
-                model.addRow(fila);
-            }
-            tbl.setModel(model);
-            acciones.conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-                break;
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                                + " on tipoproducto.codtip = inventario.tippro "
+                                + "where desprod like '" + txtB.getText() + "%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                    break;
                 default:
 
             }
@@ -910,13 +998,26 @@ dispose();        // TODO add your handling code here:
     private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
         this.dispose();     // TODO add your handling code here:
     }//GEN-LAST:event_btnSalir5ActionPerformed
-  
+
+    private void txtPrecio1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyReleased
+        if (!txtPrecio1.getText().equals("")) {
+        float total = Float.parseFloat(txtPrecio1.getText())+(Float.parseFloat(txtPrecio1.getText()) * (getIva()/100));
+        txtTotal1.setText(String.valueOf(total));           
+        } else {
+        txtTotal1.setText("0");
+        }
+
+    }//GEN-LAST:event_txtPrecio1KeyReleased
+
+    private void txtTotal1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotal1KeyReleased
+    
+    }//GEN-LAST:event_txtTotal1KeyReleased
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    
-       
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -989,4 +1090,31 @@ dispose();        // TODO add your handling code here:
     private javax.swing.JTextField txtTotal1;
     private javax.swing.JTextField txtTotal2;
     // End of variables declaration//GEN-END:variables
+
+    private boolean Verificacion1() {
+        if (!txtDescripcion1.getText().equals("") || !txtMinimo1.getText().equals("")
+                || !txtMaximo1.getText().equals("") || !txtCantidad1.getText().equals("") || !txtPrecio1.getText().equals("")
+                || !txtTotal1.getText().equals("")) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+            return false;
+        }
+    }
+
+    private void Borrar(int i) {
+        switch (i) {
+            case 1:
+                txtDescripcion1.setText("");
+                txtMaximo1.setText("");
+                txtMinimo1.setText("");
+                txtCantidad1.setText("");
+                txtPrecio1.setText("");
+                txtTotal1.setText("");
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }
+
 }
