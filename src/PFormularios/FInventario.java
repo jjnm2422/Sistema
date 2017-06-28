@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -37,12 +38,14 @@ public class FInventario extends javax.swing.JFrame {
     private final ImageIcon iconError = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png"));
     private final ImageIcon iconCorrecto = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/correcto.png"));
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
+    public DefaultTableModel model;
     
     public FInventario() {
         this.setlook();
         initComponents();
         setLocationRelativeTo(null);
         this.restringir();
+        this.Llenar();
     }
     
     public void setlook() {
@@ -57,11 +60,11 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo.setText(title);
     }
     public void restringir(){
-        RestrictedTextField restricted3 = new RestrictedTextField(this.txtCedula1);
+        RestrictedTextField restricted3 = new RestrictedTextField(this.txtMinimo1);
         restricted3.setOnlyNums(true);
-        RestrictedTextField restricted4 = new RestrictedTextField(this.txtTelefono11);
+        RestrictedTextField restricted4 = new RestrictedTextField(this.txtTotal1);
         restricted4.setOnlyNums(true);
-        RestrictedTextField restricted = new RestrictedTextField(this.txtTelefono12);
+        RestrictedTextField restricted = new RestrictedTextField(this.txtCantidad1);
         restricted.setOnlyNums(true);
     }
     
@@ -70,6 +73,31 @@ public class FInventario extends javax.swing.JFrame {
             setExtendedState(JFrame.NORMAL);//2
         }else{
             setExtendedState(JFrame.MAXIMIZED_BOTH);//3
+        }
+    }
+    
+    private void Llenar(){
+        try {
+            String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                "Precio"};
+            String sql = "select * from inventario inner join tipoproducto"
+                    + " on tipoproducto.codtip = inventario.tippro";
+            model = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codprod");
+                fila[1] = rs.getString("tipprod");
+                fila[2] = rs.getString("desprod");
+                fila[3] = rs.getString("canprod");
+                fila[4] = rs.getString("preprod");
+                model.addRow(fila);
+            }
+            tbl.setModel(model);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }
     public void Ajustar(JLabel label, ImageIcon icon){
@@ -185,26 +213,59 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo12 = new javax.swing.JLabel();
         lblTitulo13 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        txtDireccion1 = new javax.swing.JTextArea();
-        txtTelefono12 = new javax.swing.JTextField();
-        txtHorario1 = new javax.swing.JTextField();
-        txtCedula1 = new javax.swing.JTextField();
-        txtTelefono11 = new javax.swing.JTextField();
+        txtDescripcion1 = new javax.swing.JTextArea();
+        txtCantidad1 = new javax.swing.JTextField();
+        txtMaximo1 = new javax.swing.JTextField();
+        txtMinimo1 = new javax.swing.JTextField();
+        txtTotal1 = new javax.swing.JTextField();
         btnBorrar1 = new javax.swing.JButton();
         btnSalir1 = new javax.swing.JButton();
         btnIngresar1 = new javax.swing.JButton();
         lblTitulo15 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel2 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        btnSalir2 = new javax.swing.JButton();
-        btnEliminar2 = new javax.swing.JButton();
-        btnEditar2 = new javax.swing.JButton();
+        cbxProveedor1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        lblTitulo16 = new javax.swing.JLabel();
+        cbxTipo1 = new javax.swing.JComboBox<>();
+        lblTitulo14 = new javax.swing.JLabel();
+        txtPrecio1 = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        lblTitulo6 = new javax.swing.JLabel();
+        lblTitulo17 = new javax.swing.JLabel();
+        lblTitulo19 = new javax.swing.JLabel();
+        lblTitulo20 = new javax.swing.JLabel();
+        lblTitulo21 = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        txtDescripcion2 = new javax.swing.JTextArea();
+        txtCantidad2 = new javax.swing.JTextField();
+        txtMaximo2 = new javax.swing.JTextField();
+        txtMinimo2 = new javax.swing.JTextField();
+        txtTotal2 = new javax.swing.JTextField();
         btnBorrar2 = new javax.swing.JButton();
-        txtCedula2 = new javax.swing.JTextField();
-        lblTitulo18 = new javax.swing.JLabel();
+        btnSalir2 = new javax.swing.JButton();
+        btnIngresar2 = new javax.swing.JButton();
+        lblTitulo22 = new javax.swing.JLabel();
+        cbxProveedor2 = new javax.swing.JComboBox<>();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        lblTitulo23 = new javax.swing.JLabel();
+        cbxTipo2 = new javax.swing.JComboBox<>();
+        lblTitulo24 = new javax.swing.JLabel();
+        txtPrecio2 = new javax.swing.JTextField();
+        lblTitulo25 = new javax.swing.JLabel();
+        txtConsultar2 = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        txtB = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        cbxFiltro = new javax.swing.JComboBox<>();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        tbl = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false; //Disallow the editing of any cell
+            }
+        };
+        btnSalir4 = new javax.swing.JButton();
+        btnSalir5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Proveedores");
@@ -257,50 +318,56 @@ public class FInventario extends javax.swing.JFrame {
 
         lblTitulo5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo5.setText("Cantidad que Ingresa");
-        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 110, 140, 20));
+        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 140, 20));
 
         lblTitulo10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo10.setText("Maximo Inventario");
-        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 120, 20));
+        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
 
         lblTitulo11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo11.setText("Minimo Inventario");
-        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 120, 20));
+        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
 
         lblTitulo12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTitulo12.setText("Precio");
-        jPanel2.add(lblTitulo12, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 140, 130, 20));
+        lblTitulo12.setText("Precio + IVA");
+        jPanel2.add(lblTitulo12, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 130, 20));
 
         lblTitulo13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo13.setText("Descripcion");
-        jPanel2.add(lblTitulo13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 70, 20));
+        jPanel2.add(lblTitulo13, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 70, 20));
 
-        txtDireccion1.setColumns(1);
-        txtDireccion1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtDireccion1.setLineWrap(true);
-        txtDireccion1.setRows(1);
-        txtDireccion1.setWrapStyleWord(true);
-        jScrollPane4.setViewportView(txtDireccion1);
+        txtDescripcion1.setColumns(1);
+        txtDescripcion1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtDescripcion1.setLineWrap(true);
+        txtDescripcion1.setRows(1);
+        txtDescripcion1.setWrapStyleWord(true);
+        jScrollPane4.setViewportView(txtDescripcion1);
 
-        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 210, 60));
+        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
 
-        txtTelefono12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel2.add(txtTelefono12, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, 130, -1));
+        txtCantidad1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel2.add(txtCantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 130, -1));
 
-        txtHorario1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel2.add(txtHorario1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 140, 100, -1));
+        txtMaximo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel2.add(txtMaximo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
 
-        txtCedula1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel2.add(txtCedula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 110, 100, -1));
-
-        txtTelefono11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtTelefono11.addActionListener(new java.awt.event.ActionListener() {
+        txtMinimo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtMinimo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTelefono11ActionPerformed(evt);
+                txtMinimo1ActionPerformed(evt);
             }
         });
-        jPanel2.add(txtTelefono11, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 130, -1));
+        jPanel2.add(txtMinimo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, -1));
+
+        txtTotal1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTotal1.setEnabled(false);
+        txtTotal1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTotal1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 130, -1));
 
         btnBorrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
         btnBorrar1.setText("Borrar");
@@ -309,7 +376,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnBorrar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, 100, 30));
+        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 100, 30));
 
         btnSalir1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir1.setText("Salir");
@@ -318,7 +385,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnSalir1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 180, 100, 30));
+        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 200, 100, 30));
 
         btnIngresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
         btnIngresar1.setText("Ingresar");
@@ -327,54 +394,103 @@ public class FInventario extends javax.swing.JFrame {
                 btnIngresar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 180, 100, 30));
+        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 100, 30));
 
         lblTitulo15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo15.setText("Tipo Producto");
-        jPanel2.add(lblTitulo15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 90, 20));
+        jPanel2.add(lblTitulo15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 90, 20));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 160, -1));
+        cbxProveedor1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxProveedor1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxProveedor1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cbxProveedor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 160, -1));
 
-        jLabel2.setText("Imagen");
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, 120, 90));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 160, -1));
 
-        jButton2.setText("Cargar");
-        jPanel2.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, -1, -1));
+        lblTitulo16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo16.setText("Proveedor");
+        jPanel2.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 90, 20));
+
+        cbxTipo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel2.add(cbxTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 150, -1));
+
+        lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo14.setText("Precio");
+        jPanel2.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 20));
+
+        txtPrecio1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtPrecio1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecio1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtPrecio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 130, -1));
 
         jTabbedPane1.addTab("Nuevo", jPanel2);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 204), 4));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 204), 4));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        btnSalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
-        btnSalir2.setText("Salir");
-        btnSalir2.addActionListener(new java.awt.event.ActionListener() {
+        lblTitulo6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo6.setText("Cantidad que Ingresa");
+        jPanel4.add(lblTitulo6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 140, 20));
+
+        lblTitulo17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo17.setText("Maximo Inventario");
+        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
+
+        lblTitulo19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo19.setText("Minimo Inventario");
+        jPanel4.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
+
+        lblTitulo20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo20.setText("Precio + IVA");
+        jPanel4.add(lblTitulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 130, 20));
+
+        lblTitulo21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo21.setText("Descripcion");
+        jPanel4.add(lblTitulo21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 80, 20));
+
+        txtDescripcion2.setColumns(1);
+        txtDescripcion2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtDescripcion2.setLineWrap(true);
+        txtDescripcion2.setRows(1);
+        txtDescripcion2.setWrapStyleWord(true);
+        jScrollPane5.setViewportView(txtDescripcion2);
+
+        jPanel4.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
+
+        txtCantidad2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel4.add(txtCantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 130, -1));
+
+        txtMaximo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel4.add(txtMaximo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
+
+        txtMinimo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtMinimo2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir2ActionPerformed(evt);
+                txtMinimo2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 200, 100, 30));
+        jPanel4.add(txtMinimo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, -1));
 
-        btnEliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497313212_trash.png"))); // NOI18N
-        btnEliminar2.setText("Eliminar");
-        btnEliminar2.addActionListener(new java.awt.event.ActionListener() {
+        txtTotal2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTotal2.setEnabled(false);
+        txtTotal2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminar2ActionPerformed(evt);
+                txtTotal2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEliminar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, 100, 30));
-
-        btnEditar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497312816_edit-find-replace.png"))); // NOI18N
-        btnEditar2.setText("Editar");
-        btnEditar2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditar2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEditar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 100, 30));
+        jPanel4.add(txtTotal2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 130, -1));
 
         btnBorrar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
         btnBorrar2.setText("Borrar");
@@ -383,14 +499,69 @@ public class FInventario extends javax.swing.JFrame {
                 btnBorrar2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 100, 30));
+        jPanel4.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 100, 30));
 
-        txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 140, -1));
+        btnSalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
+        btnSalir2.setText("Salir");
+        btnSalir2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalir2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 200, 100, 30));
 
-        lblTitulo18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo18.setText("Cedula/RIF");
-        jPanel1.add(lblTitulo18, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 70, 20));
+        btnIngresar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
+        btnIngresar2.setText("Ingresar");
+        btnIngresar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIngresar2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnIngresar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 100, 30));
+
+        lblTitulo22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo22.setText("Consultar");
+        jPanel4.add(lblTitulo22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 20));
+
+        cbxProveedor2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxProveedor2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxProveedor2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cbxProveedor2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 100, -1));
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel4.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 160, -1));
+
+        lblTitulo23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo23.setText("Proveedor");
+        jPanel4.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
+
+        cbxTipo2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel4.add(cbxTipo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 140, -1));
+
+        lblTitulo24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo24.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo24.setText("Precio");
+        jPanel4.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 20));
+
+        txtPrecio2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtPrecio2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPrecio2ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(txtPrecio2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 130, -1));
+
+        lblTitulo25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo25.setText("Tipo Producto");
+        jPanel4.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 90, 20));
+
+        txtConsultar2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jPanel4.add(txtConsultar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 140, -1));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -398,9 +569,91 @@ public class FInventario extends javax.swing.JFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 30, 20));
+        jPanel4.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 30, 20));
 
-        jTabbedPane1.addTab("Modificar", jPanel1);
+        jTabbedPane1.addTab("Modificar", jPanel4);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Productos Disponibles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 0, 12))); // NOI18N
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel25.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jLabel25.setText("FILTROS:");
+        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, 60, 20));
+
+        txtB.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        txtB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBActionPerformed(evt);
+            }
+        });
+        txtB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBKeyReleased(evt);
+            }
+        });
+        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 160, 20));
+
+        jLabel26.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jLabel26.setText("BUSQUEDA");
+        jPanel6.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 60, 20));
+
+        cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Tipo", "Descripcion" }));
+        cbxFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxFiltroActionPerformed(evt);
+            }
+        });
+        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 150, 20));
+
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMouseClicked(evt);
+            }
+        });
+        tbl.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblKeyReleased(evt);
+            }
+        });
+        jScrollPane6.setViewportView(tbl);
+
+        jPanel6.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 100));
+
+        btnSalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497913416_gtk-refresh.png"))); // NOI18N
+        btnSalir4.setText("Actualizar");
+        btnSalir4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalir4ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 110, 30));
+
+        btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
+        btnSalir5.setText("Salir");
+        btnSalir5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalir5ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 110, 30));
+
+        jTabbedPane1.addTab("Listado", jPanel6);
 
         jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 570, 270));
 
@@ -429,62 +682,9 @@ restaurarVentana();
 setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void btnEliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar2ActionPerformed
+    private void txtTotal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal1ActionPerformed
         // TODO add your handling code here:
-            try {
-            String sql = "delete from proveedores where rifpro='"+txtCedula2.getText()+"'" ;
-            Statement st = acciones.Eliminar(sql);
-            int n = st.executeUpdate(sql);
-            if (n > 0) {
-                JOptionPane.showMessageDialog(null,"Proveedor eliminado correctamente del sistema", "Informacion",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
-               // this.Borrar(2);
-               // this.Habilitar(3);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,"Error al eliminar Proveedor\ncodigo error:"+e.getMessage()
-        ,"Error",JOptionPane.PLAIN_MESSAGE,iconError);
-        }
-    }//GEN-LAST:event_btnEliminar2ActionPerformed
-
-    private void btnEditar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar2ActionPerformed
- /*  String cedula = txtCedula2.getText();
-if (Verificacion2()) {
-    try {
-    String sql = "update proveedores set nompro=?, pagpro=?, rifpro=?,"
-            + "telpro=?, tel2pro=?, dirpro=?, despro=?, horpro=? where rifpro = '"+cedula+"'";
-
-    PreparedStatement ps = acciones.Actualizar(sql);
-    ps.setString(1, this.txtNombre2.getText().toLowerCase());    
-    ps.setString(2, this.txtPagina2.getText().toLowerCase());
-    ps.setString(3, this.txtCedula2.getText().toLowerCase());
-    ps.setString(4, this.txtTelefono21.getText().toLowerCase());
-    ps.setString(5, this.txtTelefono22.getText().toLowerCase());
-    ps.setString(6, this.txtDireccion2.getText().toLowerCase());
-    ps.setString(7, this.txtComentario2.getText().toLowerCase());
-    ps.setString(8, this.txtHorario2.getText().toLowerCase());
-    int n = ps.executeUpdate();
-    if (n > 0) {
-            JOptionPane.showMessageDialog(null, "Datos actualizados correctamente","Informacion"
-                    ,JOptionPane.PLAIN_MESSAGE,iconCorrecto);
-            this.Habilitar(3);
-            this.Borrar(3);
-    }
-    } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error al actualizar datos " + e.getMessage()
-                    ,"Error",JOptionPane.PLAIN_MESSAGE,new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png"))); 
-    }
-}*/
-    }//GEN-LAST:event_btnEditar2ActionPerformed
-
-    private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
-        // TODO add your handling code here:
-        this.dispose();    
-    
-    }//GEN-LAST:event_btnSalir2ActionPerformed
-
-    private void txtTelefono11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefono11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTelefono11ActionPerformed
+    }//GEN-LAST:event_txtTotal1ActionPerformed
 
     private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
   /*      if (Verificacion1()) {
@@ -521,43 +721,195 @@ if (Verificacion2()) {
 dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnSalir1ActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-     /*   //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
-        boolean resultado=false;
-        this.Borrar(3);
-        int codigo = 0;
-        String cedula  = this.txtCedula2.getText();
-        try {
-            String sql = "select * from proveedores  where rifpro = '"+cedula+"'";
-            ResultSet rs = acciones.Consultar(sql);
-            while(rs.next()){
-                resultado = true;
-                this.Habilitar(2);
-                codigo = rs.getInt("codpro");
-                txtNombre2.setText(rs.getString("nompro"));
-                txtPagina2.setText(rs.getString("pagpro"));
-                txtHorario2.setText(rs.getString("horpro"));
-                txtCedula2.setText(rs.getString("rifpro"));
-                txtTelefono21.setText(rs.getString("telpro"));
-                txtTelefono22.setText(rs.getString("tel2pro"));
-                txtDireccion2.setText(rs.getString("dirpro"));
-                txtComentario2.setText(rs.getString("despro"));
-            }
-            if (resultado==false) {
-                JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia"
-                    ,JOptionPane.PLAIN_MESSAGE,iconAd);
-                this.Habilitar(3);
-                resultado = false;
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null,"Error al consultar cliente\ncodigo error:"+e.getMessage()
-                ,"Error",JOptionPane.PLAIN_MESSAGE,iconError);
-        }*/
-    }//GEN-LAST:event_btnBuscarActionPerformed
+    private void cbxProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxProveedor1ActionPerformed
+
+    private void txtPrecio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecio1ActionPerformed
+
+    private void txtMinimo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMinimo1ActionPerformed
+
+    private void txtMinimo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimo2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMinimo2ActionPerformed
+
+    private void txtTotal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotal2ActionPerformed
 
     private void btnBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar2ActionPerformed
-   // this.Borrar(2);
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnBorrar2ActionPerformed
+
+    private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir2ActionPerformed
+
+    private void btnIngresar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIngresar2ActionPerformed
+
+    private void cbxProveedor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxProveedor2ActionPerformed
+
+    private void txtPrecio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecio2ActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
+        boolean resultado = false;
+//        this.Borrar(3);
+        int codigo = 0;
+        String cedula = this.txtConsultar2.getText();
+        try {
+            String sql = "select * from clientes where cedcli = '" + cedula + "'";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                resultado = true;
+//                this.Habilitar(2);
+//                codigo = rs.getInt("codcli");
+//                txtNombre2.setText(rs.getString("nomcli"));
+//                txtApellido2.setText(rs.getString("apecli"));
+//                txtConsultar2.setText(rs.getString("cedcli"));
+//                txtTelefono21.setText(rs.getString("telcli"));
+//                txtTelefono22.setText(rs.getString("tel2cli"));
+//                txtDireccion2.setText(rs.getString("dircli"));
+//                txtComentario2.setText(rs.getString("comcli"));
+            }
+            if (resultado == false) {
+                JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+//                this.Habilitar(3);
+                resultado = false;
+            }
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
+                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBActionPerformed
+
+    private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
+        if (!txtB.getText().equals("")) {
+            int var = cbxFiltro.getSelectedIndex();
+            switch (var) {
+                case 0:
+                try {
+            String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                "Precio"};
+            String sql = "select * from inventario inner join tipoproducto"
+                    + " on tipoproducto.codtip = inventario.tippro "
+                    + "where codprod = '"+txtB.getText()+"'";
+            model = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codprod");
+                fila[1] = rs.getString("tipprod");
+                fila[2] = rs.getString("desprod");
+                fila[3] = rs.getString("canprod");
+                fila[4] = rs.getString("preprod");
+                model.addRow(fila);
+            }
+            tbl.setModel(model);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+                break;
+                case 1:
+                    try {
+            String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                "Precio"};
+            String sql = "select * from inventario inner join tipoproducto"
+                    + " on tipoproducto.codtip = inventario.tippro "
+                    + "where tipprod like '"+txtB.getText()+"%'";
+            model = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codprod");
+                fila[1] = rs.getString("tipprod");
+                fila[2] = rs.getString("desprod");
+                fila[3] = rs.getString("canprod");
+                fila[4] = rs.getString("preprod");
+                model.addRow(fila);
+            }
+            tbl.setModel(model);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+                break;
+                case 2:
+                    try {
+            String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                "Precio"};
+            String sql = "select * from inventario inner join tipoproducto"
+                    + " on tipoproducto.codtip = inventario.tippro "
+                    + "where desprod like '"+txtB.getText()+"%'";
+            model = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codprod");
+                fila[1] = rs.getString("tipprod");
+                fila[2] = rs.getString("desprod");
+                fila[3] = rs.getString("canprod");
+                fila[4] = rs.getString("preprod");
+                model.addRow(fila);
+            }
+            tbl.setModel(model);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+                break;
+                default:
+
+            }
+        } else {
+            this.Llenar();
+        }
+    }//GEN-LAST:event_txtBKeyReleased
+
+    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxFiltroActionPerformed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+
+    }//GEN-LAST:event_tblMouseClicked
+
+    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
+
+    }//GEN-LAST:event_tblKeyPressed
+
+    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
+
+    }//GEN-LAST:event_tblKeyReleased
+
+    private void btnSalir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir4ActionPerformed
+        this.Llenar();
+        this.txtB.setText("");
+    }//GEN-LAST:event_btnSalir4ActionPerformed
+
+    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
+        this.dispose();     // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir5ActionPerformed
   
     /**
      * @param args the command line arguments
@@ -577,35 +929,64 @@ dispose();        // TODO add your handling code here:
     private javax.swing.JButton btnBorrar1;
     private javax.swing.JButton btnBorrar2;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnEditar2;
-    private javax.swing.JButton btnEliminar2;
     private javax.swing.JButton btnIngresar1;
+    private javax.swing.JButton btnIngresar2;
     private javax.swing.JButton btnSalir1;
     private javax.swing.JButton btnSalir2;
+    private javax.swing.JButton btnSalir4;
+    private javax.swing.JButton btnSalir5;
+    private javax.swing.JComboBox<String> cbxFiltro;
+    private javax.swing.JComboBox<String> cbxProveedor1;
+    private javax.swing.JComboBox<String> cbxProveedor2;
+    private javax.swing.JComboBox<String> cbxTipo1;
+    private javax.swing.JComboBox<String> cbxTipo2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo10;
     private javax.swing.JLabel lblTitulo11;
     private javax.swing.JLabel lblTitulo12;
     private javax.swing.JLabel lblTitulo13;
+    private javax.swing.JLabel lblTitulo14;
     private javax.swing.JLabel lblTitulo15;
-    private javax.swing.JLabel lblTitulo18;
+    private javax.swing.JLabel lblTitulo16;
+    private javax.swing.JLabel lblTitulo17;
+    private javax.swing.JLabel lblTitulo19;
+    private javax.swing.JLabel lblTitulo20;
+    private javax.swing.JLabel lblTitulo21;
+    private javax.swing.JLabel lblTitulo22;
+    private javax.swing.JLabel lblTitulo23;
+    private javax.swing.JLabel lblTitulo24;
+    private javax.swing.JLabel lblTitulo25;
     private javax.swing.JLabel lblTitulo5;
-    private javax.swing.JTextField txtCedula1;
-    private javax.swing.JTextField txtCedula2;
-    private javax.swing.JTextArea txtDireccion1;
-    private javax.swing.JTextField txtHorario1;
-    private javax.swing.JTextField txtTelefono11;
-    private javax.swing.JTextField txtTelefono12;
+    private javax.swing.JLabel lblTitulo6;
+    private javax.swing.JTable tbl;
+    private javax.swing.JTextField txtB;
+    private javax.swing.JTextField txtCantidad1;
+    private javax.swing.JTextField txtCantidad2;
+    private javax.swing.JTextField txtConsultar2;
+    private javax.swing.JTextArea txtDescripcion1;
+    private javax.swing.JTextArea txtDescripcion2;
+    private javax.swing.JTextField txtMaximo1;
+    private javax.swing.JTextField txtMaximo2;
+    private javax.swing.JTextField txtMinimo1;
+    private javax.swing.JTextField txtMinimo2;
+    private javax.swing.JTextField txtPrecio1;
+    private javax.swing.JTextField txtPrecio2;
+    private javax.swing.JTextField txtTotal1;
+    private javax.swing.JTextField txtTotal2;
     // End of variables declaration//GEN-END:variables
 }
