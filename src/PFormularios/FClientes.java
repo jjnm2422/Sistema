@@ -706,6 +706,16 @@ public class FClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void btnEliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar2ActionPerformed
+int seleccion = JOptionPane.showOptionDialog(
+   null,
+   "¿Esta seguro que dese Borrar los datos del cliente "+txtNombre2.getText()+" "+txtApellido2.getText() +"?", 
+   "Advertencia",
+   JOptionPane.YES_NO_OPTION,
+   JOptionPane.QUESTION_MESSAGE,
+   null,    // null para icono por defecto.
+   new Object[] { "Si", "No" },   // null para YES, NO y CANCEL
+   "Nuevo");
+    if (seleccion == 0) {
         try {
             String sql = "delete from clientes where cedcli='" + txtCedula2.getText() + "'";
             Statement st = acciones.Eliminar(sql);
@@ -720,6 +730,7 @@ public class FClientes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al eliminar cliente\ncodigo error:" + e.getMessage(),
                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
+    }
     }//GEN-LAST:event_btnEliminar2ActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -815,6 +826,7 @@ public class FClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefono12ActionPerformed
 
     private void btnBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar1ActionPerformed
+
         this.Borrar(1);
         this.Pintar(1);
     }//GEN-LAST:event_btnBorrar1ActionPerformed
@@ -944,9 +956,9 @@ public class FClientes extends javax.swing.JFrame {
         char c = evt.getKeyChar();
         if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
             //establesco limite
-            int lim = txtCedula1.getText().length();
+            int lim = txtCedula2.getText().length();
             //cambie este numero que es el limite
-            if (lim >= 9) {
+            if (this.EventoKeyType(lim, 9)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -964,9 +976,7 @@ public class FClientes extends javax.swing.JFrame {
         char c = evt.getKeyChar();
         int lim = txtTelefono21.getText().length();
         if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            //establesco limite
-            //cambie este numero que es el limite
-            if (lim >= 11) {
+            if (this.EventoKeyType(lim, 11)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -1380,5 +1390,14 @@ public class FClientes extends javax.swing.JFrame {
                 break;
         }
 
+    }
+    
+    private boolean EventoKeyType(int valor, int limitacion){
+            //pido el valor del text y pido el valor limitante
+            if (valor >= limitacion) {
+                return true;
+            }else{
+                return false;
+            }
     }
 }
