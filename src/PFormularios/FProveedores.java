@@ -7,6 +7,7 @@ package PFormularios;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
 import com.sun.awt.AWTUtilities;
+import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.MouseInfo;
@@ -69,14 +70,14 @@ public class FProveedores extends javax.swing.JFrame {
     
     public void LlenarTabla(){
         try {
-            String[]titulos={"Codigo","Nombre","Telefono","Telefono",
+            String[]titulos={"Rif","Nombre","Telefono","Telefono",
                         "Direccion","Pagina Web","Horario","Comentario"};
             String sql="select * from proveedores";
             model= new DefaultTableModel(null,titulos);
             ResultSet rs= acciones.Consultar(sql);
             String[]fila=new String[8];
             while(rs.next()){
-            fila[0]=rs.getString("codpro");
+            fila[0]=rs.getString("rifpro");
             fila[1]=rs.getString("nompro");
             fila[2]=rs.getString("telpro");
             fila[3]=rs.getString("tel2pro");
@@ -361,6 +362,11 @@ public class FProveedores extends javax.swing.JFrame {
         jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 170, 60));
 
         txtNombre1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtNombre1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombre1KeyTyped(evt);
+            }
+        });
         jPanel2.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 170, -1));
 
         txtTelefono12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -442,6 +448,11 @@ public class FProveedores extends javax.swing.JFrame {
         txtComentario2.setRows(1);
         txtComentario2.setWrapStyleWord(true);
         txtComentario2.setEnabled(false);
+        txtComentario2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtComentario2KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtComentario2);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 60));
@@ -456,20 +467,49 @@ public class FProveedores extends javax.swing.JFrame {
         txtDireccion2.setRows(1);
         txtDireccion2.setWrapStyleWord(true);
         txtDireccion2.setEnabled(false);
+        txtDireccion2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDireccion2KeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(txtDireccion2);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 170, 60));
 
         txtNombre2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre2.setEnabled(false);
+        txtNombre2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombre2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombre2KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 170, -1));
 
         txtTelefono22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono22.setEnabled(false);
+        txtTelefono22.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefono22KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefono22KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtTelefono22, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 180, -1));
 
         txtTelefono21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono21.setEnabled(false);
+        txtTelefono21.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefono21KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefono21KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtTelefono21, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 170, -1));
 
         btnSalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
@@ -510,6 +550,14 @@ public class FProveedores extends javax.swing.JFrame {
 
         txtPagina2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtPagina2.setEnabled(false);
+        txtPagina2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPagina2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPagina2KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtPagina2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 170, -1));
 
         lblTitulo16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -522,9 +570,25 @@ public class FProveedores extends javax.swing.JFrame {
 
         txtHorario2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtHorario2.setEnabled(false);
+        txtHorario2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtHorario2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtHorario2KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtHorario2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 180, -1));
 
         txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCedula2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 140, -1));
 
         lblTitulo18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -692,6 +756,7 @@ if (Verificacion2()) {
                     ,JOptionPane.PLAIN_MESSAGE,iconCorrecto);
             this.Habilitar(3);
             this.Borrar(3);
+            Pintar(2);
     }
     } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al actualizar datos " + e.getMessage()
@@ -899,10 +964,192 @@ dispose();        // TODO add your handling code here:
     private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBKeyTyped
+
+    private void txtNombre1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNombre1KeyTyped
+
+    private void txtNombre2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre2KeyTyped
+    char c = evt.getKeyChar();
+        int lim = txtTelefono21.getText().length();
+        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombre2KeyTyped
+
+    private void txtNombre2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre2KeyReleased
+if (txtNombre2.getText().equals("")) {
+            txtNombre2.setBackground(Color.RED);
+        } else {
+            txtNombre2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtNombre2KeyReleased
+
+    private void txtTelefono21KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono21KeyTyped
+        char c = evt.getKeyChar();
+        int lim = txtTelefono21.getText().length();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTelefono21KeyTyped
+
+    private void txtTelefono21KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono21KeyReleased
+int lim = txtTelefono21.getText().length();
+        if (lim <= 10) {
+            txtTelefono21.setBackground(Color.RED);
+        } else {
+            txtTelefono21.setBackground(Color.GREEN);
+        }   
+    }//GEN-LAST:event_txtTelefono21KeyReleased
+
+    private void txtTelefono22KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono22KeyReleased
+int lim = txtTelefono22.getText().length();
+        if (lim <= 10) {
+            txtTelefono22.setBackground(Color.RED);
+        } else {
+            txtTelefono22.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtTelefono22.setBackground(Color.YELLOW);
+        }
+    }//GEN-LAST:event_txtTelefono22KeyReleased
+
+    private void txtTelefono22KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono22KeyTyped
+char c = evt.getKeyChar();
+        int lim = txtTelefono22.getText().length();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTelefono22KeyTyped
+
+    private void txtDireccion2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccion2KeyReleased
+ if (txtDireccion2.getText().equals("")) {
+            txtDireccion2.setBackground(Color.RED);
+        } else {
+            txtDireccion2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDireccion2KeyReleased
+
+    private void txtComentario2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComentario2KeyReleased
+    if (txtComentario2.getText().equals("")) {
+            txtComentario2.setBackground(Color.YELLOW);
+        } else {
+            txtComentario2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtComentario2KeyReleased
+
+    private void txtPagina2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagina2KeyReleased
+if (txtPagina2.getText().equals("")) {
+            txtPagina2.setBackground(Color.RED);
+        } else {
+            txtPagina2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtPagina2KeyReleased
+
+    private void txtHorario2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHorario2KeyTyped
+   char c = evt.getKeyChar();
+        int lim = txtHorario2.getText().length();
+            if (this.EventoKeyType(lim, 15)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+    }//GEN-LAST:event_txtHorario2KeyTyped
+
+    private void txtPagina2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPagina2KeyTyped
+    char c = evt.getKeyChar();
+        int lim = txtPagina2.getText().length();
+            if (this.EventoKeyType(lim, 30)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+    }//GEN-LAST:event_txtPagina2KeyTyped
+
+    private void txtHorario2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtHorario2KeyReleased
+if (txtHorario2.getText().equals("")) {
+            txtHorario2.setBackground(Color.RED);
+        } else {
+            txtHorario2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtHorario2KeyReleased
+
+    private void txtCedula2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula2KeyReleased
+
+    private void txtCedula2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyTyped
+char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCedula2.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 9)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCedula2KeyTyped
   
+    private void Pintar(int num) {
+        switch (num) {
+            case 1:
+                txtNombre1.setBackground(Color.WHITE);
+                txtCedula1.setBackground(Color.WHITE);
+                txtPagina1.setBackground(Color.WHITE);
+                txtHorario1.setBackground(Color.WHITE);
+                txtComentario1.setBackground(Color.WHITE);
+                txtTelefono11.setBackground(Color.WHITE);
+                txtTelefono12.setBackground(Color.WHITE);
+                txtDireccion1.setBackground(Color.WHITE);
+                break;
+            case 2:
+                txtNombre2.setBackground(Color.WHITE);
+                txtPagina2.setBackground(Color.WHITE);
+                txtHorario2.setBackground(Color.WHITE);
+                txtComentario2.setBackground(Color.WHITE);
+                txtTelefono21.setBackground(Color.WHITE);
+                txtTelefono22.setBackground(Color.WHITE);
+                txtDireccion2.setBackground(Color.WHITE);
+                break;
+        }
+    }
+    
+    
+      private boolean EventoKeyType(int valor, int limitacion){
+            //pido el valor del text y pido el valor limitante
+            if (valor >= limitacion) {
+                return true;
+            }else{
+                return false;
+            }
+    }
     /**
      * @param args the command line arguments
      */
+    
+    
     public static void main(String args[]) {
     
        

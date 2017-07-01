@@ -79,7 +79,6 @@ public class FLoginR extends javax.swing.JFrame {
             PreparedStatement ps = acciones.Actualizar(sql1);
             ps.setString(1, fecha.getFecha());
             int n = ps.executeUpdate();
-            System.out.println(sql1);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR ULTIMO ACCESO" + e.getMessage());
         }

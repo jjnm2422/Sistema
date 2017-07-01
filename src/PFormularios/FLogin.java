@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -198,6 +199,11 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
 
         txtClave.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtClave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtClave.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 140, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497311482_key_16.png"))); // NOI18N
@@ -270,7 +276,8 @@ setExtendedState(JFrame.ICONIFIED);
                 menu.setVisible(true);
                 this.dispose();
             }else{
-                   JOptionPane.showMessageDialog(null, "Datos incorrectos","", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Credenciales incorrectas ",
+                                    "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
             }
             }
             if(nombre==false){
@@ -295,6 +302,10 @@ setExtendedState(JFrame.ICONIFIED);
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
 //    this.requestFocus();     
     }//GEN-LAST:event_formWindowLostFocus
+
+    private void txtClaveKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveKeyTyped
+
+    }//GEN-LAST:event_txtClaveKeyTyped
 
     /**
      * @param args the command line arguments
