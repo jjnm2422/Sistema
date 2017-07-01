@@ -6,6 +6,8 @@
 package PFormularios;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
+import com.sun.webkit.event.WCKeyEvent;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -57,12 +59,21 @@ public class FClientes extends javax.swing.JFrame {
     }
 
     public void restringir() {
-        RestrictedTextField restricted3 = new RestrictedTextField(this.txtCedula1);
-        restricted3.setOnlyNums(true);
-        RestrictedTextField restricted4 = new RestrictedTextField(this.txtTelefono11);
-        restricted4.setOnlyNums(true);
-        RestrictedTextField restricted = new RestrictedTextField(this.txtTelefono12);
-        restricted.setOnlyNums(true);
+        RestrictedTextField r3 = new RestrictedTextField(this.txtCedula1);
+        r3.setOnlyNums(true);
+        r3.setLimit(9);
+        RestrictedTextField r1 = new RestrictedTextField(this.txtNombre1);
+        r1.setOnlyText(true);
+        r1.setLimit(15);
+        RestrictedTextField r5 = new RestrictedTextField(this.txtApellido1);
+        r5.setOnlyText(true);
+        r5.setLimit(15);
+        RestrictedTextField r4 = new RestrictedTextField(this.txtTelefono11);
+        r4.setOnlyNums(true);
+        r4.setLimit(11);
+        RestrictedTextField r = new RestrictedTextField(this.txtTelefono12);
+        r.setOnlyNums(true);
+        r.setLimit(11);
     }
 
     private void restaurarVentana() {
@@ -106,10 +117,14 @@ public class FClientes extends javax.swing.JFrame {
     }
 
     private boolean Verificacion1() {
+        //verifico que no esten vacios
         if (txtNombre1.getText().equals("") || txtApellido1.getText().equals("")
                 || txtCedula1.getText().equals("") || txtTelefono11.getText().equals("")
-                || txtDireccion1.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                || txtDireccion1.getText().equals("") || txtTelefono11.getBackground().equals(Color.RED) || txtCedula1.getBackground().equals(Color.RED)
+                || txtTelefono12.getBackground().equals(Color.RED)) {
+            JOptionPane.showMessageDialog(null, "Verifique:\n"
+                    + "1. Que los Campos no esten vacios\n"
+                    + "2. Que los numeros telefonicos tenga 11 digitos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
             return false;
         } else {
             return true;
@@ -119,8 +134,11 @@ public class FClientes extends javax.swing.JFrame {
     private boolean Verificacion2() {
         if (txtNombre2.getText().equals("") || txtApellido2.getText().equals("")
                 || txtCedula2.getText().equals("") || txtTelefono21.getText().equals("")
-                || txtDireccion2.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                || txtDireccion2.getText().equals("") || txtTelefono21.getBackground().equals(Color.RED) || txtCedula2.getBackground().equals(Color.RED)
+                || txtTelefono22.getBackground().equals(Color.RED)) {
+            JOptionPane.showMessageDialog(null, "Verifique:\n"
+                    + "1. Que los Campos no esten vacios\n"
+                    + "2. Que los numeros telefonicos tenga 11 digitos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
             return false;
         } else {
             return true;
@@ -253,15 +271,15 @@ public class FClientes extends javax.swing.JFrame {
 
         lblTitulo9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo9.setText("Nombre");
-        jPanel2.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
+        jPanel2.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 70, 20));
 
         lblTitulo10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo10.setText("Apellido");
-        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 70, 20));
+        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 70, 20));
 
         lblTitulo11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo11.setText("Cedula");
-        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 70, 20));
+        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
 
         lblTitulo12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo12.setText("Telefono");
@@ -276,6 +294,11 @@ public class FClientes extends javax.swing.JFrame {
         txtComentario1.setLineWrap(true);
         txtComentario1.setRows(1);
         txtComentario1.setWrapStyleWord(true);
+        txtComentario1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtComentario1KeyReleased(evt);
+            }
+        });
         jScrollPane3.setViewportView(txtComentario1);
 
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 60));
@@ -289,12 +312,25 @@ public class FClientes extends javax.swing.JFrame {
         txtDireccion1.setLineWrap(true);
         txtDireccion1.setRows(1);
         txtDireccion1.setWrapStyleWord(true);
+        txtDireccion1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDireccion1KeyReleased(evt);
+            }
+        });
         jScrollPane4.setViewportView(txtDireccion1);
 
         jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 180, 60));
 
         txtNombre1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel2.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 180, -1));
+        txtNombre1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombre1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombre1KeyTyped(evt);
+            }
+        });
+        jPanel2.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 180, -1));
 
         txtTelefono12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono12.addActionListener(new java.awt.event.ActionListener() {
@@ -302,18 +338,52 @@ public class FClientes extends javax.swing.JFrame {
                 txtTelefono12ActionPerformed(evt);
             }
         });
+        txtTelefono12.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefono12KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefono12KeyTyped(evt);
+            }
+        });
         jPanel2.add(txtTelefono12, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 180, -1));
 
         txtCedula1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel2.add(txtCedula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 180, -1));
+        txtCedula1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedula1ActionPerformed(evt);
+            }
+        });
+        txtCedula1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCedula1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedula1KeyTyped(evt);
+            }
+        });
+        jPanel2.add(txtCedula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 180, -1));
 
         txtApellido1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel2.add(txtApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 180, -1));
+        txtApellido1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtApellido1KeyReleased(evt);
+            }
+        });
+        jPanel2.add(txtApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 180, -1));
 
         txtTelefono11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtTelefono11ActionPerformed(evt);
+            }
+        });
+        txtTelefono11.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefono11KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefono11KeyTyped(evt);
             }
         });
         jPanel2.add(txtTelefono11, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 180, -1));
@@ -357,15 +427,15 @@ public class FClientes extends javax.swing.JFrame {
 
         lblTitulo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo2.setText("Nombre");
-        jPanel1.add(lblTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
+        jPanel1.add(lblTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 70, 20));
 
         lblTitulo3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo3.setText("Apellido");
-        jPanel1.add(lblTitulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 70, 20));
+        jPanel1.add(lblTitulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 70, 20));
 
         lblTitulo4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo4.setText("Cedula");
-        jPanel1.add(lblTitulo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 70, 20));
+        jPanel1.add(lblTitulo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
 
         lblTitulo6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo6.setText("Telefono");
@@ -381,6 +451,11 @@ public class FClientes extends javax.swing.JFrame {
         txtComentario2.setRows(1);
         txtComentario2.setWrapStyleWord(true);
         txtComentario2.setEnabled(false);
+        txtComentario2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtComentario2KeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtComentario2);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 60));
@@ -395,27 +470,77 @@ public class FClientes extends javax.swing.JFrame {
         txtDireccion2.setRows(1);
         txtDireccion2.setWrapStyleWord(true);
         txtDireccion2.setEnabled(false);
+        txtDireccion2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDireccion2KeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(txtDireccion2);
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 180, 60));
 
         txtNombre2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre2.setEnabled(false);
-        jPanel1.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 180, -1));
+        txtNombre2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNombre2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombre2KeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 180, -1));
 
         txtTelefono22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono22.setEnabled(false);
+        txtTelefono22.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefono22KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefono22KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtTelefono22, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 180, -1));
 
         txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 50, 180, -1));
+        txtCedula2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 180, -1));
 
         txtApellido2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtApellido2.setEnabled(false);
-        jPanel1.add(txtApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 180, -1));
+        txtApellido2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtApellido2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtApellido2KeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 180, -1));
 
         txtTelefono21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono21.setEnabled(false);
+        txtTelefono21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTelefono21ActionPerformed(evt);
+            }
+        });
+        txtTelefono21.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTelefono21KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTelefono21KeyTyped(evt);
+            }
+        });
         jPanel1.add(txtTelefono21, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 180, -1));
 
         btnSalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
@@ -442,7 +567,12 @@ public class FClientes extends javax.swing.JFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 30, 20));
+        btnBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnBuscarKeyTyped(evt);
+            }
+        });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, 30, 20));
 
         btnBorrar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
         btnBorrar2.setText("Borrar");
@@ -481,6 +611,9 @@ public class FClientes extends javax.swing.JFrame {
         txtB.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBKeyTyped(evt);
             }
         });
         jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 160, 20));
@@ -585,41 +718,46 @@ public class FClientes extends javax.swing.JFrame {
             acciones.conn.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error al eliminar cliente\ncodigo error:" + e.getMessage(),
-                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }//GEN-LAST:event_btnEliminar2ActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
-        boolean resultado = false;
-        this.Borrar(3);
-        int codigo = 0;
-        String cedula = this.txtCedula2.getText();
-        try {
-            String sql = "select * from clientes where cedcli = '" + cedula + "'";
-            ResultSet rs = acciones.Consultar(sql);
-            while (rs.next()) {
-                resultado = true;
-                this.Habilitar(2);
-                codigo = rs.getInt("codcli");
-                txtNombre2.setText(rs.getString("nomcli"));
-                txtApellido2.setText(rs.getString("apecli"));
-                txtCedula2.setText(rs.getString("cedcli"));
-                txtTelefono21.setText(rs.getString("telcli"));
-                txtTelefono22.setText(rs.getString("tel2cli"));
-                txtDireccion2.setText(rs.getString("dircli"));
-                txtComentario2.setText(rs.getString("comcli"));
+        if (txtCedula2.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo cedula", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+        } else {
+            this.txtCedula2.setEnabled(false);
+            boolean resultado = false;
+            this.Borrar(3);
+            int codigo = 0;
+            String cedula = this.txtCedula2.getText();
+            try {
+                String sql = "select * from clientes where cedcli = '" + cedula + "'";
+                ResultSet rs = acciones.Consultar(sql);
+                while (rs.next()) {
+                    resultado = true;
+                    this.Habilitar(2);
+                    codigo = rs.getInt("codcli");
+                    txtNombre2.setText(rs.getString("nomcli"));
+                    txtApellido2.setText(rs.getString("apecli"));
+                    txtCedula2.setText(rs.getString("cedcli"));
+                    txtTelefono21.setText(rs.getString("telcli"));
+                    txtTelefono22.setText(rs.getString("tel2cli"));
+                    txtDireccion2.setText(rs.getString("dircli"));
+                    txtComentario2.setText(rs.getString("comcli"));
+                }
+                if (resultado == false) {
+                    JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.Habilitar(3);
+                    resultado = false;
+                }
+                acciones.conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
             }
-            if (resultado == false) {
-                JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
-                         JOptionPane.PLAIN_MESSAGE, iconAd);
-                this.Habilitar(3);
-                resultado = false;
-            }
-            acciones.conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
-                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -647,12 +785,27 @@ public class FClientes extends javax.swing.JFrame {
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Cliente ingresado con exito",
-                             "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                            "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
                     this.Borrar(1);
+                    this.Pintar(1);
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error al guardar cliente\ncodigo error:" + e.getMessage(),
-                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                
+                //Cambie Exception por SQLException para poder controlar el error
+            } catch (SQLException e) {
+                /*
+                con esto se el codigo unico del error para poder controlarlo
+                System.out.println("Código de Error: " + e.getErrorCode() + "\n" +
+                "SLQState: " + e.getSQLState() + "\n" +
+                "Mensaje: " + e.getMessage() + "\n");
+                */
+                // error clave primaria duplicada y muestro mensaje 
+                if (e.getSQLState().equals("23505")) {
+                    JOptionPane.showMessageDialog(null, "Ya existe un cliente vinculado a el numero de cedula ingresado",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al guardar cliente\nCodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
             }
         }
     }//GEN-LAST:event_btnIngresar1ActionPerformed
@@ -663,6 +816,7 @@ public class FClientes extends javax.swing.JFrame {
 
     private void btnBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar1ActionPerformed
         this.Borrar(1);
+        this.Pintar(1);
     }//GEN-LAST:event_btnBorrar1ActionPerformed
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
@@ -672,6 +826,7 @@ public class FClientes extends javax.swing.JFrame {
     private void btnBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar2ActionPerformed
         this.Borrar(2);
         this.Habilitar(3);
+        this.Pintar(2);
     }//GEN-LAST:event_btnBorrar2ActionPerformed
 
     private void btnEditar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditar2ActionPerformed
@@ -692,14 +847,16 @@ public class FClientes extends javax.swing.JFrame {
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Datos actualizados correctamente", "Informacion",
-                             JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                            JOptionPane.PLAIN_MESSAGE, iconCorrecto);
                     this.Habilitar(3);
+                    txtCedula2.setText("");
                     this.Borrar(3);
+                    this.Pintar(2);
                 }
                 acciones.conn.close();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error al actualizar datos " + e.getMessage(),
-                         "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
+                        "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
             }
         }
     }//GEN-LAST:event_btnEditar2ActionPerformed
@@ -710,32 +867,311 @@ public class FClientes extends javax.swing.JFrame {
 
     private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
         if (!txtB.getText().equals("")) {
+            int c = evt.getKeyChar();
             int var = cbxFiltro.getSelectedIndex();
-            switch (var) {
-                case 0:
-                    try {
-                        String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
-                            "Direccion", "Telefono", "Telefono"};
-                        String sql = "select * from clientes where nomcli like '" + txtB.getText() + "%'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[7];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codcli");
-                            fila[1] = rs.getString("nomcli");
-                            fila[2] = rs.getString("apecli");
-                            fila[3] = rs.getString("cedcli");
-                            fila[4] = rs.getString("dircli");
-                            fila[5] = rs.getString("telcli");
-                            fila[6] = rs.getString("tel2cli");
-                            model.addRow(fila);
+            if (var < 1) {
+                switch (var) {
+                    case 0:
+                        try {
+                            String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
+                                "Direccion", "Telefono", "Telefono"};
+                            String sql = "select * from clientes where nomcli like '" + txtB.getText() + "%'";
+                            model = new DefaultTableModel(null, titulos);
+                            ResultSet rs = acciones.Consultar(sql);
+                            String[] fila = new String[7];
+                            while (rs.next()) {
+                                fila[0] = rs.getString("codcli");
+                                fila[1] = rs.getString("nomcli");
+                                fila[2] = rs.getString("apecli");
+                                fila[3] = rs.getString("cedcli");
+                                fila[4] = rs.getString("dircli");
+                                fila[5] = rs.getString("telcli");
+                                fila[6] = rs.getString("tel2cli");
+                                model.addRow(fila);
+                            }
+                            tbl.setModel(model);
+                            acciones.conn.close();
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
                         }
-                        tbl.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                    }
-                    break;
+                        break;
+                    default:
+                }
+            }
+        } else {
+            this.LlenarTabla();
+        }
+    }//GEN-LAST:event_txtBKeyReleased
+
+    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxFiltroActionPerformed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+
+    }//GEN-LAST:event_tblMouseClicked
+
+    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
+
+    }//GEN-LAST:event_tblKeyPressed
+
+    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
+
+    }//GEN-LAST:event_tblKeyReleased
+
+    private void btnSalir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir4ActionPerformed
+        this.LlenarTabla();
+        this.txtB.setText("");
+    }//GEN-LAST:event_btnSalir4ActionPerformed
+
+    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
+        this.dispose();     // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir5ActionPerformed
+
+    private void txtNombre1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre1KeyTyped
+
+    }//GEN-LAST:event_txtNombre1KeyTyped
+
+    private void txtCedula1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedula1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula1ActionPerformed
+
+    private void txtCedula1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula1KeyTyped
+
+    }//GEN-LAST:event_txtCedula1KeyTyped
+
+    private void txtCedula2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCedula1.getText().length();
+            //cambie este numero que es el limite
+            if (lim >= 9) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCedula2KeyTyped
+
+    private void txtTelefono21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefono21ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTelefono21ActionPerformed
+
+    private void txtTelefono21KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono21KeyTyped
+        char c = evt.getKeyChar();
+        int lim = txtTelefono21.getText().length();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            //cambie este numero que es el limite
+            if (lim >= 11) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_txtTelefono21KeyTyped
+
+    private void txtNombre2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre2KeyTyped
+        char c = evt.getKeyChar();
+        /*verifico que el caracter sea una letra mayuscula o minuscula o sea la tecla de borrar
+         si no emito un sonido e ignoro lo que teclee*/
+        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtNombre2.getText().length();
+            //cambie este numero que es el limite
+            if (lim >= 15) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtNombre2KeyTyped
+
+    private void btnBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarKeyTyped
+
+    }//GEN-LAST:event_btnBuscarKeyTyped
+
+    private void txtCedula2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyPressed
+
+    }//GEN-LAST:event_txtCedula2KeyPressed
+
+    private void txtTelefono21KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono21KeyReleased
+        int lim = txtTelefono21.getText().length();
+        if (lim <= 10) {
+            txtTelefono21.setBackground(Color.RED);
+        } else {
+            txtTelefono21.setBackground(Color.GREEN);
+        }
+    }//GEN-LAST:event_txtTelefono21KeyReleased
+
+    private void txtTelefono22KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono22KeyReleased
+        int lim = txtTelefono22.getText().length();
+        if (lim <= 10) {
+            txtTelefono22.setBackground(Color.RED);
+        } else {
+            txtTelefono22.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtTelefono22.setBackground(Color.YELLOW);
+        }
+    }//GEN-LAST:event_txtTelefono22KeyReleased
+
+    private void txtTelefono22KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono22KeyTyped
+        char c = evt.getKeyChar();
+        int lim = txtTelefono22.getText().length();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            //cambie este numero que es el limite
+            if (lim >= 11) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTelefono22KeyTyped
+
+    private void txtDireccion2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccion2KeyReleased
+        if (txtDireccion2.getText().equals("")) {
+            txtDireccion2.setBackground(Color.RED);
+        } else {
+            txtDireccion2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDireccion2KeyReleased
+
+    private void txtNombre2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre2KeyReleased
+        if (txtNombre2.getText().equals("")) {
+            txtNombre2.setBackground(Color.RED);
+        } else {
+            txtNombre2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtNombre2KeyReleased
+
+    private void txtApellido2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellido2KeyReleased
+
+        if (txtApellido2.getText().equals("")) {
+            txtApellido2.setBackground(Color.RED);
+        } else {
+            txtApellido2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtApellido2KeyReleased
+
+    private void txtComentario2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComentario2KeyReleased
+
+        if (txtComentario2.getText().equals("")) {
+            txtComentario2.setBackground(Color.YELLOW);
+        } else {
+            txtComentario2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtComentario2KeyReleased
+
+    private void txtApellido2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellido2KeyTyped
+        char c = evt.getKeyChar();
+        /*verifico que el caracter sea una letra mayuscula o minuscula o sea la tecla de borrar
+         si no emito un sonido e ignoro lo que teclee*/
+        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtApellido2.getText().length();
+            //cambie este numero que es el limite
+            if (lim >= 15) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtApellido2KeyTyped
+
+    private void txtTelefono11KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono11KeyTyped
+
+    }//GEN-LAST:event_txtTelefono11KeyTyped
+
+    private void txtTelefono12KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono12KeyTyped
+
+    }//GEN-LAST:event_txtTelefono12KeyTyped
+
+    private void txtTelefono12KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono12KeyReleased
+        int lim = txtTelefono12.getText().length();
+        if (lim <= 10) {
+            txtTelefono12.setBackground(Color.RED);
+        } else {
+            txtTelefono12.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtTelefono12.setBackground(Color.YELLOW);
+        }
+    }//GEN-LAST:event_txtTelefono12KeyReleased
+
+    private void txtTelefono11KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefono11KeyReleased
+        int lim = txtTelefono11.getText().length();
+        if (lim <= 10) {
+            txtTelefono11.setBackground(Color.RED);
+        } else {
+            txtTelefono11.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtTelefono11.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtTelefono11KeyReleased
+
+    private void txtNombre1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre1KeyReleased
+        if (txtNombre1.getText().equals("")) {
+            txtNombre1.setBackground(Color.RED);
+        } else {
+            txtNombre1.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtNombre1KeyReleased
+
+    private void txtApellido1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtApellido1KeyReleased
+        if (txtApellido1.getText().equals("")) {
+            txtApellido1.setBackground(Color.RED);
+        } else {
+            txtApellido1.setBackground(Color.green);
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtApellido1KeyReleased
+
+    private void txtCedula1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula1KeyReleased
+        int lim = txtCedula1.getText().length();
+        if (lim >= 1) {
+            txtCedula1.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtCedula1.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtCedula1KeyReleased
+
+    private void txtDireccion1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDireccion1KeyReleased
+        if (txtDireccion1.getText().equals("")) {
+            txtDireccion1.setBackground(Color.RED);
+        } else {
+            txtDireccion1.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDireccion1KeyReleased
+
+    private void txtComentario1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtComentario1KeyReleased
+        if (txtComentario1.getText().equals("")) {
+            txtComentario1.setBackground(Color.YELLOW);
+        } else {
+            txtComentario1.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtComentario1KeyReleased
+
+    private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
+        int c = evt.getKeyChar();
+        int var = cbxFiltro.getSelectedIndex();
+        if (var>=1) {
+          if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            switch (var) {
                 case 1:
                     try {
                         String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
@@ -784,38 +1220,14 @@ public class FClientes extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
                     break;
-                default:
-
             }
         } else {
-            this.LlenarTabla();
+            evt.consume();
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+        }  
         }
-    }//GEN-LAST:event_txtBKeyReleased
-
-    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxFiltroActionPerformed
-
-    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
-
-    }//GEN-LAST:event_tblMouseClicked
-
-    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
-
-    }//GEN-LAST:event_tblKeyPressed
-
-    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
-
-    }//GEN-LAST:event_tblKeyReleased
-
-    private void btnSalir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir4ActionPerformed
-        this.LlenarTabla();
-        this.txtB.setText("");
-    }//GEN-LAST:event_btnSalir4ActionPerformed
-
-    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
-        this.dispose();     // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir5ActionPerformed
+    }//GEN-LAST:event_txtBKeyTyped
 
     /**
      * @param args the command line arguments
@@ -932,6 +1344,7 @@ public class FClientes extends javax.swing.JFrame {
                 txtTelefono22.setEnabled(true);
                 txtTelefono21.setEnabled(true);
                 txtDireccion2.setEnabled(true);
+                this.txtCedula2.setEnabled(false);
                 break;
             case 3:
                 txtNombre2.setEnabled(false);
@@ -940,8 +1353,32 @@ public class FClientes extends javax.swing.JFrame {
                 txtTelefono21.setEnabled(false);
                 txtTelefono22.setEnabled(false);
                 txtDireccion2.setEnabled(false);
+                txtCedula2.setEnabled(true);
                 break;
             default:
         }
+    }
+
+    private void Pintar(int num) {
+        switch (num) {
+            case 1:
+                txtNombre1.setBackground(Color.WHITE);
+                txtCedula1.setBackground(Color.WHITE);
+                txtApellido1.setBackground(Color.WHITE);
+                txtComentario1.setBackground(Color.WHITE);
+                txtTelefono11.setBackground(Color.WHITE);
+                txtTelefono12.setBackground(Color.WHITE);
+                txtDireccion1.setBackground(Color.WHITE);
+                break;
+            case 2:
+                txtNombre2.setBackground(Color.WHITE);
+                txtApellido2.setBackground(Color.WHITE);
+                txtComentario2.setBackground(Color.WHITE);
+                txtTelefono21.setBackground(Color.WHITE);
+                txtTelefono22.setBackground(Color.WHITE);
+                txtDireccion2.setBackground(Color.WHITE);
+                break;
+        }
+
     }
 }
