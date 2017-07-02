@@ -180,6 +180,8 @@ public class FClientes extends javax.swing.JFrame {
         btnBorrar1 = new javax.swing.JButton();
         btnSalir1 = new javax.swing.JButton();
         btnIngresar1 = new javax.swing.JButton();
+        lblTitulo23 = new javax.swing.JLabel();
+        lblTitulo24 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         lblTitulo1 = new javax.swing.JLabel();
         lblTitulo2 = new javax.swing.JLabel();
@@ -202,6 +204,8 @@ public class FClientes extends javax.swing.JFrame {
         btnBuscar = new javax.swing.JButton();
         btnBorrar2 = new javax.swing.JButton();
         btnEditar2 = new javax.swing.JButton();
+        lblTitulo25 = new javax.swing.JLabel();
+        lblTitulo26 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         txtB = new javax.swing.JTextField();
@@ -301,7 +305,7 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(txtComentario1);
 
-        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 60));
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 50));
 
         lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo14.setText("Comentarios");
@@ -415,6 +419,14 @@ public class FClientes extends javax.swing.JFrame {
         });
         jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 100, 30));
 
+        lblTitulo23.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lblTitulo23.setText("No obligatorio");
+        jPanel2.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 170, -1));
+
+        lblTitulo24.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lblTitulo24.setText("No obligatorio");
+        jPanel2.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 170, -1));
+
         jTabbedPane1.addTab("Nuevo", jPanel2);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -458,7 +470,7 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txtComentario2);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 60));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 50));
 
         lblTitulo8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo8.setText("Comentarios");
@@ -591,6 +603,14 @@ public class FClientes extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnEditar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 100, 30));
+
+        lblTitulo25.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lblTitulo25.setText("No obligatorio");
+        jPanel1.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 170, -1));
+
+        lblTitulo26.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lblTitulo26.setText("No obligatorio");
+        jPanel1.add(lblTitulo26, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 170, -1));
 
         jTabbedPane1.addTab("Modificar", jPanel1);
 
@@ -878,41 +898,7 @@ int seleccion = JOptionPane.showOptionDialog(
     }//GEN-LAST:event_txtBActionPerformed
 
     private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
-        if (!txtB.getText().equals("")) {
-            int c = evt.getKeyChar();
-            int var = cbxFiltro.getSelectedIndex();
-            if (var < 1) {
-                switch (var) {
-                    case 0:
-                        try {
-                            String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
-                                "Direccion", "Telefono", "Telefono"};
-                            String sql = "select * from clientes where nomcli like '" + txtB.getText() + "%'";
-                            model = new DefaultTableModel(null, titulos);
-                            ResultSet rs = acciones.Consultar(sql);
-                            String[] fila = new String[7];
-                            while (rs.next()) {
-                                fila[0] = rs.getString("codcli");
-                                fila[1] = rs.getString("nomcli");
-                                fila[2] = rs.getString("apecli");
-                                fila[3] = rs.getString("cedcli");
-                                fila[4] = rs.getString("dircli");
-                                fila[5] = rs.getString("telcli");
-                                fila[6] = rs.getString("tel2cli");
-                                model.addRow(fila);
-                            }
-                            tbl.setModel(model);
-                            acciones.conn.close();
-                        } catch (SQLException e) {
-                            JOptionPane.showMessageDialog(null, e.getMessage());
-                        }
-                        break;
-                    default:
-                }
-            }
-        } else {
-            this.LlenarTabla();
-        }
+  
     }//GEN-LAST:event_txtBKeyReleased
 
     private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
@@ -1236,6 +1222,42 @@ int seleccion = JOptionPane.showOptionDialog(
             JOptionPane.showMessageDialog(null, "Ingrese solo numeros o seleccione otro filtro", "Advertencia",
                     JOptionPane.PLAIN_MESSAGE, iconAd);
         }  
+        }else{
+            if (var < 1) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                switch (var) {
+                    case 0:
+                        try {
+                            String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
+                                "Direccion", "Telefono", "Telefono"};
+                            String sql = "select * from clientes where nomcli like '" + txtB.getText() + "%'";
+                            model = new DefaultTableModel(null, titulos);
+                            ResultSet rs = acciones.Consultar(sql);
+                            String[] fila = new String[7];
+                            while (rs.next()) {
+                                fila[0] = rs.getString("codcli");
+                                fila[1] = rs.getString("nomcli");
+                                fila[2] = rs.getString("apecli");
+                                fila[3] = rs.getString("cedcli");
+                                fila[4] = rs.getString("dircli");
+                                fila[5] = rs.getString("telcli");
+                                fila[6] = rs.getString("tel2cli");
+                                model.addRow(fila);
+                            }
+                            tbl.setModel(model);
+                            acciones.conn.close();
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
+                        }
+                        break;
+                    default:
+                }
+            }else{
+                evt.consume();
+                JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+            }
+            }
         }
     }//GEN-LAST:event_txtBKeyTyped
 
@@ -1288,6 +1310,10 @@ int seleccion = JOptionPane.showOptionDialog(
     private javax.swing.JLabel lblTitulo13;
     private javax.swing.JLabel lblTitulo14;
     private javax.swing.JLabel lblTitulo2;
+    private javax.swing.JLabel lblTitulo23;
+    private javax.swing.JLabel lblTitulo24;
+    private javax.swing.JLabel lblTitulo25;
+    private javax.swing.JLabel lblTitulo26;
     private javax.swing.JLabel lblTitulo3;
     private javax.swing.JLabel lblTitulo4;
     private javax.swing.JLabel lblTitulo5;
