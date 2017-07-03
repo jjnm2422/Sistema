@@ -18,6 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -97,6 +99,7 @@ public class FProveedores extends javax.swing.JFrame {
                 model.addRow(fila);
             }
             tbl.setModel(model);
+            acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
@@ -835,6 +838,7 @@ public class FProveedores extends javax.swing.JFrame {
                     this.Habilitar(3);
                     this.Borrar(3);
                     Pintar(2);
+                    acciones.conn.close();
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error al actualizar datos " + e.getMessage(),
@@ -873,6 +877,7 @@ public class FProveedores extends javax.swing.JFrame {
                              "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
                     this.Borrar(1);
                     this.Pintar(1);
+                    acciones.conn.close();
                 }
             } catch (SQLException e) {
                 /*
@@ -930,10 +935,16 @@ public class FProveedores extends javax.swing.JFrame {
                          JOptionPane.PLAIN_MESSAGE, iconAd);
                 this.Habilitar(3);
                 resultado = false;
+                
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
                      "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+        try {
+            acciones.conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -1003,6 +1014,7 @@ public class FProveedores extends javax.swing.JFrame {
                                 model.addRow(fila);
                             }
                             tbl.setModel(model);
+                            acciones.conn.close();
                         } catch (SQLException e) {
                             JOptionPane.showMessageDialog(null, e.getMessage());
                         }

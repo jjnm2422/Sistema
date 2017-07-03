@@ -67,8 +67,7 @@ public class FInventario extends javax.swing.JFrame {
     public void restringir() {
         RestrictedTextField restricted3 = new RestrictedTextField(this.txtMinimo1);
         restricted3.setOnlyNums(true);
-        RestrictedTextField restricted4 = new RestrictedTextField(this.txtPrecio1);
-        restricted4.setOnlyNums(true);
+        RestrictedTextField restricted4 = new RestrictedTextField(this.txtPrecio1,"0123456789.");
         RestrictedTextField restricted = new RestrictedTextField(this.txtCantidad1);
         restricted.setOnlyNums(true);
     }
@@ -397,11 +396,11 @@ public class FInventario extends javax.swing.JFrame {
 
         lblTitulo10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo10.setText("Maximo Inventario");
-        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
+        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
 
         lblTitulo11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo11.setText("Minimo Inventario");
-        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
+        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
 
         lblTitulo12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -425,15 +424,17 @@ public class FInventario extends javax.swing.JFrame {
         jPanel2.add(txtCantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 130, -1));
 
         txtMaximo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel2.add(txtMaximo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
+        txtMaximo1.setToolTipText("Cantidad máxima de mercancía que se puede almacenar");
+        jPanel2.add(txtMaximo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, -1));
 
         txtMinimo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtMinimo1.setToolTipText("Cantidad minima que se dispone para atender a la demanda");
         txtMinimo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMinimo1ActionPerformed(evt);
             }
         });
-        jPanel2.add(txtMinimo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, -1));
+        jPanel2.add(txtMinimo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
 
         txtTotal1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotal1.setEnabled(false);
@@ -854,12 +855,14 @@ public class FInventario extends javax.swing.JFrame {
         boolean resultado = false;
 //        this.Borrar(3);
         int codigo = 0;
+        cbxTipo2.removeAllItems();
         String cedula = this.txtConsultar2.getText();
         try {
-            String sql = "select * from clientes where cedcli = '" + cedula + "'";
+            String sql = "select * from inventario inner join tipoproducto on tippro = codtip where codprod = '" + cedula + "'";
             ResultSet rs = acciones.Consultar(sql);
             while (rs.next()) {
                 resultado = true;
+                cbxTipo2.addItem(rs.getString("tipprod"));
 //                this.Habilitar(2);
 //                codigo = rs.getInt("codcli");
 //                txtNombre2.setText(rs.getString("nomcli"));
@@ -1092,10 +1095,21 @@ public class FInventario extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private boolean Verificacion1() {
-        if (!txtDescripcion1.getText().equals("") || !txtMinimo1.getText().equals("")
-                || !txtMaximo1.getText().equals("") || !txtCantidad1.getText().equals("") || !txtPrecio1.getText().equals("")
-                || !txtTotal1.getText().equals("")) {
-            return true;
+        if (!txtDescripcion1.getText().equals("") && !txtMinimo1.getText().equals("")
+                && !txtMaximo1.getText().equals("") && !txtCantidad1.getText().equals("") && !txtPrecio1.getText().equals("")
+                && !txtTotal1.getText().equals("")) {
+            if (Integer.parseInt(txtCantidad1.getText())<Integer.parseInt(txtMaximo1.getText())) {
+                            
+                if (Integer.parseInt(txtMinimo1.getText())<Integer.parseInt(txtMaximo1.getText())){
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "El minimo de inventario debe ser menor al maximo de inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                    return false;
+                }
+            }else{
+               JOptionPane.showMessageDialog(null, "La cantidad que ingresa no puede ser mayor que el maximo del inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+               return false;
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
             return false;

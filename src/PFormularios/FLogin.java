@@ -80,6 +80,7 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
             ps.setString(1, fecha.getFecha());  
             ps.setString(2, lblHora.getText());
             int n = ps.executeUpdate();
+            acciones.conn.close();
             System.out.println(sql1);
         } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR ULTIMO ACCESO" + e.getMessage()); 
@@ -286,9 +287,13 @@ setExtendedState(JFrame.ICONIFIED);
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problemas con la base de datos\n"+e);
-        }     
+        }  
     }
-    
+        try {
+            acciones.conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -327,6 +332,7 @@ setExtendedState(JFrame.ICONIFIED);
                     ps.setString(1, lblHora.getText());
                     int n = ps.executeUpdate();
                     if (n > 0) {
+                        acciones.conn.close();
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al guardar Hora\ncodigo error:" + e.getMessage(),

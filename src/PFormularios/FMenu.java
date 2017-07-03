@@ -55,7 +55,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         lblFecha.setText(fecha.getFecha());
     }
     
-    public String Hora() {
+    public String Hora() throws SQLException {
         try {
             String sql = "select * from variables";
             ResultSet rs = acciones.Consultar(sql);
@@ -65,6 +65,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+        acciones.conn.close();
         return hora;
     }
     
@@ -381,7 +382,9 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                     PreparedStatement ps = acciones.Actualizar(sql);
                     ps.setString(1, lblHora.getText());
                     int n = ps.executeUpdate();
-                    acciones.conn.close();
+                    if (n>0) {
+                        acciones.conn.close();
+                    }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(),
                             "Error", JOptionPane.PLAIN_MESSAGE, iconError);

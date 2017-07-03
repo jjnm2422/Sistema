@@ -6,6 +6,7 @@
 package PFormularios;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
+import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -71,19 +72,20 @@ public class FAjustes extends javax.swing.JFrame {
 
     public void LlenarVariables() {
         try {
-            String sql = "select * from variables";
+            String sql = "select * from variables where codvar = '1'";
             ResultSet rs = acciones.Consultar(sql);
             while (rs.next()) {
                 txtIva.setText(rs.getString("iva"));
                 txtRuta.setText(rs.getString("ruta"));
                 txtHora.setText(rs.getString("hora"));
             }
+            acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
     }
-
-    public void Ajustar(JLabel label, ImageIcon icon) {
+    
+       public void Ajustar(JLabel label, ImageIcon icon) {
         //esta funcion ajusta un icono(parametro) al tamaño del label (parametro)
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
         label.setIcon(icono);
@@ -229,6 +231,11 @@ public class FAjustes extends javax.swing.JFrame {
 
         txtIva.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtIva.setEnabled(false);
+        txtIva.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtIvaKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtIva, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 50, 50, -1));
 
         lblTitulo15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -266,6 +273,11 @@ public class FAjustes extends javax.swing.JFrame {
 
         txtNombre3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre3.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txtNombre3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombre3KeyTyped(evt);
+            }
+        });
         jPanel4.add(txtNombre3, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 180, 20));
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -403,20 +415,27 @@ public class FAjustes extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         if (txtIva.isEnabled()) {
-            try {
-                String sql = "update variables set iva=?";
+            if (!txtIva.getText().equals("")) {
+               try {
+                String sql = "update variables set iva=? where codvar = '1'";
                 PreparedStatement ps = acciones.Actualizar(sql);
                 ps.setInt(1, Integer.parseInt(this.txtIva.getText()));
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "IVA actualizado correctamente", "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
                     txtIva.setEnabled(false);
+                    this.LlenarVariables();
+                    acciones.conn.close();
                 }
             } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al actualizar IVA\ncodigo error:" + e.getMessage(),
                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            } 
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese el valor del iva",
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconAd);
             }
-        } else {
+                    } else {
             txtIva.setEnabled(true);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -431,19 +450,49 @@ public class FAjustes extends javax.swing.JFrame {
 
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
         int fila = tbl.getSelectedRow();
-        try {
-            String sql = "delete from tipoproducto where codtip='" + tbl.getValueAt(fila, 0) + "'";
-            Statement st = acciones.Eliminar(sql);
-            int n = st.executeUpdate(sql);
-            if (n > 0) {
-                JOptionPane.showMessageDialog(null, "Categoria eliminada correctamente del sistema", "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
-                txtNombre3.setText("");
-                this.LlenarTabla();
+   
+        if (fila!=-1) {
+                 int seleccion = JOptionPane.showOptionDialog(
+                null,
+                "¿Esta seguro que dese Borrar el registro selecionado?", 
+                "Advertencia",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,    // null para icono por defecto.
+                new Object[] { "Si", "No" },   // null para YES, NO y CANCEL
+                "Nuevo");
+                 if (seleccion == 0) {
+                try {
+                String sql = "delete from tipoproducto where codtip='" + tbl.getValueAt(fila, 0) + "'";
+                Statement st = acciones.Eliminar(sql);
+                int n = st.executeUpdate(sql);
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Categoria eliminada correctamente del sistema", "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    txtNombre3.setText("");
+                    this.LlenarTabla();
+                    acciones.conn.close();
+                }
+            } catch (SQLException e) {
+
+                //con esto se el codigo unico del error para poder controlarlo
+//                System.out.println("Código de Error: " + e.getErrorCode() + "\n" +
+//                "SLQState: " + e.getSQLState() + "\n" +
+//                "Mensaje: " + e.getMessage() + "\n");
+
+                // error clave primaria duplicada y muestro mensaje 
+                if (e.getSQLState().equals("23503")) {
+                    JOptionPane.showMessageDialog(null, "No se puede Elminiar la categoria debido a que esta vinculada a una o varias ventas",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al guardar Categoria\nCodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar Categoria\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
+            }
+        }else{
+        JOptionPane.showMessageDialog(null, "Debe seleccionar una fila en la tabla",
+                        "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+    }
     }//GEN-LAST:event_btnEliminar3ActionPerformed
 
     private void btnBorrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar3ActionPerformed
@@ -452,7 +501,8 @@ public class FAjustes extends javax.swing.JFrame {
 
     private void btnAñadir3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAñadir3ActionPerformed
         if (!txtNombre3.getText().equals("")) {
-            try {
+            if (Verificacion(txtNombre3.getText())) {
+                try {
                 String sql = "insert into tipoproducto(tipprod) values(?)";
                 PreparedStatement ps = acciones.Ingresar(sql);
                 ps.setString(1, txtNombre3.getText().toLowerCase());
@@ -462,10 +512,12 @@ public class FAjustes extends javax.swing.JFrame {
                             "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
                     txtNombre3.setText("");
                     this.LlenarTabla();
+                    acciones.conn.close();
                 }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error al guardar Categoria\ncodigo error:" + e.getMessage(),
                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
             }
         } else {
             JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
@@ -492,6 +544,7 @@ public class FAjustes extends javax.swing.JFrame {
                     model.addRow(fila);
                 }
                 tbl.setModel(model);
+                acciones.conn.close();
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
@@ -543,6 +596,7 @@ public class FAjustes extends javax.swing.JFrame {
                     txtRuta.setText(ruta);
                     JOptionPane.showMessageDialog(null, "Ruta Actualizada con exito",
                             "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    acciones.conn.close();
                 }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al Actualizar Ruta\ncodigo error:" + e.getMessage(),
@@ -559,6 +613,38 @@ public class FAjustes extends javax.swing.JFrame {
      break;
     }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtIvaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIvaKeyTyped
+    char c = evt.getKeyChar();
+        int lim = txtIva.getText().length();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtIvaKeyTyped
+
+    private void txtNombre3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre3KeyTyped
+    char c = evt.getKeyChar();
+        /*verifico que el caracter sea una letra mayuscula o minuscula o sea la tecla de borrar
+         si no emito un sonido e ignoro lo que teclee*/
+        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtNombre3.getText().length();
+            //cambie este numero que es el limite
+            if (lim >= 20) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            evt.consume();
+            getToolkit().beep();
+        }
+    }//GEN-LAST:event_txtNombre3KeyTyped
 
     /**
      * @param args the command line arguments
@@ -622,8 +708,35 @@ public class FAjustes extends javax.swing.JFrame {
                 model.addRow(fila);
             }
             tbl.setModel(model);
+            acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
+    }
+    
+    private boolean EventoKeyType(int valor, int limitacion){
+            //pido el valor del text y pido el valor limitante
+            if (valor >= limitacion) {
+                return true;
+            }else{
+                return false;
+            }
+    }
+
+    private boolean Verificacion(String cadena) {
+        boolean tipo = true;
+        try {
+            String sql = "select * from tipoproducto where tipprod = '"+cadena+"'";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                JOptionPane.showMessageDialog(null, "Categoria ya Existe",
+                        "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                tipo = false;
+            }
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return tipo;
     }
 }

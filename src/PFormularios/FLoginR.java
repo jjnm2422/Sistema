@@ -79,6 +79,7 @@ public class FLoginR extends javax.swing.JFrame {
             PreparedStatement ps = acciones.Actualizar(sql1);
             ps.setString(1, fecha.getFecha());
             int n = ps.executeUpdate();
+            acciones.conn.close();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR ULTIMO ACCESO" + e.getMessage());
         }
@@ -126,7 +127,7 @@ public class FLoginR extends javax.swing.JFrame {
         }
     }
 
-    public boolean ComprobarUsuario() {
+    public boolean ComprobarUsuario() throws SQLException {
         boolean nombre = false;
         try {
             String sql = "select * from usuarios where nomusu= '" + txtUsuario.getText() + "'";
@@ -140,10 +141,11 @@ public class FLoginR extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problemas con la base de datos\n" + e);
         }
+        acciones.conn.close();
         return nombre;
     }
 
-    public boolean ComprobarPin() {
+    public boolean ComprobarPin() throws SQLException {
         boolean pin = false;
         try {
             String sql = "select * from usuarios where nomusu= '" + txtUsuario.getText() + "'";
@@ -159,6 +161,7 @@ public class FLoginR extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Problemas con la base de datos\n" + e);
         }
+        acciones.conn.close();
         return pin;
     }
 
@@ -442,32 +445,36 @@ public class FLoginR extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Existen campos vacios", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
             if (c2.equals(c1)) {
-                if (ComprobarUsuario()) {
-                    if (ComprobarPin()) {
-                        try {
-                            usuario = txtUsuario.getText();
-                            String sql = "update usuarios set clausu=? where nomusu = '" + usuario + "'";
-                            PreparedStatement ps = acciones.Actualizar(sql);
-                            ps.setString(1, c1);
-                            int n = ps.executeUpdate();
-                            if (n > 0) {
-                                JOptionPane.showMessageDialog(null, "Clave actualizada correctamente", "Informacion",
-                                        JOptionPane.PLAIN_MESSAGE, iconCorrecto);
-                                txtUsuario.setText("");
-                                txtClave.setText("");
-                                txtClave2.setText("");
-                                txtPin.setText("");
+                try {
+                    if (ComprobarUsuario()) {
+                        if (ComprobarPin()) {
+                            try {
+                                usuario = txtUsuario.getText();
+                                String sql = "update usuarios set clausu=? where nomusu = '" + usuario + "'";
+                                PreparedStatement ps = acciones.Actualizar(sql);
+                                ps.setString(1, c1);
+                                int n = ps.executeUpdate();
+                                if (n > 0) {
+                                    JOptionPane.showMessageDialog(null, "Clave actualizada correctamente", "Informacion",
+                                            JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                                    txtUsuario.setText("");
+                                    txtClave.setText("");
+                                    txtClave2.setText("");
+                                    txtPin.setText("");
+                                }
+                                acciones.conn.close();
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, "Error al actualizar datos " + e.getMessage(),
+                                        "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
                             }
-                            acciones.conn.close();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, "Error al actualizar datos " + e.getMessage(),
-                                    "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Pin Incorrecto", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
                         }
                     } else {
-                        JOptionPane.showMessageDialog(null, "Pin Incorrecto", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                        JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                } catch (SQLException ex) {
+                    Logger.getLogger(FLoginR.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Las Claves no coinciden", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
