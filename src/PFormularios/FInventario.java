@@ -780,7 +780,7 @@ public class FInventario extends javax.swing.JFrame {
 	String sql = "insert into inventario(tippro, desprod, canprod,"
                 + "preprod, minprod, maxprod, codpro) values(?,?,?,?,?,?,?)";
 	PreparedStatement ps = acciones.Ingresar(sql);
-        float total = Integer.parseInt(txtPrecio1.getText())+(Integer.parseInt(txtPrecio1.getText()) * getIva());
+        float total = Float.parseFloat(txtPrecio1.getText())+(Float.parseFloat(txtPrecio1.getText()) * getIva());
 	ps.setInt(1,getCodTipoProducto(cbxTipo1.getSelectedItem().toString()));
 	ps.setString(2, txtDescripcion1.getText().toLowerCase());
 	ps.setInt(3, Integer.parseInt(txtCantidad1.getText()));
@@ -796,7 +796,7 @@ public class FInventario extends javax.swing.JFrame {
                         this.Llenar();
 		}
 	} catch (Exception e) {
-	JOptionPane.showMessageDialog(null,"Error al guardar cliente\ncodigo error:"+e.getMessage()
+	JOptionPane.showMessageDialog(null,"Error al guardar producto\ncodigo error:"+e.getMessage()
         ,"Error",JOptionPane.PLAIN_MESSAGE,iconError);
 }
 }
@@ -863,6 +863,7 @@ public class FInventario extends javax.swing.JFrame {
             while (rs.next()) {
                 resultado = true;
                 cbxTipo2.addItem(rs.getString("tipprod"));
+                cbxProveedor2.addItem(rs.getString("codpro"));
 //                this.Habilitar(2);
 //                codigo = rs.getInt("codcli");
 //                txtNombre2.setText(rs.getString("nomcli"));
@@ -1099,9 +1100,13 @@ public class FInventario extends javax.swing.JFrame {
                 && !txtMaximo1.getText().equals("") && !txtCantidad1.getText().equals("") && !txtPrecio1.getText().equals("")
                 && !txtTotal1.getText().equals("")) {
             if (Integer.parseInt(txtCantidad1.getText())<Integer.parseInt(txtMaximo1.getText())) {
-                            
                 if (Integer.parseInt(txtMinimo1.getText())<Integer.parseInt(txtMaximo1.getText())){
-                    return true;
+                    if (txtPrecio1.getText().charAt(txtPrecio1.getText().length()-1)=='.') {
+                        JOptionPane.showMessageDialog(null, "Corrija el precio", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "El minimo de inventario debe ser menor al maximo de inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
                     return false;
