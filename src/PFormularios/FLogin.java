@@ -13,6 +13,7 @@ import java.awt.Point;
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -132,6 +133,11 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
             }
             public void windowLostFocus(java.awt.event.WindowEvent evt) {
                 formWindowLostFocus(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -281,6 +287,9 @@ setExtendedState(JFrame.ICONIFIED);
                                     "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
             }
             }
+//            acciones.conn.close();
+//            rs.close();
+//            acciones.st.close();
             if(nombre==false){
                    JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         
@@ -289,11 +298,7 @@ setExtendedState(JFrame.ICONIFIED);
             JOptionPane.showMessageDialog(null, "Problemas con la base de datos\n"+e);
         }  
     }
-        try {
-            acciones.conn.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(FLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -311,6 +316,10 @@ setExtendedState(JFrame.ICONIFIED);
     private void txtClaveKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveKeyTyped
 
     }//GEN-LAST:event_txtClaveKeyTyped
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+ 
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -333,6 +342,8 @@ setExtendedState(JFrame.ICONIFIED);
                     int n = ps.executeUpdate();
                     if (n > 0) {
                         acciones.conn.close();
+                        ps.close();
+                        acciones.st.close();
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al guardar Hora\ncodigo error:" + e.getMessage(),

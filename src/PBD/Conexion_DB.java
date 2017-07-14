@@ -6,7 +6,10 @@ package PBD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,6 +19,7 @@ public class Conexion_DB {
 
     private static String bd="dbventas", user="postgres",pass="123456", url="jdbc:postgresql://198.168.1.109:5432/"+bd;
     private static Connection conn;
+    private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
     
 public static Connection geConnection(){
     try{
@@ -26,4 +30,5 @@ public static Connection geConnection(){
         }
         return conn;
 }
+
 }

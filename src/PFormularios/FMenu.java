@@ -384,6 +384,8 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                     int n = ps.executeUpdate();
                     if (n>0) {
                         acciones.conn.close();
+                        ps.close();
+                        acciones.st.close();
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(),

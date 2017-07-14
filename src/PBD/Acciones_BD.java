@@ -17,12 +17,13 @@ import java.sql.Statement;
 public class Acciones_BD {
     
     public java.sql.Connection conn;
-    Statement st;
+    public Statement st;
     
     public ResultSet Consultar(String sql) throws SQLException{
         conn= Conexion_DB.geConnection();
         st = conn.createStatement();
         ResultSet resultado = st.executeQuery(sql);
+        conn.close();
         return resultado;
     }
     
@@ -42,7 +43,6 @@ public class Acciones_BD {
     
     public Statement Eliminar(String sql) throws SQLException{
         conn= Conexion_DB.geConnection();
-        st = conn.createStatement();
         return st;
     }
             
