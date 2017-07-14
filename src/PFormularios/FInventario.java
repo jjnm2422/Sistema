@@ -1380,10 +1380,14 @@ public class FInventario extends javax.swing.JFrame {
         if (!txtDescripcion1.getText().equals("") && !txtMinimo1.getText().equals("")
                 && !txtMaximo1.getText().equals("") && !txtCantidad1.getText().equals("") && !txtPrecio1.getText().equals("")
                 && !txtTotal1.getText().equals("")) {
-            if (Integer.parseInt(txtCantidad1.getText()) < Integer.parseInt(txtMaximo1.getText())) {
-
-                if (Integer.parseInt(txtMinimo1.getText()) < Integer.parseInt(txtMaximo1.getText())) {
-                    return true;
+            if (Integer.parseInt(txtCantidad1.getText())<Integer.parseInt(txtMaximo1.getText())) {
+                if (Integer.parseInt(txtMinimo1.getText())<Integer.parseInt(txtMaximo1.getText())){
+                    if (txtPrecio1.getText().charAt(txtPrecio1.getText().length()-1)=='.') {
+                        JOptionPane.showMessageDialog(null, "Corrija el precio", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "El minimo de inventario debe ser menor al maximo de inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
                     return false;
