@@ -183,7 +183,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         });
         jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 210, 130));
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/ Clientes.png"))); // NOI18N
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Clientes.png"))); // NOI18N
         jButton7.setContentAreaFilled(false);
         jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton7.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/ClientesR.png"))); // NOI18N
@@ -198,7 +198,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         jButton4.setBorderPainted(false);
         jButton4.setContentAreaFilled(false);
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/                  Ventas2.png"))); // NOI18N
+        jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Ventas2.png"))); // NOI18N
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -206,7 +206,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         });
         jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 200, 170));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/                  Pedidos.png"))); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Pedidos.png"))); // NOI18N
         jButton2.setContentAreaFilled(false);
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Pedidos2.png"))); // NOI18N

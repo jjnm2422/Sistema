@@ -7,6 +7,7 @@ package PFormularios;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
 import com.sun.awt.AWTUtilities;
+import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.MouseInfo;
@@ -421,10 +422,26 @@ public class FInventario extends javax.swing.JFrame {
         jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
 
         txtCantidad1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCantidad1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidad1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidad1KeyTyped(evt);
+            }
+        });
         jPanel2.add(txtCantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 130, -1));
 
         txtMaximo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMaximo1.setToolTipText("Cantidad máxima de mercancía que se puede almacenar");
+        txtMaximo1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMaximo1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMaximo1KeyTyped(evt);
+            }
+        });
         jPanel2.add(txtMaximo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, -1));
 
         txtMinimo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -432,6 +449,14 @@ public class FInventario extends javax.swing.JFrame {
         txtMinimo1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtMinimo1ActionPerformed(evt);
+            }
+        });
+        txtMinimo1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMinimo1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtMinimo1KeyTyped(evt);
             }
         });
         jPanel2.add(txtMinimo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
@@ -1017,6 +1042,86 @@ public class FInventario extends javax.swing.JFrame {
     
     }//GEN-LAST:event_txtTotal1KeyReleased
 
+    private void txtMaximo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo1KeyReleased
+      int lim = txtMaximo1.getText().length();
+        if (lim >= 1&& Integer.parseInt(txtCantidad1.getText())>0) {
+            txtMaximo1.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtMaximo1.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtMaximo1KeyReleased
+
+    private void txtMaximo1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo1KeyTyped
+    char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtMaximo1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 9)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMaximo1KeyTyped
+
+    private void txtMinimo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo1KeyReleased
+     int lim = txtMinimo1.getText().length();
+        if (!txtCantidad1.getText().equals("")) {
+            if (lim >= 1 && Integer.parseInt(txtCantidad1.getText())>0) {
+            txtMinimo1.setBackground(Color.GREEN);
+        }
+        }
+        if (lim == 0) {
+            txtMinimo1.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtMinimo1KeyReleased
+
+    private void txtMinimo1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo1KeyTyped
+    char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtMinimo1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 9)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMinimo1KeyTyped
+
+    private void txtCantidad1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad1KeyTyped
+     char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCantidad1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 9)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantidad1KeyTyped
+
+    private void txtCantidad1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad1KeyReleased
+      int lim = txtCantidad1.getText().length();
+        if (lim >= 1 && Integer.parseInt(txtCantidad1.getText())>0) {
+            txtCantidad1.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtCantidad1.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtCantidad1KeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1135,5 +1240,12 @@ public class FInventario extends javax.swing.JFrame {
                 throw new AssertionError();
         }
     }
-
+    private boolean EventoKeyType(int valor, int limitacion){
+            //pido el valor del text y pido el valor limitante
+            if (valor >= limitacion) {
+                return true;
+            }else{
+                return false;
+            }
+    }
 }

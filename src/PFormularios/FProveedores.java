@@ -354,7 +354,7 @@ public class FProveedores extends javax.swing.JFrame {
 
         lblTitulo9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo9.setText("Nombre");
-        jPanel2.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
+        jPanel2.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 70, 20));
 
         lblTitulo10.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo10.setText("No obligatorio");
@@ -362,7 +362,7 @@ public class FProveedores extends javax.swing.JFrame {
 
         lblTitulo11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo11.setText("Cedula/RIF");
-        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 70, 20));
+        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
 
         lblTitulo12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo12.setText("Telefono");
@@ -413,7 +413,7 @@ public class FProveedores extends javax.swing.JFrame {
                 txtNombre1KeyTyped(evt);
             }
         });
-        jPanel2.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 170, -1));
+        jPanel2.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 170, -1));
 
         txtTelefono12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono12.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -429,7 +429,7 @@ public class FProveedores extends javax.swing.JFrame {
                 txtCedula1KeyReleased(evt);
             }
         });
-        jPanel2.add(txtCedula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 180, -1));
+        jPanel2.add(txtCedula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 170, -1));
 
         txtTelefono11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono11.addActionListener(new java.awt.event.ActionListener() {
@@ -517,18 +517,22 @@ public class FProveedores extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitulo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo1.setText("Telefono 2");
-        jPanel1.add(lblTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 70, 20));
+        jPanel1.add(lblTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 70, 20));
 
         lblTitulo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo2.setText("Nombre");
-        jPanel1.add(lblTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
+        jPanel1.add(lblTitulo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 70, 20));
 
         lblTitulo6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo6.setText("Telefono");
         jPanel1.add(lblTitulo6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 70, 20));
 
         lblTitulo7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo7.setText("Direccion");
         jPanel1.add(lblTitulo7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 70, 20));
 
@@ -548,6 +552,7 @@ public class FProveedores extends javax.swing.JFrame {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 50));
 
         lblTitulo8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo8.setText("Comentarios");
         jPanel1.add(lblTitulo8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 80, 20));
 
@@ -576,7 +581,7 @@ public class FProveedores extends javax.swing.JFrame {
                 txtNombre2KeyTyped(evt);
             }
         });
-        jPanel1.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 170, -1));
+        jPanel1.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 170, -1));
 
         txtTelefono22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono22.setEnabled(false);
@@ -642,10 +647,12 @@ public class FProveedores extends javax.swing.JFrame {
         jPanel1.add(txtPagina2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 170, -1));
 
         lblTitulo16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo16.setText("Pagina Web");
-        jPanel1.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, 80, 20));
+        jPanel1.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 80, 20));
 
         lblTitulo17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo17.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo17.setText("Horario");
         jPanel1.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 80, 20));
 
@@ -658,11 +665,12 @@ public class FProveedores extends javax.swing.JFrame {
                 txtCedula2KeyTyped(evt);
             }
         });
-        jPanel1.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 140, -1));
+        jPanel1.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 10, 150, -1));
 
         lblTitulo18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo18.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo18.setText("Cedula/RIF");
-        jPanel1.add(lblTitulo18, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 70, 20));
+        jPanel1.add(lblTitulo18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 20));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -670,7 +678,7 @@ public class FProveedores extends javax.swing.JFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 10, 30, 20));
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 30, 20));
 
         lblTitulo22.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblTitulo22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
