@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -417,6 +418,11 @@ public class FInventario extends javax.swing.JFrame {
         txtDescripcion1.setLineWrap(true);
         txtDescripcion1.setRows(1);
         txtDescripcion1.setWrapStyleWord(true);
+        txtDescripcion1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescripcion1KeyReleased(evt);
+            }
+        });
         jScrollPane4.setViewportView(txtDescripcion1);
 
         jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
@@ -561,11 +567,11 @@ public class FInventario extends javax.swing.JFrame {
 
         lblTitulo17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo17.setText("Maximo Inventario");
-        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
+        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
 
         lblTitulo19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo19.setText("Minimo Inventario");
-        jPanel4.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
+        jPanel4.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
 
         lblTitulo20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -583,6 +589,11 @@ public class FInventario extends javax.swing.JFrame {
         txtDescripcion2.setRows(1);
         txtDescripcion2.setWrapStyleWord(true);
         txtDescripcion2.setEnabled(false);
+        txtDescripcion2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescripcion2KeyReleased(evt);
+            }
+        });
         jScrollPane5.setViewportView(txtDescripcion2);
 
         jPanel4.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
@@ -625,7 +636,7 @@ public class FInventario extends javax.swing.JFrame {
                 cbxProveedor2ActionPerformed(evt);
             }
         });
-        jPanel4.add(cbxProveedor2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 100, -1));
+        jPanel4.add(cbxProveedor2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 130, -1));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel4.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 160, -1));
@@ -853,13 +864,14 @@ public class FInventario extends javax.swing.JFrame {
 
     private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
         if (Verificacion1()) {
+            float total = 0;
             try {
                 String sql = "insert into inventario(tippro, desprod, canprod,"
                         + "preprod, minprod, maxprod, codpro) values(?,?,?,?,?,?,?)";
                 PreparedStatement ps = acciones.Ingresar(sql);
-                float total = Integer.parseInt(txtPrecio1.getText()) + (Integer.parseInt(txtPrecio1.getText()) * getIva());
+                total = Integer.parseInt(txtPrecio1.getText()) + (Integer.parseInt(txtPrecio1.getText()) * (getIva() / 100));
                 ps.setInt(1, getCodTipoProducto(cbxTipo1.getSelectedItem().toString()));
-                ps.setString(2, txtDescripcion1.getText().toLowerCase());
+                ps.setString(2, txtDescripcion1.getText());
                 ps.setInt(3, Integer.parseInt(txtCantidad1.getText()));
                 ps.setFloat(4, total);
                 ps.setInt(5, Integer.parseInt(txtMinimo1.getText()));
@@ -870,6 +882,7 @@ public class FInventario extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Producto ingresado con exito al inventario",
                              "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
                     this.Borrar(1);
+                    Pintar(1);
                     this.Llenar();
                 }
             } catch (Exception e) {
@@ -880,7 +893,8 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresar1ActionPerformed
 
     private void btnBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar1ActionPerformed
-        Borrar(1);        // this.Borrar(1);
+        Borrar(1); 
+        Pintar(1);// this.Borrar(1);
     }//GEN-LAST:event_btnBorrar1ActionPerformed
 
     private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
@@ -900,7 +914,9 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMinimo1ActionPerformed
 
     private void btnBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar2ActionPerformed
-        // TODO add your handling code here:
+    Borrar(2);
+    Pintar(2);
+    Habilitar(2);
     }//GEN-LAST:event_btnBorrar2ActionPerformed
 
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
@@ -908,7 +924,44 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalir2ActionPerformed
 
     private void btnIngresar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar2ActionPerformed
-        // TODO add your handling code here:
+    if (Verificacion1()) {
+            try {
+                String sql = "insert into clientes(nomcli, apecli, cedcli, telcli,"
+                        + "tel2cli, dircli, comcli) values(?,?,?,?,?,?,?)";
+                PreparedStatement ps = acciones.Ingresar(sql);
+//                ps.setString(1, txtNombre1.getText());
+//                ps.setString(2, txtApellido1.getText());
+//                ps.setString(3, txtCedula1.getText());
+//                ps.setString(4, txtTelefono11.getText());
+//                ps.setString(5, txtTelefono12.getText());
+//                ps.setString(6, txtDireccion1.getText());
+//                ps.setString(7, txtComentario1.getText());
+                int n = ps.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Cliente ingresado con exito",
+                            "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    this.Borrar(2);
+                    this.Pintar(2);
+                }
+                
+                //Cambie Exception por SQLException para poder controlar el error
+            } catch (SQLException e) {
+                /*
+                con esto se el codigo unico del error para poder controlarlo
+                System.out.println("Código de Error: " + e.getErrorCode() + "\n" +
+                "SLQState: " + e.getSQLState() + "\n" +
+                "Mensaje: " + e.getMessage() + "\n");
+                */
+                // error clave primaria duplicada y muestro mensaje 
+                if (e.getSQLState().equals("23505")) {
+                    JOptionPane.showMessageDialog(null, "Ya existe un cliente vinculado a el numero de cedula ingresado",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al guardar cliente\nCodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
+            }
+        }
     }//GEN-LAST:event_btnIngresar2ActionPerformed
 
     private void cbxProveedor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor2ActionPerformed
@@ -918,26 +971,33 @@ public class FInventario extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
         boolean resultado = false;
+        Pintar(1);
+//        DecimalFormat format = new DecimalFormat("'Bsf'#.###.###.##");
+//        format.format(23.32322332);  ///  esto muestra   $23.32
 //        this.Borrar(3);
         int codigo = 0;
         cbxTipo2.removeAllItems();
+        cbxProveedor2.removeAllItems();
         String cedula = this.txtConsultar2.getText();
+        float total=0;
         try {
-            String sql = "select * from inventario inner join tipoproducto on tippro = codtip where codprod = '" + cedula + "'";
+            String sql = "select * from inventario " +
+            "inner join tipoproducto on tippro = codtip " +
+            "inner join proveedores on \"proveedores\".\"rifpro\"=\"inventario\".\"codpro\" " +
+            "where codprod = '" + cedula + "'";
             ResultSet rs = acciones.Consultar(sql);
             while (rs.next()) {
                 resultado = true;
                 cbxTipo2.addItem(rs.getString("tipprod"));
-                txtPrecio2.setText(rs.getString("preprod"));
-//                this.Habilitar(2);
-//                codigo = rs.getInt("codcli");
-//                txtNombre2.setText(rs.getString("nomcli"));
-//                txtApellido2.setText(rs.getString("apecli"));
-//                txtConsultar2.setText(rs.getString("cedcli"));
-//                txtTelefono21.setText(rs.getString("telcli"));
-//                txtTelefono22.setText(rs.getString("tel2cli"));
-//                txtDireccion2.setText(rs.getString("dircli"));
-//                txtComentario2.setText(rs.getString("comcli"));
+                total =  Integer.parseInt(rs.getString("preprod")) / (1+getIva()/100);
+                txtPrecio2.setText(String.valueOf(total));
+                txtTotal2.setText(rs.getString("preprod"));
+                txtCantidad2.setText(rs.getString("canprod"));
+                txtMinimo2.setText(rs.getString("minprod")); 
+                txtMaximo2.setText(rs.getString("maxprod")); 
+                cbxProveedor2.addItem(rs.getString("nompro"));
+                txtDescripcion2.setText(rs.getString("desprod"));
+                Habilitar(1);
             }
             if (resultado == false) {
                 JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
@@ -1069,7 +1129,7 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalir5ActionPerformed
 
     private void txtPrecio1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyReleased
-        if (txtPrecio1.getText().equals("0")) {
+    if (txtPrecio1.getText().equals("0")) {
             txtPrecio1.setText("");
         }
         if (!txtPrecio1.getText().equals("")) {
@@ -1198,7 +1258,22 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecio2ActionPerformed
 
     private void txtPrecio2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyReleased
-        // TODO add your handling code here:
+    if (txtPrecio2.getText().equals("0")) {
+            txtPrecio2.setText("");
+        }
+        if (!txtPrecio2.getText().equals("")) {
+            int lim = txtPrecio2.getText().length();
+            if (lim >= 0 && Integer.parseInt(txtPrecio2.getText()) > 0) {
+                float total = Float.parseFloat(txtPrecio2.getText()) + (Float.parseFloat(txtPrecio2.getText()) * (getIva() / 100));
+                txtTotal2.setText(String.valueOf(total));
+                txtPrecio2.setBackground(Color.GREEN);
+            }
+            if (lim == 0) {
+                txtPrecio2.setBackground(Color.RED);
+            }
+        } else {
+            txtTotal2.setText("0");
+        }
     }//GEN-LAST:event_txtPrecio2KeyReleased
 
     private void txtPrecio2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyTyped
@@ -1239,7 +1314,7 @@ public class FInventario extends javax.swing.JFrame {
         }
         if (lim == 0) {
             txtMaximo2.setBackground(Color.RED);
-        }
+    }
     }//GEN-LAST:event_txtMaximo2KeyReleased
 
     private void txtMaximo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo2KeyTyped
@@ -1297,6 +1372,22 @@ public class FInventario extends javax.swing.JFrame {
     private void txtMaximo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaximo2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaximo2ActionPerformed
+
+    private void txtDescripcion1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcion1KeyReleased
+    if (txtDescripcion1.getText().equals("")) {
+            txtDescripcion1.setBackground(Color.RED);
+        } else {
+            txtDescripcion1.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDescripcion1KeyReleased
+
+    private void txtDescripcion2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcion2KeyReleased
+    if (txtDescripcion2.getText().equals("")) {
+            txtDescripcion2.setBackground(Color.RED);
+        } else {
+            txtDescripcion2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDescripcion2KeyReleased
 
     /**
      * @param args the command line arguments
@@ -1380,7 +1471,7 @@ public class FInventario extends javax.swing.JFrame {
         if (!txtDescripcion1.getText().equals("") && !txtMinimo1.getText().equals("")
                 && !txtMaximo1.getText().equals("") && !txtCantidad1.getText().equals("") && !txtPrecio1.getText().equals("")
                 && !txtTotal1.getText().equals("")) {
-            if (Integer.parseInt(txtCantidad1.getText())<Integer.parseInt(txtMaximo1.getText())) {
+            if (Integer.parseInt(txtCantidad1.getText())<=Integer.parseInt(txtMaximo1.getText())) {
                 if (Integer.parseInt(txtMinimo1.getText())<Integer.parseInt(txtMaximo1.getText())){
                     if (txtPrecio1.getText().charAt(txtPrecio1.getText().length()-1)=='.') {
                         JOptionPane.showMessageDialog(null, "Corrija el precio", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
@@ -1401,6 +1492,38 @@ public class FInventario extends javax.swing.JFrame {
             return false;
         }
     }
+    
+    private boolean Verificacion2() {
+        if (!txtDescripcion2.getText().equals("") && !txtMinimo2.getText().equals("")
+                && !txtMaximo1.getText().equals("") && !txtCantidad2.getText().equals("") && !txtPrecio2.getText().equals("")
+                && !txtTotal2.getText().equals("")) {
+            if (Integer.parseInt(txtCantidad2.getText())<=Integer.parseInt(txtMaximo2.getText())) {
+                if (Integer.parseInt(txtMinimo2.getText())<Integer.parseInt(txtMaximo2.getText())){
+                    if (Integer.parseInt(txtCantidad2.getText())>Integer.parseInt(txtMinimo2.getText())){
+                            if (txtPrecio1.getText().charAt(txtPrecio1.getText().length()-1)=='.') {
+                                JOptionPane.showMessageDialog(null, "Corrija el precio", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                                return false;
+                            } else {
+                                return true;
+                            }
+                    } else {
+                    JOptionPane.showMessageDialog(null, "El minimo de inventario debe ser menor al maximo de inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                    return false;
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "El minimo de inventario debe ser menor al maximo de inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                    return false;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "La cantidad que ingresa no puede ser mayor que el maximo del inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+            return false;
+        }
+    }
+    
 
     private void Borrar(int i) {
         switch (i) {
@@ -1412,9 +1535,58 @@ public class FInventario extends javax.swing.JFrame {
                 txtPrecio1.setText("");
                 txtTotal1.setText("");
                 break;
+            case 2:
+                txtDescripcion2.setText("");
+                txtMaximo2.setText("");
+                txtMinimo2.setText("");
+                txtCantidad2.setText("");
+                txtPrecio2.setText("");
+                txtTotal2.setText("");
+                break;
             default:
                 throw new AssertionError();
         }
+    }
+    
+    private void Habilitar(int x) {
+        switch (x) {
+            case 1:
+                txtDescripcion2.setEnabled(true);
+                txtMaximo2.setEnabled(true);
+                txtMinimo2.setEnabled(true);
+                txtPrecio2.setEnabled(true);
+                break;
+            case 2:
+                txtDescripcion2.setEnabled(false);
+                txtMaximo2.setEnabled(false);
+                txtMinimo2.setEnabled(false);
+                txtPrecio2.setEnabled(false);
+                break;
+            default:
+        }
+    }
+
+    private void Pintar(int num) {
+        switch (num) {
+            case 1:
+                txtDescripcion1.setBackground(Color.WHITE);
+                txtMaximo1.setBackground(Color.WHITE);
+                txtMinimo1.setBackground(Color.WHITE);
+                txtCantidad1.setBackground(Color.WHITE);
+                txtPrecio1.setBackground(Color.WHITE);
+                txtTotal1.setBackground(Color.WHITE);
+                break;
+             case 2:
+                txtDescripcion2.setBackground(Color.WHITE);
+                txtMaximo2.setBackground(Color.WHITE);
+                txtMinimo2.setBackground(Color.WHITE);
+                txtCantidad2.setBackground(Color.WHITE);
+                txtPrecio2.setBackground(Color.WHITE);
+                txtTotal2.setBackground(Color.WHITE);
+                break;
+                   
+        }
+
     }
 
     private boolean EventoKeyType(int valor, int limitacion) {
