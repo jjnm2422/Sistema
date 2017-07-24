@@ -74,9 +74,10 @@ public class FProveedores extends javax.swing.JFrame {
         RestrictedTextField restricted = new RestrictedTextField(this.txtTelefono12);
         restricted.setOnlyNums(true);
         restricted.setLimit(11);
-        RestrictedTextField restricted5 = new RestrictedTextField(this.txtNombre1);
-        restricted5.setOnlyText(true);
-        restricted5.setLimit(60);
+        RestrictedTextField restricted5 = new RestrictedTextField(this.txtNombre1,"qwertyuiopasdfghjklñzxcvbnm0123456789 ");
+        restricted5.setLimit(20);
+        RestrictedTextField restricted6 = new RestrictedTextField(this.txtPagina1);
+        restricted6.setLimit(30);
     }
 
     public void LlenarTabla() {
@@ -132,6 +133,7 @@ public class FProveedores extends javax.swing.JFrame {
                 cbx1.setEnabled(true);
                 cbx2.setEnabled(true);
                 txtPagina2.setEnabled(true);
+                cbxEst.setEnabled(true);
                 break;
             case 3:
                 txtNombre2.setEnabled(false);
@@ -143,6 +145,7 @@ public class FProveedores extends javax.swing.JFrame {
                 cbx1.setEnabled(false);
                 cbx2.setEnabled(false);
                 txtPagina2.setEnabled(false);
+                cbxEst.setEnabled(false);
                 break;
             default:
         }
@@ -285,6 +288,8 @@ public class FProveedores extends javax.swing.JFrame {
         cbx1 = new javax.swing.JComboBox<>();
         cbx2 = new javax.swing.JComboBox<>();
         lblTitulo26 = new javax.swing.JLabel();
+        lblTitulo20 = new javax.swing.JLabel();
+        cbxEst = new javax.swing.JComboBox<>();
         jPanel6 = new javax.swing.JPanel();
         jLabel25 = new javax.swing.JLabel();
         txtB = new javax.swing.JTextField();
@@ -296,8 +301,8 @@ public class FProveedores extends javax.swing.JFrame {
                 return false; //Disallow the editing of any cell
             }
         };
-        btnSalir4 = new javax.swing.JButton();
         btnSalir5 = new javax.swing.JButton();
+        lblTitulo28 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Proveedores");
@@ -349,10 +354,12 @@ public class FProveedores extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitulo5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo5.setText("Telefono 2");
-        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 70, 20));
+        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 90, 70, 20));
 
         lblTitulo9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo9.setText("Nombre");
         jPanel2.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 70, 20));
 
@@ -387,6 +394,7 @@ public class FProveedores extends javax.swing.JFrame {
         jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 50));
 
         lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo14.setText("Comentarios");
         jPanel2.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 80, 20));
 
@@ -451,7 +459,7 @@ public class FProveedores extends javax.swing.JFrame {
                 btnBorrar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 100, 30));
+        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 100, 30));
 
         btnSalir1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir1.setText("Salir");
@@ -460,7 +468,7 @@ public class FProveedores extends javax.swing.JFrame {
                 btnSalir1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 100, 30));
+        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 100, 30));
 
         btnIngresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
         btnIngresar1.setText("Ingresar");
@@ -469,7 +477,7 @@ public class FProveedores extends javax.swing.JFrame {
                 btnIngresar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 100, 30));
+        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 100, 30));
 
         lblTitulo15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo15.setText("Pagina Web");
@@ -484,6 +492,7 @@ public class FProveedores extends javax.swing.JFrame {
         jPanel2.add(txtPagina1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 50, 170, -1));
 
         lblTitulo19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo19.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo19.setText("Horario");
         jPanel2.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 80, 20));
 
@@ -533,8 +542,8 @@ public class FProveedores extends javax.swing.JFrame {
 
         lblTitulo7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTitulo7.setText("Direccion");
-        jPanel1.add(lblTitulo7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 70, 20));
+        lblTitulo7.setText("Estado");
+        jPanel1.add(lblTitulo7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 190, 70, 20));
 
         txtComentario2.setColumns(1);
         txtComentario2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -614,7 +623,7 @@ public class FProveedores extends javax.swing.JFrame {
                 btnSalir2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 200, 100, 30));
+        jPanel1.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 100, 30));
 
         btnEditar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497312816_edit-find-replace.png"))); // NOI18N
         btnEditar2.setText("Editar");
@@ -623,7 +632,7 @@ public class FProveedores extends javax.swing.JFrame {
                 btnEditar2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 100, 30));
+        jPanel1.add(btnEditar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 220, 100, 30));
 
         btnBorrar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
         btnBorrar2.setText("Borrar");
@@ -632,7 +641,7 @@ public class FProveedores extends javax.swing.JFrame {
                 btnBorrar2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 100, 30));
+        jPanel1.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, 100, 30));
 
         txtPagina2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtPagina2.setEnabled(false);
@@ -709,6 +718,20 @@ public class FProveedores extends javax.swing.JFrame {
         lblTitulo26.setText("No obligatorio");
         jPanel1.add(lblTitulo26, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 170, -1));
 
+        lblTitulo20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo20.setText("Direccion");
+        jPanel1.add(lblTitulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 70, 20));
+
+        cbxEst.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
+        cbxEst.setEnabled(false);
+        cbxEst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxEstActionPerformed(evt);
+            }
+        });
+        jPanel1.add(cbxEst, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 190, 110, -1));
+
         jTabbedPane1.addTab("Modificar", jPanel1);
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -774,16 +797,7 @@ public class FProveedores extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tbl);
 
-        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 100));
-
-        btnSalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497913416_gtk-refresh.png"))); // NOI18N
-        btnSalir4.setText("Actualizar");
-        btnSalir4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir4ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, -1, 30));
+        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 130));
 
         btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir5.setText("Salir");
@@ -792,11 +806,17 @@ public class FProveedores extends javax.swing.JFrame {
                 btnSalir5ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 110, 30));
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 220, 110, 30));
+
+        lblTitulo28.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lblTitulo28.setForeground(new java.awt.Color(255, 51, 51));
+        lblTitulo28.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTitulo28.setText("Doble Clic en la tabla para Actualizar");
+        jPanel6.add(lblTitulo28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 220, 20));
 
         jTabbedPane1.addTab("Listado", jPanel6);
 
-        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 570, 270));
+        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 570, 290));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 340));
 
@@ -828,7 +848,7 @@ public class FProveedores extends javax.swing.JFrame {
         if (Verificacion2()) {
             try {
                 String sql = "update proveedores set nompro=?, pagpro=?, rifpro=?,"
-                        + "telpro=?, tel2pro=?, dirpro=?, despro=?, horpro=? where rifpro = '" + cedula + "'";
+                        + "telpro=?, tel2pro=?, dirpro=?, despro=?, horpro=?, estpro=? where rifpro = '" + cedula + "'";
 
                 PreparedStatement ps = acciones.Actualizar(sql);
                 ps.setString(1, this.txtNombre2.getText().toLowerCase());
@@ -839,6 +859,7 @@ public class FProveedores extends javax.swing.JFrame {
                 ps.setString(6, this.txtDireccion2.getText().toLowerCase());
                 ps.setString(7, this.txtComentario2.getText().toLowerCase());
                 ps.setString(8, cbx1.getSelectedItem().toString() + "-" + cbx2.getSelectedItem().toString());
+                ps.setString(9, cbxEst.getSelectedItem().toString());
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Datos actualizados correctamente", "Informacion",
@@ -869,7 +890,7 @@ public class FProveedores extends javax.swing.JFrame {
         if (Verificacion1()) {
             try {
                 String sql = "insert into proveedores(nompro, rifpro, telpro,"
-                        + "tel2pro, dirpro, pagpro, despro, horpro) values(?,?,?,?,?,?,?,?)";
+                        + "tel2pro, dirpro, pagpro, despro, horpro, estpro) values(?,?,?,?,?,?,?,?,?)";
                 PreparedStatement ps = acciones.Ingresar(sql);
                 ps.setString(1, txtNombre1.getText().toLowerCase());
                 ps.setString(2, txtCedula1.getText().toLowerCase());
@@ -879,6 +900,7 @@ public class FProveedores extends javax.swing.JFrame {
                 ps.setString(6, txtPagina1.getText().toLowerCase());
                 ps.setString(7, txtComentario1.getText().toLowerCase());
                 ps.setString(8, cbx1.getSelectedItem().toString() + "-" + cbx2.getSelectedItem().toString());
+                ps.setString(9, "Activo");
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Proveedor ingresado con exito",
@@ -937,6 +959,7 @@ public class FProveedores extends javax.swing.JFrame {
                 txtTelefono22.setText(rs.getString("tel2pro"));
                 txtDireccion2.setText(rs.getString("dirpro"));
                 txtComentario2.setText(rs.getString("despro"));
+                cbxEst.setSelectedItem(rs.getString("estpro"));
             }
             if (resultado == false) {
                 JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
@@ -976,7 +999,10 @@ public class FProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_cbxFiltroActionPerformed
 
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
-
+    if (evt.getClickCount() == 2) {
+        this.LlenarTabla();
+        this.txtB.setText("");
+    }
     }//GEN-LAST:event_tblMouseClicked
 
     private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
@@ -986,11 +1012,6 @@ public class FProveedores extends javax.swing.JFrame {
     private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
 
     }//GEN-LAST:event_tblKeyReleased
-
-    private void btnSalir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir4ActionPerformed
-        this.LlenarTabla();
-        this.txtB.setText("");
-    }//GEN-LAST:event_btnSalir4ActionPerformed
 
     private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
         this.dispose();    // TODO add your handling code here:
@@ -1006,7 +1027,7 @@ public class FProveedores extends javax.swing.JFrame {
                         try {
                             String[] titulos = {"Rif", "Nombre", "Telefono", "Telefono",
                                 "Direccion", "Pagina Web", "Horario", "Comentario"};
-                            String sql = "select * from proveedores where rifpro = '" + txtB.getText() + "'";
+                            String sql = "select * from proveedores where rifpro like '" + txtB.getText() + "'";
                             model = new DefaultTableModel(null, titulos);
                             ResultSet rs = acciones.Consultar(sql);
                             String[] fila = new String[8];
@@ -1078,8 +1099,8 @@ public class FProveedores extends javax.swing.JFrame {
     private void txtNombre2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre2KeyTyped
         char c = evt.getKeyChar();
         int lim = txtNombre2.getText().length();
-        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
-            if (this.EventoKeyType(lim, 60)) {
+        if (c >= 48 && c <= 57 || c >= 65 && c <= 90 || c >= 97 && c <= 122 || c==evt.VK_SPACE || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 30)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -1267,6 +1288,10 @@ public class FProveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPagina1KeyReleased
 
+    private void cbxEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxEstActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxEstActionPerformed
+
     private void Pintar(int num) {
         switch (num) {
             case 1:
@@ -1342,12 +1367,12 @@ public class FProveedores extends javax.swing.JFrame {
     private javax.swing.JButton btnIngresar1;
     private javax.swing.JButton btnSalir1;
     private javax.swing.JButton btnSalir2;
-    private javax.swing.JButton btnSalir4;
     private javax.swing.JButton btnSalir5;
     private javax.swing.JComboBox<String> cbx1;
     private javax.swing.JComboBox<String> cbx2;
     private javax.swing.JComboBox<String> cbx3;
     private javax.swing.JComboBox<String> cbx4;
+    private javax.swing.JComboBox<String> cbxEst;
     private javax.swing.JComboBox<String> cbxFiltro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -1377,6 +1402,7 @@ public class FProveedores extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo18;
     private javax.swing.JLabel lblTitulo19;
     private javax.swing.JLabel lblTitulo2;
+    private javax.swing.JLabel lblTitulo20;
     private javax.swing.JLabel lblTitulo21;
     private javax.swing.JLabel lblTitulo22;
     private javax.swing.JLabel lblTitulo23;
@@ -1384,6 +1410,7 @@ public class FProveedores extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo25;
     private javax.swing.JLabel lblTitulo26;
     private javax.swing.JLabel lblTitulo27;
+    private javax.swing.JLabel lblTitulo28;
     private javax.swing.JLabel lblTitulo5;
     private javax.swing.JLabel lblTitulo6;
     private javax.swing.JLabel lblTitulo7;

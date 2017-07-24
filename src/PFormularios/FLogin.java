@@ -82,7 +82,6 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
             ps.setString(2, lblHora.getText());
             int n = ps.executeUpdate();
             acciones.conn.close();
-            System.out.println(sql1);
         } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR ULTIMO ACCESO" + e.getMessage()); 
         }
@@ -184,6 +183,7 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtUsuario.setText("jjnm");
         jPanel3.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 140, 30));
 
         btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
@@ -206,6 +206,12 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
 
         txtClave.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtClave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtClave.setText("1234");
+        txtClave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtClaveActionPerformed(evt);
+            }
+        });
         txtClave.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtClaveKeyTyped(evt);
@@ -322,6 +328,10 @@ setExtendedState(JFrame.ICONIFIED);
  
     }//GEN-LAST:event_formWindowOpened
 
+    private void txtClaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtClaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClaveActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -343,8 +353,6 @@ setExtendedState(JFrame.ICONIFIED);
                     int n = ps.executeUpdate();
                     if (n > 0) {
                         acciones.conn.close();
-                        ps.close();
-                        acciones.st.close();
                     }
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Error al guardar Hora\ncodigo error:" + e.getMessage(),

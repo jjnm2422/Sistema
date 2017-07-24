@@ -217,8 +217,8 @@ public class FClientes extends javax.swing.JFrame {
                 return false; //Disallow the editing of any cell
             }
         };
-        btnSalir4 = new javax.swing.JButton();
         btnSalir5 = new javax.swing.JButton();
+        lblTitulo27 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Control de Acceso");
@@ -679,15 +679,6 @@ public class FClientes extends javax.swing.JFrame {
 
         jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 130));
 
-        btnSalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497913416_gtk-refresh.png"))); // NOI18N
-        btnSalir4.setText("Actualizar");
-        btnSalir4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalir4ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 110, 30));
-
         btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir5.setText("Salir");
         btnSalir5.addActionListener(new java.awt.event.ActionListener() {
@@ -695,7 +686,13 @@ public class FClientes extends javax.swing.JFrame {
                 btnSalir5ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 110, 30));
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 110, 30));
+
+        lblTitulo27.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lblTitulo27.setForeground(new java.awt.Color(255, 51, 51));
+        lblTitulo27.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTitulo27.setText("Doble Clic en la tabla para Actualizar");
+        jPanel6.add(lblTitulo27, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 220, 20));
 
         jTabbedPane1.addTab("Listado", jPanel6);
 
@@ -906,7 +903,10 @@ int seleccion = JOptionPane.showOptionDialog(
     }//GEN-LAST:event_cbxFiltroActionPerformed
 
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
-
+    if (evt.getClickCount() == 2) {
+        this.LlenarTabla();
+        this.txtB.setText("");
+    }
     }//GEN-LAST:event_tblMouseClicked
 
     private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
@@ -916,11 +916,6 @@ int seleccion = JOptionPane.showOptionDialog(
     private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
 
     }//GEN-LAST:event_tblKeyReleased
-
-    private void btnSalir4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir4ActionPerformed
-        this.LlenarTabla();
-        this.txtB.setText("");
-    }//GEN-LAST:event_btnSalir4ActionPerformed
 
     private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
         this.dispose();     // TODO add your handling code here:
@@ -1284,7 +1279,6 @@ int seleccion = JOptionPane.showOptionDialog(
     private javax.swing.JButton btnIngresar1;
     private javax.swing.JButton btnSalir1;
     private javax.swing.JButton btnSalir2;
-    private javax.swing.JButton btnSalir4;
     private javax.swing.JButton btnSalir5;
     private javax.swing.JComboBox<String> cbxFiltro;
     private javax.swing.JButton jButton1;
@@ -1314,6 +1308,7 @@ int seleccion = JOptionPane.showOptionDialog(
     private javax.swing.JLabel lblTitulo24;
     private javax.swing.JLabel lblTitulo25;
     private javax.swing.JLabel lblTitulo26;
+    private javax.swing.JLabel lblTitulo27;
     private javax.swing.JLabel lblTitulo3;
     private javax.swing.JLabel lblTitulo4;
     private javax.swing.JLabel lblTitulo5;
