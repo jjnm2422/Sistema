@@ -677,7 +677,7 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tbl);
 
-        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 100));
+        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 130));
 
         btnSalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497913416_gtk-refresh.png"))); // NOI18N
         btnSalir4.setText("Actualizar");
@@ -686,7 +686,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnSalir4ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 110, 30));
+        jPanel6.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 110, 30));
 
         btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir5.setText("Salir");
@@ -695,7 +695,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnSalir5ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 110, 30));
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 110, 30));
 
         jTabbedPane1.addTab("Listado", jPanel6);
 

@@ -15,6 +15,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -37,6 +39,7 @@ public class FAjustes extends javax.swing.JFrame {
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
     private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
     PClases.CFecha fecha = new PClases.CFecha();
+    private PFormularios.FMenu fMenu = new PFormularios.FMenu();
     DefaultTableModel model;
     private String hora;
 
@@ -120,6 +123,7 @@ public class FAjustes extends javax.swing.JFrame {
         txtHora = new javax.swing.JTextField();
         lblTitulo4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        btnBuscar1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         lblTitulo16 = new javax.swing.JLabel();
         txtNombre3 = new javax.swing.JTextField();
@@ -260,6 +264,16 @@ public class FAjustes extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 80, 30, -1));
+
+        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497913416_gtk-refresh.png"))); // NOI18N
+        btnBuscar1.setContentAreaFilled(false);
+        btnBuscar1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 30, 20));
 
         jTabbedPane1.addTab("Variables", jPanel1);
 
@@ -531,7 +545,6 @@ public class FAjustes extends javax.swing.JFrame {
 
     private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
         if (!txtB.getText().equals("")) {
-
             try {
                 String[] titulos = {"Codigo", "Categoria"};
                 String sql = "select * from tipoproducto where tipprod like '" + txtB.getText() + "%'";
@@ -554,7 +567,15 @@ public class FAjustes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBKeyReleased
 
     private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
-        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c==evt.VK_SPACE || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtB.getText().length();
+            //cambie este numero que es el limite
+        } else {
+            evt.consume();
+            getToolkit().beep();
+        }
     }//GEN-LAST:event_txtBKeyTyped
 
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
@@ -646,6 +667,14 @@ public class FAjustes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtNombre3KeyTyped
 
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        try {
+            txtHora.setText(fMenu.Hora());
+        } catch (SQLException ex) {
+            Logger.getLogger(FAjustes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -665,6 +694,7 @@ public class FAjustes extends javax.swing.JFrame {
     private javax.swing.JButton btnAñadir3;
     private javax.swing.JButton btnBorrar3;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnEliminar3;
     private javax.swing.JButton btnSalir2;
     private javax.swing.JButton btnSalir3;

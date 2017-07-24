@@ -14,11 +14,15 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
+import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.util.Formatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -42,6 +46,7 @@ public class FInventario extends javax.swing.JFrame {
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
     public DefaultTableModel model;
     private int iva = 0;
+    private DecimalFormat format = new DecimalFormat("#.00 Bsf");
 
     public FInventario() {
         this.setlook();
@@ -166,7 +171,7 @@ public class FInventario extends javax.swing.JFrame {
                 fila[1] = rs.getString("tipprod");
                 fila[2] = rs.getString("desprod");
                 fila[3] = rs.getString("canprod");
-                fila[4] = rs.getString("preprod");
+                fila[4] = format.format(rs.getFloat("preprod"));
                 model.addRow(fila);
             }
             tbl.setModel(model);
@@ -659,6 +664,11 @@ public class FInventario extends javax.swing.JFrame {
         jPanel4.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 90, 20));
 
         txtConsultar2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtConsultar2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtConsultar2KeyTyped(evt);
+            }
+        });
         jPanel4.add(txtConsultar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 140, -1));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
@@ -810,7 +820,7 @@ public class FInventario extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tbl);
 
-        jPanel6.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 100));
+        jPanel6.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 130));
 
         btnSalir4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497913416_gtk-refresh.png"))); // NOI18N
         btnSalir4.setText("Actualizar");
@@ -819,7 +829,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnSalir4ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 110, 30));
+        jPanel6.add(btnSalir4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 110, 30));
 
         btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir5.setText("Salir");
@@ -828,7 +838,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnSalir5ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 180, 110, 30));
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 200, 110, 30));
 
         jTabbedPane1.addTab("Listado", jPanel6);
 
@@ -924,7 +934,7 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalir2ActionPerformed
 
     private void btnIngresar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar2ActionPerformed
-    if (Verificacion1()) {
+    if (Verificacion2()) {
             try {
                 String sql = "insert into clientes(nomcli, apecli, cedcli, telcli,"
                         + "tel2cli, dircli, comcli) values(?,?,?,?,?,?,?)";
@@ -972,14 +982,12 @@ public class FInventario extends javax.swing.JFrame {
         //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
         boolean resultado = false;
         Pintar(1);
-//        DecimalFormat format = new DecimalFormat("'Bsf'#.###.###.##");
-//        format.format(23.32322332);  ///  esto muestra   $23.32
-//        this.Borrar(3);
         int codigo = 0;
         cbxTipo2.removeAllItems();
         cbxProveedor2.removeAllItems();
         String cedula = this.txtConsultar2.getText();
-        float total=0;
+        if (!cedula.equals("")) {
+            float total=0;
         try {
             String sql = "select * from inventario " +
             "inner join tipoproducto on tippro = codtip " +
@@ -991,7 +999,7 @@ public class FInventario extends javax.swing.JFrame {
                 cbxTipo2.addItem(rs.getString("tipprod"));
                 total =  Integer.parseInt(rs.getString("preprod")) / (1+getIva()/100);
                 txtPrecio2.setText(String.valueOf(total));
-                txtTotal2.setText(rs.getString("preprod"));
+                txtTotal2.setText(format.format(rs.getFloat("preprod")));
                 txtCantidad2.setText(rs.getString("canprod"));
                 txtMinimo2.setText(rs.getString("minprod")); 
                 txtMaximo2.setText(rs.getString("maxprod")); 
@@ -1009,6 +1017,10 @@ public class FInventario extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+        }else{
+            JOptionPane.showMessageDialog(null, "Campo Cedula vacio",
+                    "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -1129,14 +1141,16 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalir5ActionPerformed
 
     private void txtPrecio1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyReleased
+            Formatter formatter = new Formatter();
+            
     if (txtPrecio1.getText().equals("0")) {
             txtPrecio1.setText("");
-        }
+     }
         if (!txtPrecio1.getText().equals("")) {
             int lim = txtPrecio1.getText().length();
             if (lim >= 0 && Integer.parseInt(txtPrecio1.getText()) > 0) {
                 float total = Float.parseFloat(txtPrecio1.getText()) + (Float.parseFloat(txtPrecio1.getText()) * (getIva() / 100));
-                txtTotal1.setText(String.valueOf(total));
+                txtTotal1.setText(String.valueOf(format.format(total)));
                 txtPrecio1.setBackground(Color.GREEN);
             }
             if (lim == 0) {
@@ -1170,7 +1184,7 @@ public class FInventario extends javax.swing.JFrame {
             //establesco limite
             int lim = txtMaximo1.getText().length();
             //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 9)) {
+            if (this.EventoKeyType(lim, 3)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -1198,7 +1212,7 @@ public class FInventario extends javax.swing.JFrame {
             //establesco limite
             int lim = txtMinimo1.getText().length();
             //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 9)) {
+            if (this.EventoKeyType(lim, 3)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -1214,7 +1228,7 @@ public class FInventario extends javax.swing.JFrame {
             //establesco limite
             int lim = txtCantidad1.getText().length();
             //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 9)) {
+            if (this.EventoKeyType(lim, 3)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -1258,14 +1272,15 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecio2ActionPerformed
 
     private void txtPrecio2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyReleased
-    if (txtPrecio2.getText().equals("0")) {
+    char c = evt.getKeyChar();
+        if (txtPrecio2.getText().equals("0")) {
             txtPrecio2.setText("");
         }
-        if (!txtPrecio2.getText().equals("")) {
+        if (!txtPrecio2.getText().equals("") && c!=46) {
             int lim = txtPrecio2.getText().length();
-            if (lim >= 0 && Integer.parseInt(txtPrecio2.getText()) > 0) {
+            if (lim >= 0 && Float.parseFloat(txtPrecio2.getText()) > 0) {
                 float total = Float.parseFloat(txtPrecio2.getText()) + (Float.parseFloat(txtPrecio2.getText()) * (getIva() / 100));
-                txtTotal2.setText(String.valueOf(total));
+                txtTotal2.setText(String.valueOf(format.format(total)));
                 txtPrecio2.setBackground(Color.GREEN);
             }
             if (lim == 0) {
@@ -1277,7 +1292,17 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecio2KeyReleased
 
     private void txtPrecio2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyTyped
-        // TODO add your handling code here:
+    char c = evt.getKeyChar();
+        int lim = txtPrecio2.getText().length();
+        if (c >= 48 && c <= 57 || c == 46 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
     }//GEN-LAST:event_txtPrecio2KeyTyped
 
     private void txtCantidad2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad2KeyReleased
@@ -1389,6 +1414,20 @@ public class FInventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtDescripcion2KeyReleased
 
+    private void txtConsultar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultar2KeyTyped
+    char c = evt.getKeyChar();
+        int lim = txtConsultar2.getText().length();
+        if (c >= 48 && c <= 57 || c == 46 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtConsultar2KeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -1495,21 +1534,16 @@ public class FInventario extends javax.swing.JFrame {
     
     private boolean Verificacion2() {
         if (!txtDescripcion2.getText().equals("") && !txtMinimo2.getText().equals("")
-                && !txtMaximo1.getText().equals("") && !txtCantidad2.getText().equals("") && !txtPrecio2.getText().equals("")
+                && !txtMaximo2.getText().equals("") && !txtCantidad2.getText().equals("") && !txtPrecio2.getText().equals("")
                 && !txtTotal2.getText().equals("")) {
             if (Integer.parseInt(txtCantidad2.getText())<=Integer.parseInt(txtMaximo2.getText())) {
                 if (Integer.parseInt(txtMinimo2.getText())<Integer.parseInt(txtMaximo2.getText())){
-                    if (Integer.parseInt(txtCantidad2.getText())>Integer.parseInt(txtMinimo2.getText())){
-                            if (txtPrecio1.getText().charAt(txtPrecio1.getText().length()-1)=='.') {
+                            if (txtPrecio2.getText().charAt(txtPrecio2.getText().length()-1)=='.') {
                                 JOptionPane.showMessageDialog(null, "Corrija el precio", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
                                 return false;
                             } else {
                                 return true;
                             }
-                    } else {
-                    JOptionPane.showMessageDialog(null, "El minimo de inventario debe ser menor al maximo de inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
-                    return false;
-                    }
                 } else {
                     JOptionPane.showMessageDialog(null, "El minimo de inventario debe ser menor al maximo de inventario", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
                     return false;
