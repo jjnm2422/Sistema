@@ -1212,6 +1212,7 @@ public class FInventario extends javax.swing.JFrame {
         int codigo = 0;
         cbxTipo2.removeAllItems();
         cbxProveedor2.removeAllItems();
+       if(!txtConsultar2.getText().equals("")){
         String cedula = this.txtConsultar2.getText();
         if (!cedula.equals("")) {
             float total = 0;
@@ -1249,8 +1250,11 @@ public class FInventario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Campo Cedula vacio",
                     "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         }
+        }else{
+     JOptionPane.showMessageDialog(null, "No debe estar el campo vacio");
+         }
     }//GEN-LAST:event_btnBuscarActionPerformed
-
+    
     private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBActionPerformed
