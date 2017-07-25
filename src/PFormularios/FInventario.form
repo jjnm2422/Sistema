@@ -626,9 +626,9 @@
                 <Component class="javax.swing.JButton" name="btnIngresar2">
                   <Properties>
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="3" name="/PImagenes/agt_action_success.png"/>
+                      <Image iconType="3" name="/PImagenes/1497631492_edit.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Ingresar"/>
+                    <Property name="text" type="java.lang.String" value="Editar"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnIngresar2ActionPerformed"/>

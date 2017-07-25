@@ -674,8 +674,8 @@ public class FInventario extends javax.swing.JFrame {
         });
         jPanel4.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 200, 100, 30));
 
-        btnIngresar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
-        btnIngresar2.setText("Ingresar");
+        btnIngresar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497631492_edit.png"))); // NOI18N
+        btnIngresar2.setText("Editar");
         btnIngresar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresar2ActionPerformed(evt);

@@ -625,7 +625,7 @@ public class FProveedores extends javax.swing.JFrame {
         });
         jPanel1.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 220, 100, 30));
 
-        btnEditar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497312816_edit-find-replace.png"))); // NOI18N
+        btnEditar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497631492_edit.png"))); // NOI18N
         btnEditar2.setText("Editar");
         btnEditar2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
