@@ -5,6 +5,7 @@
 package PClases;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -13,6 +14,7 @@ import java.util.GregorianCalendar;
  */
 public class CFecha {
     private int dia, mes, año;
+    Date time;
     private String fecha1;
     Calendar fecha = new GregorianCalendar();
     
@@ -26,6 +28,11 @@ public class CFecha {
         dia = fecha.get(Calendar.DAY_OF_MONTH);
         String dia = this.dia>9?""+fecha.get(Calendar.DAY_OF_MONTH):"0"+fecha.get(Calendar.DAY_OF_MONTH);
         return dia;
+    }
+    
+    public Date getTime() {
+        time = fecha.getTime();
+        return time;
     }
 
     public String getMes() {

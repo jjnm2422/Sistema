@@ -5,14 +5,28 @@
  */
 package PFormularios;
 
+import com.sun.webkit.event.WCKeyEvent;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  *
@@ -22,37 +36,55 @@ public class FPedidos extends javax.swing.JFrame {
 
     private int x;
     private int y;
-private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/oie_canvas.png"));
-   
+    private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/oie_canvas.png"));
+    private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
+    private final ImageIcon iconError = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png"));
+    private final ImageIcon iconCorrecto = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/correcto.png"));
+    private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
+    private PClases.CFecha cFecha = new PClases.CFecha();
+    private String cedula;
+    private String fechainicio = "";
+    private String fechafinal = "";
+
     public FPedidos() {
+        this.setlook();
         initComponents();
         setLocationRelativeTo(null);
-        txtCodigo.setText(NumeroAleatorio());
     }
+
+    public void setlook() {
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setTitle(String title) {
         super.setTitle(title);
         lblTitulo.setText(title);
     }
-    
+
     private void restaurarVentana() {
-        if(getExtendedState() == JFrame.MAXIMIZED_BOTH){//1
+        if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {//1
             setExtendedState(JFrame.NORMAL);//2
-        }else{
+        } else {
             setExtendedState(JFrame.MAXIMIZED_BOTH);//3
         }
     }
-    public void Ajustar(JLabel label, ImageIcon icon){
+
+    public void Ajustar(JLabel label, ImageIcon icon) {
         //esta funcion ajusta un icono(parametro) al tamaño del label (parametro)
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
         label.setIcon(icono);
         this.repaint();
     }
-    
-    public String NumeroAleatorio(){
-    long numero = 0;
-    Random rd=new Random();
-    numero = rd.nextInt(99999999)+1;
-    /*try {
+
+    public String NumeroAleatorio() {
+        long numero = 0;
+        Random rd = new Random();
+        numero = rd.nextInt(99999999) + 1;
+        /*try {
         String sql = "select * from ventas where cod_venta= '"+numero+"'";
         ResultSet rs= operaciones.Consultar(sql);
         while(rs.next()){
@@ -61,7 +93,7 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
     } catch (SQLException e) {
        JOptionPane.showMessageDialog(null, e.getMessage());    
     }*/
-    return String.valueOf(numero);
+        return String.valueOf(numero);
     }
 
     /**
@@ -82,53 +114,58 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jButton5 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jTextField14 = new javax.swing.JTextField();
+        txtDescripcion = new javax.swing.JTextArea();
+        btnSalir = new javax.swing.JButton();
+        btnBorrar = new javax.swing.JButton();
+        txtCedula1 = new javax.swing.JTextField();
         lblTitulo18 = new javax.swing.JLabel();
-        jTextField7 = new javax.swing.JTextField();
         lblTitulo13 = new javax.swing.JLabel();
         lblTitulo14 = new javax.swing.JLabel();
-        jTextField16 = new javax.swing.JTextField();
+        txtApellido1 = new javax.swing.JTextField();
         lblTitulo9 = new javax.swing.JLabel();
         lblTitulo15 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        txtCantidad = new javax.swing.JTextField();
         lblTitulo19 = new javax.swing.JLabel();
         lblTitulo20 = new javax.swing.JLabel();
-        jTextField11 = new javax.swing.JTextField();
-        jTextField13 = new javax.swing.JTextField();
+        txtTotal = new javax.swing.JTextField();
+        txtNombre1 = new javax.swing.JTextField();
         lblTitulo35 = new javax.swing.JLabel();
-        jTextField30 = new javax.swing.JTextField();
-        jButton15 = new javax.swing.JButton();
-        lblTitulo32 = new javax.swing.JLabel();
-        txtCodigo = new javax.swing.JTextField();
+        btnGuardar = new javax.swing.JButton();
+        date1 = new com.toedter.calendar.JDateChooser();
+        btnBuscar = new javax.swing.JButton();
+        lblTitulo21 = new javax.swing.JLabel();
+        cbxEstado = new javax.swing.JComboBox<>();
+        date2 = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
         jButton14 = new javax.swing.JButton();
-        jTextField21 = new javax.swing.JTextField();
         lblTitulo27 = new javax.swing.JLabel();
-        jTextField22 = new javax.swing.JTextField();
         lblTitulo16 = new javax.swing.JLabel();
         lblTitulo17 = new javax.swing.JLabel();
-        jTextField23 = new javax.swing.JTextField();
         lblTitulo28 = new javax.swing.JLabel();
         lblTitulo29 = new javax.swing.JLabel();
-        jTextField24 = new javax.swing.JTextField();
         lblTitulo30 = new javax.swing.JLabel();
         lblTitulo33 = new javax.swing.JLabel();
-        jTextField27 = new javax.swing.JTextField();
-        jTextField28 = new javax.swing.JTextField();
         lblTitulo34 = new javax.swing.JLabel();
-        jTextField29 = new javax.swing.JTextField();
         lblTitulo31 = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        txtDescripcion2 = new javax.swing.JTextArea();
+        btnBuscar1 = new javax.swing.JButton();
+        date3 = new com.toedter.calendar.JDateChooser();
+        date4 = new com.toedter.calendar.JDateChooser();
+        lblTitulo22 = new javax.swing.JLabel();
+        cbxEstado1 = new javax.swing.JComboBox<>();
+        txtTotal1 = new javax.swing.JTextField();
+        txtCantidad1 = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        txtNombre2 = new javax.swing.JTextField();
+        txtApellido2 = new javax.swing.JTextField();
+        txtCedula2 = new javax.swing.JTextField();
+        btnBorrar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Control de Acceso");
+        setTitle("Pedidos");
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -166,9 +203,10 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
         jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 0, 30, 30));
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
         jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 20));
 
-        jLabel1.setBackground(new java.awt.Color(255, 102, 0));
+        jLabel1.setBackground(new java.awt.Color(0, 0, 255));
         jLabel1.setOpaque(true);
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 30));
 
@@ -184,54 +222,68 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
         });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 0), 4));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 4));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextArea1.setColumns(1);
-        jTextArea1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(1);
-        jTextArea1.setWrapStyleWord(true);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtDescripcion.setColumns(1);
+        txtDescripcion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtDescripcion.setLineWrap(true);
+        txtDescripcion.setRows(1);
+        txtDescripcion.setWrapStyleWord(true);
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyReleased(evt);
+            }
+        });
+        jScrollPane1.setViewportView(txtDescripcion);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 650, 130));
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
-        jButton5.setText("Salir");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
+        btnSalir.setText("Salir");
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 100, 30));
+        jPanel1.add(btnSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 270, 100, 30));
 
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
-        jButton9.setText("Borrar");
-        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, 100, 30));
+        btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
+        btnBorrar.setText("Borrar");
+        btnBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 270, 100, 30));
 
-        jTextField14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(jTextField14, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 130, -1));
+        txtCedula1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCedula1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCedula1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedula1KeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtCedula1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 100, -1));
 
         lblTitulo18.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo18.setText("Cedula/RIF");
         jPanel1.add(lblTitulo18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 20));
 
-        jTextField7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField7.setEnabled(false);
-        jPanel1.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 120, -1));
-
         lblTitulo13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo13.setText("Nombre");
-        jPanel1.add(lblTitulo13, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, 50, 20));
+        jPanel1.add(lblTitulo13, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 50, 20));
 
         lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo14.setText("Apellido");
-        jPanel1.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 60, 20));
+        jPanel1.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 60, 20));
 
-        jTextField16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField16.setEnabled(false);
-        jPanel1.add(jTextField16, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 130, -1));
+        txtApellido1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtApellido1.setEnabled(false);
+        jPanel1.add(txtApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 130, -1));
 
         lblTitulo9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo9.setText("Descripcion Detallada:");
@@ -239,56 +291,86 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
 
         lblTitulo15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTitulo15.setText("Fecha");
-        jPanel1.add(lblTitulo15, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 50, 20));
+        lblTitulo15.setText("Fecha Inicial");
+        jPanel1.add(lblTitulo15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 80, 20));
 
-        jTextField8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(jTextField8, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 230, 90, -1));
+        txtCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtCantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 90, -1));
 
         lblTitulo19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo19.setText("Cantidad Productos");
-        jPanel1.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 230, 130, 20));
+        lblTitulo19.setText("Estado del Pedido");
+        jPanel1.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, 110, 20));
 
         lblTitulo20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo20.setText("Precio Total");
-        jPanel1.add(lblTitulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 230, 80, 20));
+        jPanel1.add(lblTitulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 80, 20));
 
-        jTextField11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel1.add(jTextField11, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, 90, -1));
+        txtTotal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTotal.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTotalKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTotalKeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 90, -1));
 
-        jTextField13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField13.setEnabled(false);
-        jPanel1.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 120, -1));
+        txtNombre1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtNombre1.setEnabled(false);
+        jPanel1.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 120, -1));
 
         lblTitulo35.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo35.setText("Fecha Entrega");
-        jPanel1.add(lblTitulo35, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, -1, 20));
+        jPanel1.add(lblTitulo35, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 40, -1, 20));
 
-        jTextField30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField30.setEnabled(false);
-        jPanel1.add(jTextField30, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 130, -1));
-
-        jButton15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497479197_floppy_disk_save.png"))); // NOI18N
-        jButton15.setText("Guardar");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497479197_floppy_disk_save.png"))); // NOI18N
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 100, 30));
+        jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 100, 30));
 
-        lblTitulo32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo32.setText("Codigo del Pedido");
-        jPanel1.add(lblTitulo32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 140, 20));
+        date1.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jPanel1.add(date1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, 120, -1));
 
-        txtCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        txtCodigo.setEnabled(false);
-        jPanel1.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 40, 90, -1));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        btnBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnBuscarKeyTyped(evt);
+            }
+        });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 10, 30, 20));
+
+        lblTitulo21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo21.setText("Cantidad Productos");
+        jPanel1.add(lblTitulo21, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, 130, 20));
+
+        cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Completado" }));
+        jPanel1.add(cbxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 100, -1));
+
+        date2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jPanel1.add(date2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 130, -1));
 
         jTabbedPane1.addTab("Nuevo Pedido", jPanel1);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 0), 4));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 4));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
@@ -298,7 +380,7 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
                 jButton12ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 280, 100, 30));
+        jPanel4.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 280, 100, 30));
 
         jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497313212_trash.png"))); // NOI18N
         jButton13.setText("Eliminar");
@@ -307,7 +389,7 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
                 jButton13ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 100, 30));
+        jPanel4.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 280, 100, 30));
 
         jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497631492_edit.png"))); // NOI18N
         jButton14.setText("Editar");
@@ -316,97 +398,172 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
                 jButton14ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 100, 30));
-
-        jTextField21.setEditable(false);
-        jTextField21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel4.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 40, 120, -1));
+        jPanel4.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 280, 100, 30));
 
         lblTitulo27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo27.setText("Cedula/RIF");
-        jPanel4.add(lblTitulo27, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 40, 70, 20));
-
-        jTextField22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField22.setEnabled(false);
-        jPanel4.add(jTextField22, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 120, -1));
+        jPanel4.add(lblTitulo27, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 60, 70, 20));
 
         lblTitulo16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo16.setText("Nombre");
-        jPanel4.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 70, 20));
+        jPanel4.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 70, 20));
 
         lblTitulo17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo17.setText("Apellido");
-        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 50, 20));
-
-        jTextField23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField23.setEnabled(false);
-        jPanel4.add(jTextField23, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 150, -1));
+        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 60, 50, 20));
 
         lblTitulo28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo28.setText("Descripcion del Pedido:");
-        jPanel4.add(lblTitulo28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 150, 20));
+        jPanel4.add(lblTitulo28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 150, 20));
 
         lblTitulo29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo29.setText("Fecha");
-        jPanel4.add(lblTitulo29, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 40, 20));
-
-        jTextField24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField24.setEnabled(false);
-        jPanel4.add(jTextField24, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 240, 90, -1));
+        jPanel4.add(lblTitulo29, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 130, 20));
 
         lblTitulo30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo30.setText("Cantidad Productos");
-        jPanel4.add(lblTitulo30, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, 140, 20));
+        jPanel4.add(lblTitulo30, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 140, 20));
 
         lblTitulo33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo33.setText("Precio Total");
-        jPanel4.add(lblTitulo33, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 240, 80, 20));
-
-        jTextField27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField27.setEnabled(false);
-        jPanel4.add(jTextField27, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 240, 90, -1));
-
-        jTextField28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField28.setEnabled(false);
-        jPanel4.add(jTextField28, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 40, 130, -1));
+        jPanel4.add(lblTitulo33, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 230, 80, 20));
 
         lblTitulo34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo34.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo34.setText("Fecha Entrega");
-        jPanel4.add(lblTitulo34, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 10, -1, 20));
-
-        jTextField29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField29.setEnabled(false);
-        jPanel4.add(jTextField29, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 120, -1));
+        jPanel4.add(lblTitulo34, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 120, 20));
 
         lblTitulo31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo31.setText("Codigo del Pedido");
-        jPanel4.add(lblTitulo31, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 140, 20));
+        jPanel4.add(lblTitulo31, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 130, 20));
 
-        jTextField25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel4.add(jTextField25, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 10, 90, -1));
+        txtDescripcion2.setColumns(1);
+        txtDescripcion2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtDescripcion2.setLineWrap(true);
+        txtDescripcion2.setRows(1);
+        txtDescripcion2.setWrapStyleWord(true);
+        txtDescripcion2.setEnabled(false);
+        txtDescripcion2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescripcion2KeyReleased(evt);
+            }
+        });
+        jScrollPane2.setViewportView(txtDescripcion2);
 
-        jTextArea2.setColumns(1);
-        jTextArea2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(1);
-        jTextArea2.setWrapStyleWord(true);
-        jTextArea2.setEnabled(false);
-        jScrollPane2.setViewportView(jTextArea2);
+        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 650, 100));
 
-        jPanel4.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 650, 130));
+        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
+        btnBuscar1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                btnBuscar1KeyTyped(evt);
+            }
+        });
+        jPanel4.add(btnBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 30, 20));
+
+        date3.setEnabled(false);
+        date3.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jPanel4.add(date3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 150, -1));
+
+        date4.setEnabled(false);
+        date4.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jPanel4.add(date4, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 30, 120, -1));
+
+        lblTitulo22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo22.setText("Estado del Pedido");
+        jPanel4.add(lblTitulo22, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, 110, 20));
+
+        cbxEstado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Completado" }));
+        cbxEstado1.setEnabled(false);
+        jPanel4.add(cbxEstado1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 100, -1));
+
+        txtTotal1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTotal1.setEnabled(false);
+        txtTotal1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTotal1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTotal1KeyTyped(evt);
+            }
+        });
+        jPanel4.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 90, -1));
+
+        txtCantidad1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCantidad1.setEnabled(false);
+        txtCantidad1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCantidad1ActionPerformed(evt);
+            }
+        });
+        txtCantidad1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidad1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidad1KeyTyped(evt);
+            }
+        });
+        jPanel4.add(txtCantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 230, 90, -1));
+
+        txtCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyTyped(evt);
+            }
+        });
+        jPanel4.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 30, 130, -1));
+
+        txtNombre2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtNombre2.setEnabled(false);
+        jPanel4.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 120, -1));
+
+        txtApellido2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtApellido2.setEnabled(false);
+        jPanel4.add(txtApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 60, 130, -1));
+
+        txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCedula2.setEnabled(false);
+        txtCedula2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyTyped(evt);
+            }
+        });
+        jPanel4.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 60, 100, -1));
+
+        btnBorrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
+        btnBorrar1.setText("Borrar");
+        btnBorrar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBorrar1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, 100, 30));
 
         jTabbedPane1.addTab("Consultar Pedidos", jPanel4);
 
         jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 680, 360));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 470));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
-    x = evt.getX();
-    y = evt.getY();
+        x = evt.getX();
+        y = evt.getY();
     }//GEN-LAST:event_jPanel3MousePressed
 
     private void jPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseDragged
@@ -423,25 +580,114 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
         setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalirActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
+        String codigo = txtCodigo.getText();
+        SimpleDateFormat formateador2 = new SimpleDateFormat("dd/MM/yyyy");
+        if (verificacion2()) {
+            try {
+                String sql = "update pedidos set desped=?, culped=?, preped=?,"
+                        + "canped=?, estped=? where codped = '" + codigo + "'";
+
+                PreparedStatement ps = acciones.Actualizar(sql);
+                ps.setString(1, this.txtDescripcion2.getText());
+                ps.setString(2, formateador2.format(date4.getDate()));
+                ps.setInt(3, Integer.parseInt(txtTotal1.getText()));
+                ps.setInt(4, Integer.parseInt(txtCantidad1.getText()));
+                ps.setString(5, cbxEstado1.getSelectedItem().toString());
+                int n = ps.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Pedido Actualizado correctamente", "Informacion",
+                            JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    this.Habilitar(2);
+                    this.Borrar2();
+                    this.Pintar(2);
+                }
+                acciones.conn.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al actualizar datos " + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
+            }
+        }
     }//GEN-LAST:event_jButton14ActionPerformed
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
+        if (txtCodigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "El codigo esta vacio",
+                    "Informacion", JOptionPane.PLAIN_MESSAGE, iconAd);
+        } else {
+            if (cbxEstado1.getSelectedItem().toString().equals("Completado")) {
+                JOptionPane.showMessageDialog(null, "El pedido ha sido completado y no se puede Eliminar",
+                        "Informacion", JOptionPane.PLAIN_MESSAGE, iconAd);
+            } else {
+                int seleccion = JOptionPane.showOptionDialog(
+                        null,
+                        "¿Esta seguro que dese Borrar los datos del pediddo con codigo " + txtCodigo.getText() + "?",
+                        "Advertencia",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, // null para icono por defecto.
+                        new Object[]{"Si", "No"}, // null para YES, NO y CANCEL
+                        "No");
+                if (seleccion == 0) {
+                    try {
+                        String sql = "delete from pedidos where codped='" + txtCodigo.getText() + "'";
+                        Statement st = acciones.Eliminar(sql);
+                        int n = st.executeUpdate(sql);
+                        if (n > 0) {
+                            JOptionPane.showMessageDialog(null, "Pedido eliminado correctamente del sistema", "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                            this.Borrar2();
+                            this.Habilitar(2);
+                            this.Pintar(2);
+                        }
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al eliminar pedido\ncodigo error:" + e.getMessage(),
+                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                }
+            }
+        }
+
+
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton12ActionPerformed
 
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton15ActionPerformed
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        SimpleDateFormat formateador2 = new SimpleDateFormat("dd/MM/yyyy");
+
+        if (verificacion()) {
+            try {
+                String sql = "insert into pedidos(desped, fecped, culped, estped, cedcli, canped, preped) values(?,?,?,?,?,?,?)";
+                PreparedStatement ps = acciones.Ingresar(sql);
+                ps.setString(1, txtDescripcion.getText());
+                ps.setString(2, formateador2.format(date2.getDate()));
+                ps.setString(3, formateador2.format(date1.getDate()));
+                ps.setString(4, cbxEstado.getSelectedItem().toString());
+                ps.setString(5, this.cedula);
+                ps.setInt(6, Integer.parseInt(txtCantidad.getText()));
+                ps.setInt(7, Integer.parseInt(txtTotal.getText()));
+                int n = ps.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Pedido ingresado con exito",
+                            "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    this.Borrar();
+                    this.Pintar(1);
+                }
+
+                //Cambie Exception por SQLException para poder controlar el error
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al guardar pedido\n" + e,
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void jTabbedPane1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jTabbedPane1StateChanged
 
@@ -449,50 +695,276 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
 //  Para actulizar la consulta de pedidos en caso de que se inserte uno nuevo
-        System.out.println(jTabbedPane1.getSelectedIndex());
+
     }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void txtCedula1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula1KeyReleased
+
+    }//GEN-LAST:event_txtCedula1KeyReleased
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
+        if (txtCedula1.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo cedula", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+        } else {
+            String cedula = txtCedula1.getText();
+            boolean resultado = false;
+            try {
+                String sql = "select * from clientes where cedcli = '" + cedula + "'";
+                ResultSet rs = acciones.Consultar(sql);
+                while (rs.next()) {
+                    resultado = true;
+                    txtNombre1.setText(rs.getString("nomcli"));
+                    txtApellido1.setText(rs.getString("apecli"));
+                    this.cedula = rs.getString("cedcli");
+//                    txtCedula2.setText(rs.getString("cedcli"));
+//                    txtTelefono21.setText(rs.getString("telcli"));
+//                    txtTelefono22.setText(rs.getString("tel2cli"));
+//                    txtDireccion2.setText(rs.getString("dircli"));
+//                    txtComentario2.setText(rs.getString("comcli"));
+                }
+                if (resultado == false) {
+                    JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
+                    resultado = false;
+                }
+                acciones.conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnBuscarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarKeyTyped
+
+    }//GEN-LAST:event_btnBuscarKeyTyped
+
+    private void txtCedula1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula1KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCedula1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 9)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCedula1KeyTyped
+
+    private void txtTotalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotalKeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtTotal.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 10)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTotalKeyTyped
+
+    private void txtCantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCantidad.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 4)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantidadKeyTyped
+
+    private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
+        this.Borrar();
+        this.Pintar(1);
+    }//GEN-LAST:event_btnBorrarActionPerformed
+
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        SimpleDateFormat formateador2 = new SimpleDateFormat("dd/MM/yyyy");
+        if (txtCodigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo codigo", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+        } else {
+            String codigo = txtCodigo.getText();
+            boolean resultado = false;
+            try {
+                String sql = "select * from pedidos inner join clientes"
+                        + " on clientes.cedcli = pedidos.cedcli where codped = '" + codigo + "'";
+                ResultSet rs = acciones.Consultar(sql);
+                while (rs.next()) {
+                    resultado = true;
+                    txtNombre2.setText(rs.getString("nomcli"));
+                    txtApellido2.setText(rs.getString("apecli"));
+                    txtCedula2.setText(rs.getString("cedcli"));
+                    try {
+                        date3.setDate(formateador2.parse(rs.getString("fecped")));
+                        date4.setDate(formateador2.parse(rs.getString("culped")));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(FPedidos.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    txtDescripcion2.setText(rs.getString("desped"));
+                    txtTotal1.setText(String.valueOf(rs.getInt("preped")));
+                    txtCantidad1.setText(String.valueOf(rs.getInt("canped")));
+                    cbxEstado1.setSelectedItem(rs.getString("estped"));
+                    if ("Pendiente".equals(rs.getString("estped"))) {
+                        this.Habilitar(1);
+                        txtTotal1.setBackground(Color.WHITE);
+                        txtCantidad1.setBackground(Color.WHITE);
+                    }
+                }
+                if (resultado == false) {
+                    JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
+                    resultado = false;
+                    this.Habilitar(2);
+                }
+                acciones.conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al consultar Pedidos\ncodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
+        }
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
+
+    private void btnBuscar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscar1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscar1KeyTyped
+
+    private void txtTotal1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotal1KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtTotal1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 10)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTotal1KeyTyped
+
+    private void txtCantidad1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad1KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCantidad1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 4)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCantidad1KeyTyped
+
+    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCodigoKeyReleased
+
+    private void txtCodigoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCodigo.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 10)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtCodigoKeyTyped
+
+    private void txtCedula2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula2KeyReleased
+
+    private void txtCedula2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula2KeyTyped
+
+    private void btnBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar1ActionPerformed
+        this.Borrar2();
+        this.Habilitar(2);
+        this.Pintar(2);// TODO add your handling code here:
+    }//GEN-LAST:event_btnBorrar1ActionPerformed
+
+    private void txtDescripcion2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcion2KeyReleased
+        if (txtDescripcion2.getText().equals("")) {
+            txtDescripcion2.setBackground(Color.RED);
+        } else {
+            txtDescripcion2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDescripcion2KeyReleased
+
+    private void txtTotal1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotal1KeyReleased
+        if (txtTotal1.getText().equals("")) {
+            txtTotal1.setBackground(Color.RED);
+        } else {
+            txtTotal1.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtTotal1KeyReleased
+
+    private void txtCantidad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidad1ActionPerformed
+
+    }//GEN-LAST:event_txtCantidad1ActionPerformed
+
+    private void txtCantidad1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad1KeyReleased
+        if (txtCantidad1.getText().equals("")) {
+            txtCantidad1.setBackground(Color.RED);
+        } else {
+            txtCantidad1.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtCantidad1KeyReleased
+
+    private void txtCantidadKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadKeyReleased
+        if (txtCantidad.getText().equals("")) {
+            txtCantidad.setBackground(Color.RED);
+        } else {
+            txtCantidad.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtCantidadKeyReleased
+
+    private void txtTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotalKeyReleased
+        if (txtTotal.getText().equals("")) {
+            txtTotal.setBackground(Color.RED);
+        } else {
+            txtTotal.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtTotalKeyReleased
+
+    private void txtDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyReleased
+        if (txtDescripcion.getText().equals("")) {
+            txtDescripcion.setBackground(Color.RED);
+        } else {
+            txtDescripcion.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDescripcionKeyReleased
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FPedidos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -503,15 +975,24 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnBorrar1;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscar1;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.ButtonGroup buttonGroup;
+    private javax.swing.JComboBox<String> cbxEstado;
+    private javax.swing.JComboBox<String> cbxEstado1;
+    private com.toedter.calendar.JDateChooser date1;
+    private com.toedter.calendar.JDateChooser date2;
+    private com.toedter.calendar.JDateChooser date3;
+    private com.toedter.calendar.JDateChooser date4;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
@@ -519,23 +1000,6 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField11;
-    private javax.swing.JTextField jTextField13;
-    private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField16;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
-    private javax.swing.JTextField jTextField29;
-    private javax.swing.JTextField jTextField30;
-    private javax.swing.JTextField jTextField7;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo13;
     private javax.swing.JLabel lblTitulo14;
@@ -545,16 +1009,149 @@ private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource
     private javax.swing.JLabel lblTitulo18;
     private javax.swing.JLabel lblTitulo19;
     private javax.swing.JLabel lblTitulo20;
+    private javax.swing.JLabel lblTitulo21;
+    private javax.swing.JLabel lblTitulo22;
     private javax.swing.JLabel lblTitulo27;
     private javax.swing.JLabel lblTitulo28;
     private javax.swing.JLabel lblTitulo29;
     private javax.swing.JLabel lblTitulo30;
     private javax.swing.JLabel lblTitulo31;
-    private javax.swing.JLabel lblTitulo32;
     private javax.swing.JLabel lblTitulo33;
     private javax.swing.JLabel lblTitulo34;
     private javax.swing.JLabel lblTitulo35;
     private javax.swing.JLabel lblTitulo9;
+    private javax.swing.JTextField txtApellido1;
+    private javax.swing.JTextField txtApellido2;
+    private javax.swing.JTextField txtCantidad;
+    private javax.swing.JTextField txtCantidad1;
+    private javax.swing.JTextField txtCedula1;
+    private javax.swing.JTextField txtCedula2;
     private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextArea txtDescripcion;
+    private javax.swing.JTextArea txtDescripcion2;
+    private javax.swing.JTextField txtNombre1;
+    private javax.swing.JTextField txtNombre2;
+    private javax.swing.JTextField txtTotal;
+    private javax.swing.JTextField txtTotal1;
     // End of variables declaration//GEN-END:variables
+
+    private boolean EventoKeyType(int valor, int limitacion) {
+        //pido el valor del text y pido el valor limitante
+        if (valor >= limitacion) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean verificacion() {
+        SimpleDateFormat formateador = new SimpleDateFormat("yyyyMMdd");
+        if (!txtDescripcion.equals("") && !txtTotal.getText().equals("") && !txtCantidad.getText().equals("")
+                && !txtNombre1.getText().equals("") && !txtApellido1.getText().equals("") && date1.getDate() != null && date2.getDate() != null) {
+            fechafinal = formateador.format(date1.getDate());
+            fechainicio = formateador.format(date2.getDate());
+            if (Integer.parseInt(fechafinal) > Integer.parseInt(fechainicio)) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "La fecha de Entrega debe ser Mayor a la fecha inicial",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                return false;
+            }
+        } else {
+
+            JOptionPane.showMessageDialog(null, "Verifique que los campos no esten vacios",
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            return false;
+        }
+    }
+
+    private boolean verificacion2() {
+        SimpleDateFormat formateador = new SimpleDateFormat("yyyyMMdd");
+        if (!txtDescripcion2.equals("") && !txtTotal1.getText().equals("") && !txtCantidad1.getText().equals("")
+                && !txtNombre2.getText().equals("") && !txtApellido2.getText().equals("") && date3.getDate() != null && date4.getDate() != null) {
+            fechafinal = formateador.format(date4.getDate());
+            fechainicio = formateador.format(date3.getDate());
+            if (Integer.parseInt(fechafinal) > Integer.parseInt(fechainicio)) {
+                if (cbxEstado1.getSelectedItem().toString().equals("Completado")) {
+                    JOptionPane.showMessageDialog(null, "El pedido ha sido completado y no se puede editar",
+                            "Informacion", JOptionPane.PLAIN_MESSAGE, iconAd);
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "La fecha de Entrega debe ser Mayor a la fecha inicial",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Verifique que los campos no esten vacios",
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            return false;
+        }
+    }
+
+    private void Borrar() {
+        txtNombre1.setText("");
+        cbxEstado.setSelectedIndex(0);
+        txtApellido1.setText("");
+        date1.setDate(null);
+        date2.setDate(null);
+        txtCedula1.setText("");
+        txtTotal.setText("");
+        txtCantidad.setText("");
+        txtDescripcion.setText("");
+    }
+
+    private void Pintar(int num) {
+        switch (num) {
+            case 1:
+                txtTotal.setBackground(Color.WHITE);
+                txtCantidad.setBackground(Color.WHITE);
+                txtDescripcion.setBackground(Color.WHITE);
+                break;
+            case 2:
+                txtTotal1.setBackground(new Color(240, 240, 240));
+                txtCantidad1.setBackground(new Color(240, 240, 240));
+                txtDescripcion2.setBackground(Color.WHITE);
+                break;
+        }
+
+    }
+
+    private void Borrar2() {
+        txtNombre2.setText("");
+        cbxEstado1.setSelectedIndex(0);
+        txtApellido2.setText("");
+        date3.setDate(null);
+        date4.setDate(null);
+        txtCedula2.setText("");
+        txtTotal1.setText("");
+        txtCantidad1.setText("");
+        txtDescripcion2.setText("");
+    }
+
+    private void Habilitar(int var) {
+        switch (var) {
+            case 1:
+                cbxEstado1.setEnabled(true);
+                date4.setEnabled(true);
+                txtCodigo.setEnabled(false);
+                txtTotal1.setEnabled(true);
+                txtCantidad1.setEnabled(true);
+                txtDescripcion2.setEnabled(true);
+                break;
+            case 2:
+                cbxEstado1.setEnabled(false);
+                date4.setEnabled(false);
+                txtCodigo.setEnabled(true);
+                txtTotal1.setEnabled(false);
+                txtCantidad1.setEnabled(false);
+                txtDescripcion2.setEnabled(false);
+                break;
+            default:
+
+        }
+
+    }
 }
