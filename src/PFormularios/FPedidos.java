@@ -27,6 +27,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,11 +46,14 @@ public class FPedidos extends javax.swing.JFrame {
     private String cedula;
     private String fechainicio = "";
     private String fechafinal = "";
+    private DefaultTableModel model;
 
     public FPedidos() {
         this.setlook();
         initComponents();
+        this.LlenarTabla();
         setLocationRelativeTo(null);
+
     }
 
     public void setlook() {
@@ -163,6 +167,19 @@ public class FPedidos extends javax.swing.JFrame {
         txtApellido2 = new javax.swing.JTextField();
         txtCedula2 = new javax.swing.JTextField();
         btnBorrar1 = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        txtB = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        cbxFiltro = new javax.swing.JComboBox<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tbl = new javax.swing.JTable(){
+            public boolean isCellEditable(int rowIndex, int colIndex) {
+                return false; //Disallow the editing of any cell
+            }
+        };
+        btnSalir5 = new javax.swing.JButton();
+        lblTitulo32 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pedidos");
@@ -367,7 +384,7 @@ public class FPedidos extends javax.swing.JFrame {
         date2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jPanel1.add(date2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 130, -1));
 
-        jTabbedPane1.addTab("Nuevo Pedido", jPanel1);
+        jTabbedPane1.addTab("Nuevo", jPanel1);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 255), 4));
@@ -432,7 +449,7 @@ public class FPedidos extends javax.swing.JFrame {
         lblTitulo34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo34.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTitulo34.setText("Fecha Entrega");
-        jPanel4.add(lblTitulo34, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 120, 20));
+        jPanel4.add(lblTitulo34, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 100, 20));
 
         lblTitulo31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -552,7 +569,89 @@ public class FPedidos extends javax.swing.JFrame {
         });
         jPanel4.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, 100, 30));
 
-        jTabbedPane1.addTab("Consultar Pedidos", jPanel4);
+        jTabbedPane1.addTab("Consultar", jPanel4);
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Pedidos Registrados", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 0, 12))); // NOI18N
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel25.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jLabel25.setText("FILTROS:");
+        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 60, 20));
+
+        txtB.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        txtB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBActionPerformed(evt);
+            }
+        });
+        txtB.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtBKeyTyped(evt);
+            }
+        });
+        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 160, 20));
+
+        jLabel26.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        jLabel26.setText("BUSQUEDA");
+        jPanel6.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 60, 20));
+
+        cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Fecha Inicio", "Fecha Entrega" }));
+        cbxFiltro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxFiltroActionPerformed(evt);
+            }
+        });
+        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 150, 20));
+
+        tbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMouseClicked(evt);
+            }
+        });
+        tbl.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tblKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tblKeyReleased(evt);
+            }
+        });
+        jScrollPane5.setViewportView(tbl);
+
+        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 630, 210));
+
+        btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
+        btnSalir5.setText("Salir");
+        btnSalir5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalir5ActionPerformed(evt);
+            }
+        });
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 290, 110, 30));
+
+        lblTitulo32.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        lblTitulo32.setForeground(new java.awt.Color(255, 51, 51));
+        lblTitulo32.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTitulo32.setText("Doble Clic en la tabla para Actualizar");
+        jPanel6.add(lblTitulo32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 220, 20));
+
+        jTabbedPane1.addTab("Listado", jPanel6);
 
         jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 680, 360));
 
@@ -961,6 +1060,109 @@ public class FPedidos extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtDescripcionKeyReleased
 
+    private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBActionPerformed
+
+    private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
+    int c = evt.getKeyChar();
+        int var = cbxFiltro.getSelectedIndex();
+        if (txtB.getText().equals("")) {
+            this.LlenarTabla();
+        }else{
+ //Codigo 
+        if (var == 0) {
+            if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK ) {
+                    try {
+                        String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
+                        String sql = "select * from pedidos inner join clientes on pedidos.cedcli = clientes.cedcli"
+                                + " where codped like '"+txtB.getText()+"%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[8];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codped");
+                            fila[1] = rs.getString("fecped");
+                            fila[2] = rs.getString("culped");
+                            fila[3] = rs.getString("estped");
+                            fila[4] = rs.getString("canped");
+                            fila[5] = rs.getString("preped");
+                            fila[6] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                    
+            } else {
+                txtB.setText("");
+                JOptionPane.showMessageDialog(null, "Ingrese solo numeros o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+            }
+        } 
+      //Fecha de inicio 
+        if (var==1){
+            if (c >= 47 && c <= 57 || c == WCKeyEvent.VK_BACK ||c == WCKeyEvent.VK_TAB) {
+                    try {
+                        String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
+                        String sql = "select * from pedidos inner join clientes on pedidos.cedcli = clientes.cedcli"
+                                + " where fecped like '"+txtB.getText()+"%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[8];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codped");
+                            fila[1] = rs.getString("fecped");
+                            fila[2] = rs.getString("culped");
+                            fila[3] = rs.getString("estped");
+                            fila[4] = rs.getString("canped");
+                            fila[5] = rs.getString("preped");
+                            fila[6] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+            } else {
+                txtB.setText("");
+                JOptionPane.showMessageDialog(null, "Ingrese una fecha valida en formato dd/mm/aaaa o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+            }
+        }
+    }
+    }//GEN-LAST:event_txtBKeyReleased
+
+    private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
+    
+    }//GEN-LAST:event_txtBKeyTyped
+
+    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxFiltroActionPerformed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.LlenarTabla();
+            this.txtB.setText("");
+        }
+    }//GEN-LAST:event_tblMouseClicked
+
+    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
+
+    }//GEN-LAST:event_tblKeyPressed
+
+    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
+
+    }//GEN-LAST:event_tblKeyReleased
+
+    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
+        this.dispose();    // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -981,9 +1183,11 @@ public class FPedidos extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JButton btnSalir5;
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.JComboBox<String> cbxEstado;
     private javax.swing.JComboBox<String> cbxEstado1;
+    private javax.swing.JComboBox<String> cbxFiltro;
     private com.toedter.calendar.JDateChooser date1;
     private com.toedter.calendar.JDateChooser date2;
     private com.toedter.calendar.JDateChooser date3;
@@ -994,11 +1198,15 @@ public class FPedidos extends javax.swing.JFrame {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo13;
@@ -1016,12 +1224,15 @@ public class FPedidos extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo29;
     private javax.swing.JLabel lblTitulo30;
     private javax.swing.JLabel lblTitulo31;
+    private javax.swing.JLabel lblTitulo32;
     private javax.swing.JLabel lblTitulo33;
     private javax.swing.JLabel lblTitulo34;
     private javax.swing.JLabel lblTitulo35;
     private javax.swing.JLabel lblTitulo9;
+    private javax.swing.JTable tbl;
     private javax.swing.JTextField txtApellido1;
     private javax.swing.JTextField txtApellido2;
+    private javax.swing.JTextField txtB;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCantidad1;
     private javax.swing.JTextField txtCedula1;
@@ -1153,5 +1364,30 @@ public class FPedidos extends javax.swing.JFrame {
 
         }
 
+    }
+
+    private void LlenarTabla() {
+                    try {
+                        String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
+                        String sql = "select * from pedidos inner join clientes on "
+                                + "pedidos.cedcli = clientes.cedcli";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[8];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codped");
+                            fila[1] = rs.getString("fecped");
+                            fila[2] = rs.getString("culped");
+                            fila[3] = rs.getString("estped");
+                            fila[4] = rs.getString("canped");
+                            fila[5] = rs.getString("preped");
+                            fila[6] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
     }
 }
