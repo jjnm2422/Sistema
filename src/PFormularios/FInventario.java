@@ -439,14 +439,14 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 20));
 
-        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel1.setBackground(new java.awt.Color(0, 255, 255));
         jLabel1.setOpaque(true);
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 30));
 
         jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 4));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 255), 4));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitulo5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -1106,77 +1106,598 @@ public class FInventario extends javax.swing.JFrame {
         setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton10ActionPerformed
 
-    private void txtTotal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal1ActionPerformed
+    private void cbxFiltro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltro1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotal1ActionPerformed
+    }//GEN-LAST:event_cbxFiltro1ActionPerformed
 
-    private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
-        if (Verificacion1()) {
-            float total = 0;
-            try {
-                String sql = "insert into inventario(tippro, desprod, canprod,"
-                        + "preprod, minprod, maxprod, codpro) values(?,?,?,?,?,?,?)";
-                PreparedStatement ps = acciones.Ingresar(sql);
-                total = Integer.parseInt(txtPrecio1.getText()) + (Integer.parseInt(txtPrecio1.getText()) * (getIva() / 100));
-                ps.setInt(1, getCodTipoProducto(cbxTipo1.getSelectedItem().toString()));
-                ps.setString(2, txtDescripcion1.getText());
-                ps.setInt(3, Integer.parseInt(txtCantidad1.getText()));
-                ps.setFloat(4, total);
-                ps.setInt(5, Integer.parseInt(txtMinimo1.getText()));
-                ps.setInt(6, Integer.parseInt(txtMaximo1.getText()));
-                ps.setInt(7, getCodProveedores(cbxProveedor1.getSelectedItem().toString()));
-                int n = ps.executeUpdate();
-                if (n > 0) {
-                    JOptionPane.showMessageDialog(null, "Producto ingresado con exito al inventario",
-                            "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
-                    this.Borrar(1);
-                    Pintar(1);
-                    this.Llenar();
+    private void txtB1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtB1KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtB1KeyTyped
+
+    private void txtB1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtB1KeyReleased
+        int c = evt.getKeyChar();
+        if (!txtB1.getText().equals("")) {
+            int var = cbxFiltro1.getSelectedIndex();
+            if (var==0) {
+                if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+                    try {
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                        + " on tipoproducto.codtip = inventario.tippro "
+                        + "where codprod = '" + txtB1.getText() + "'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl1.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo Numeros o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB1.setText("");
+                    this.Llenar2();
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error al guardar cliente\ncodigo error:" + e.getMessage(),
-                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
+            //compuebo el cbx opcion 2
+            if (var==1) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                    try {
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                        + " on tipoproducto.codtip = inventario.tippro "
+                        + "where tipprod like '" + txtB1.getText() + "%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl1.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB1.setText("");
+                    this.Llenar2();
+                }
+            }
+            //compuebo el cbx opcion 3
+            if (var==2) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                    try {
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                        + " on tipoproducto.codtip = inventario.tippro "
+                        + "where desprod like '" + txtB1.getText() + "%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl1.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB1.setText("");
+                    this.Llenar2();
+                }
+            }
+        } else {
+            this.Llenar2();
+        }
+    }//GEN-LAST:event_txtB1KeyReleased
+
+    private void txtB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtB1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtB1ActionPerformed
+
+    private void txtMaximo4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo4KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaximo4KeyTyped
+
+    private void txtMaximo4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo4KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaximo4KeyReleased
+
+    private void txtCantidad4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad4KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidad4KeyTyped
+
+    private void txtCantidad4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad4KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidad4KeyReleased
+
+    private void txtIngresoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIngresoKeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtIngreso.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 3)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtIngresoKeyTyped
+
+    private void txtIngresoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIngresoKeyReleased
+        int lim = txtIngreso.getText().length();
+        if (!txtIngreso.getText().equals("")) {
+            if (lim >= 0 && Integer.parseInt(txtIngreso.getText()) > 0) {
+                txtIngreso.setBackground(Color.GREEN);
             }
         }
-    }//GEN-LAST:event_btnIngresar1ActionPerformed
+        if (lim == 0) {
+            txtIngreso.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtIngresoKeyReleased
 
-    private void btnBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar1ActionPerformed
-        Borrar(1);
-        Pintar(1);// this.Borrar(1);
-    }//GEN-LAST:event_btnBorrar1ActionPerformed
+    private void txtCodigo4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigo4KeyTyped
 
-    private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
-        dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir1ActionPerformed
+    }//GEN-LAST:event_txtCodigo4KeyTyped
 
-    private void cbxProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor1ActionPerformed
+    private void txtCodigo4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigo4KeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbxProveedor1ActionPerformed
+    }//GEN-LAST:event_txtCodigo4KeyReleased
 
-    private void txtPrecio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio1ActionPerformed
+    private void tbl1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl1KeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio1ActionPerformed
+    }//GEN-LAST:event_tbl1KeyReleased
 
-    private void txtMinimo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimo1ActionPerformed
+    private void tbl1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl1KeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtMinimo1ActionPerformed
+    }//GEN-LAST:event_tbl1KeyPressed
 
-    private void btnBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar2ActionPerformed
-        Borrar(2);
-        Pintar(2);
-        Habilitar(2);
-    }//GEN-LAST:event_btnBorrar2ActionPerformed
+    private void tbl1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl1MouseClicked
+        if (evt.getClickCount() == 2) {
+            this.Llenar2();
+        } else {
+            txtIngreso.setEnabled(true);
+            this.Pintar(4);
+            int fila = this.tbl1.getSelectedRow();
+            String codigo = tbl1.getValueAt(fila, 0).toString();
+            try {
+                String sql = "select * from inventario inner join tipoproducto"
+                + " on tipoproducto.codtip = inventario.tippro where codprod = '" + codigo + "'";
+                ResultSet rs = acciones.Consultar(sql);
+                while (rs.next()) {
+                    if (rs.getString("codprod") != "") {
+                        this.txtCodigo4.setText(rs.getString("codprod"));
+                    }
 
-    private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
+                    if (rs.getString("canprod") != "") {
+                        this.txtCantidad4.setText(rs.getString("canprod"));
+                    }
+
+                    if (rs.getString("maxprod") != "") {
+                        this.txtMaximo4.setText(rs.getString("maxprod"));
+                    }
+
+                    if (rs.getString("minprod") != "") {
+                        this.txtMinimo4.setText(rs.getString("minprod"));
+                    }
+                }
+                acciones.conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Datos incompletos\n" + e);
+            }
+
+        }
+    }//GEN-LAST:event_tbl1MouseClicked
+
+    private void btnIngresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar3ActionPerformed
+        if (Verificacion3()) {
+            try {
+                String sql = "update inventario set canprod=? where codprod= '" + txtCodigo4.getText() + "'";
+                PreparedStatement ps = acciones.Actualizar(sql);
+                ps.setInt(1, Integer.parseInt(txtIngreso.getText()) + Integer.parseInt(txtCantidad4.getText()));
+                int n = ps.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Cantidad Actualizada con exito",
+                        "Correcto", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    this.Borrar(3);
+                    this.Habilitar(3);
+                    this.Pintar(3);
+                    this.Llenar2();
+                }
+                acciones.conn.close();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al guardar Producto\nCodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
+        }
+    }//GEN-LAST:event_btnIngresar3ActionPerformed
+
+    private void btnSalir3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir3ActionPerformed
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir3ActionPerformed
+
+    private void btnBorrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar3ActionPerformed
+        this.Borrar(3);
+    }//GEN-LAST:event_btnBorrar3ActionPerformed
+
+    private void txtMinimo4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo4KeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir2ActionPerformed
+    }//GEN-LAST:event_txtMinimo4KeyTyped
+
+    private void txtMinimo4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo4KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMinimo4KeyReleased
+
+    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
+        this.dispose();     // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir5ActionPerformed
+
+    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
+
+    }//GEN-LAST:event_tblKeyReleased
+
+    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
+
+    }//GEN-LAST:event_tblKeyPressed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+        if (evt.getClickCount() == 2) {
+            this.Llenar();
+            this.txtB.setText("");
+        }
+    }//GEN-LAST:event_tblMouseClicked
+
+    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxFiltroActionPerformed
+
+    private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
+
+    }//GEN-LAST:event_txtBKeyTyped
+
+    private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
+        int c = evt.getKeyChar();
+        if (!txtB.getText().equals("")) {
+            int var = cbxFiltro.getSelectedIndex();
+            if (var==0) {
+                if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+                    try {
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                        + " on tipoproducto.codtip = inventario.tippro "
+                        + "where codprod = '" + txtB.getText() + "'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo Numeros o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB.setText("");
+                }
+            }
+            //compuebo el cbx opcion 2
+            if (var==1) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                    try {
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                        + " on tipoproducto.codtip = inventario.tippro "
+                        + "where tipprod like '" + txtB.getText() + "%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB.setText("");
+                }
+            }
+            //compuebo el cbx opcion 3
+            if (var==2) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                    try {
+                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
+                            "Precio"};
+                        String sql = "select * from inventario inner join tipoproducto"
+                        + " on tipoproducto.codtip = inventario.tippro "
+                        + "where desprod like '" + txtB.getText() + "%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codprod");
+                            fila[1] = rs.getString("tipprod");
+                            fila[2] = rs.getString("desprod");
+                            fila[3] = rs.getString("canprod");
+                            fila[4] = rs.getString("preprod");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB.setText("");
+                }
+            }
+        } else {
+            this.Llenar();
+        }
+    }//GEN-LAST:event_txtBKeyReleased
+
+    private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBActionPerformed
+
+    private void txtMaximo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo2KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtMaximo2.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 3)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMaximo2KeyTyped
+
+    private void txtMaximo2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo2KeyReleased
+        int lim = txtMaximo2.getText().length();
+        if (!txtMaximo2.getText().equals("")) {
+            if (lim >= 0 && Integer.parseInt(txtMaximo2.getText()) > 0) {
+                txtMaximo2.setBackground(Color.GREEN);
+            }
+        }
+        if (lim == 0) {
+            txtMaximo2.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtMaximo2KeyReleased
+
+    private void txtMaximo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaximo2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaximo2ActionPerformed
+
+    private void txtMinimo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo2KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtMinimo2.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 3)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMinimo2KeyTyped
+
+    private void txtMinimo2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo2KeyReleased
+        int lim = txtMinimo2.getText().length();
+        if (!txtMinimo2.getText().equals("")) {
+            if (lim >= 0 && Integer.parseInt(txtMinimo2.getText()) > 0) {
+                txtMinimo2.setBackground(Color.GREEN);
+            }
+        }
+        if (lim == 0) {
+            txtMinimo2.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtMinimo2KeyReleased
+
+    private void txtMinimo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimo2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMinimo2ActionPerformed
+
+    private void txtTotal2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotal2KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotal2KeyReleased
+
+    private void txtTotal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotal2ActionPerformed
+
+    private void txtCantidad2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCantidad2KeyTyped
+
+    private void txtCantidad2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad2KeyReleased
+        if (txtCantidad2.getText().equals("0")) {
+            txtCantidad2.setText("");
+        }
+        int lim = txtCantidad2.getText().length();
+        if (lim >= 1 && Integer.parseInt(txtCantidad2.getText()) > 0) {
+            txtCantidad2.setBackground(Color.GREEN);
+        }
+        if (lim == 0) {
+            txtCantidad2.setBackground(Color.RED);
+        }
+    }//GEN-LAST:event_txtCantidad2KeyReleased
+
+    private void txtPrecio2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyTyped
+        char c = evt.getKeyChar();
+        int lim = txtPrecio2.getText().length();
+        if (c >= 48 && c <= 57 || c == 46 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtPrecio2KeyTyped
+
+    private void txtPrecio2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyReleased
+        char c = evt.getKeyChar();
+        if (txtPrecio2.getText().equals("0")) {
+            txtPrecio2.setText("");
+        }
+        if (!txtPrecio2.getText().equals("") && c != 46) {
+            int lim = txtPrecio2.getText().length();
+            if (lim >= 0 && Float.parseFloat(txtPrecio2.getText()) > 0) {
+                float total = Float.parseFloat(txtPrecio2.getText()) + (Float.parseFloat(txtPrecio2.getText()) * (getIva() / 100));
+                txtTotal2.setText(String.valueOf(format.format(total)));
+                txtPrecio2.setBackground(Color.GREEN);
+            }
+            if (lim == 0) {
+                txtPrecio2.setBackground(Color.RED);
+            }
+        } else {
+            txtTotal2.setText("0");
+        }
+    }//GEN-LAST:event_txtPrecio2KeyReleased
+
+    private void txtPrecio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecio2ActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
+        boolean resultado = false;
+        txtConsultar2.setEnabled(false);
+        Pintar(1);
+        int codigo = 0;
+        cbxTipo2.removeAllItems();
+        cbxProveedor2.removeAllItems();
+        if(!txtConsultar2.getText().equals("")){
+            String cedula = this.txtConsultar2.getText();
+            if (!cedula.equals("")) {
+                float total = 0;
+                try {
+                    String sql = "select * from inventario "
+                    + "inner join tipoproducto on tippro = codtip "
+                    + "inner join proveedores on \"proveedores\".\"rifpro\"=\"inventario\".\"codpro\" "
+                    + "where codprod = '" + cedula + "'";
+                    ResultSet rs = acciones.Consultar(sql);
+                    while (rs.next()) {
+                        resultado = true;
+                        cbxTipo2.addItem(rs.getString("tipprod"));
+                        total = rs.getFloat("preprod") / (1 + getIva() / 100);
+                        txtPrecio2.setText(String.valueOf(total));
+                        txtTotal2.setText(format.format(rs.getFloat("preprod")));
+                        txtCantidad2.setText(rs.getString("canprod"));
+                        txtMinimo2.setText(rs.getString("minprod"));
+                        txtMaximo2.setText(rs.getString("maxprod"));
+                        cbxProveedor2.addItem(rs.getString("nompro"));
+                        txtDescripcion2.setText(rs.getString("desprod"));
+                        Habilitar(1);
+                    }
+                    if (resultado == false) {
+                        JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
+                        //                this.Habilitar(3);
+                        resultado = false;
+                    }
+                    acciones.conn.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Campo Cedula vacio",
+                    "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No debe estar el campo vacio");
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void txtConsultar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultar2KeyTyped
+        char c = evt.getKeyChar();
+        int lim = txtConsultar2.getText().length();
+        if (c >= 48 && c <= 57 || c == 46 || c == WCKeyEvent.VK_BACK) {
+            if (this.EventoKeyType(lim, 11)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtConsultar2KeyTyped
+
+    private void cbxProveedor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxProveedor2ActionPerformed
 
     private void btnIngresar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar2ActionPerformed
         String codigo = this.txtConsultar2.getText();
         if (Verificacion2()) {
             try {
                 String sql = "update inventario set codprod=?, desprod=?, canprod=?, preprod=?,"
-                        + " minprod=?, maxprod=? where codprod= '" + codigo + "'";
+                + " minprod=?, maxprod=? where codprod= '" + codigo + "'";
                 PreparedStatement ps = acciones.Actualizar(sql);
                 ps.setInt(1, Integer.parseInt(txtConsultar2.getText()));
                 ps.setString(2, this.txtDescripcion2.getText());
@@ -1187,7 +1708,7 @@ public class FInventario extends javax.swing.JFrame {
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Producto Actualizado con exito",
-                            "Correcto", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                        "Correcto", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
                     this.Borrar(2);
                     this.Habilitar(2);
                     this.Pintar(2);
@@ -1195,196 +1716,44 @@ public class FInventario extends javax.swing.JFrame {
                 acciones.conn.close();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Error al guardar Producto\nCodigo error:" + e.getMessage(),
-                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
             }
         }
     }//GEN-LAST:event_btnIngresar2ActionPerformed
 
-    private void cbxProveedor2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor2ActionPerformed
+    private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbxProveedor2ActionPerformed
+    }//GEN-LAST:event_btnSalir2ActionPerformed
 
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        //    selecciono el codigo del cliente para no tener problemas al no copiar la cedula completa
-        boolean resultado = false;
-        txtConsultar2.setEnabled(false);
-        Pintar(1);
-        int codigo = 0;
-        cbxTipo2.removeAllItems();
-        cbxProveedor2.removeAllItems();
-       if(!txtConsultar2.getText().equals("")){
-        String cedula = this.txtConsultar2.getText();
-        if (!cedula.equals("")) {
-            float total = 0;
-            try {
-                String sql = "select * from inventario "
-                        + "inner join tipoproducto on tippro = codtip "
-                        + "inner join proveedores on \"proveedores\".\"rifpro\"=\"inventario\".\"codpro\" "
-                        + "where codprod = '" + cedula + "'";
-                ResultSet rs = acciones.Consultar(sql);
-                while (rs.next()) {
-                    resultado = true;
-                    cbxTipo2.addItem(rs.getString("tipprod"));
-                    total = rs.getFloat("preprod") / (1 + getIva() / 100);
-                    txtPrecio2.setText(String.valueOf(total));
-                    txtTotal2.setText(format.format(rs.getFloat("preprod")));
-                    txtCantidad2.setText(rs.getString("canprod"));
-                    txtMinimo2.setText(rs.getString("minprod"));
-                    txtMaximo2.setText(rs.getString("maxprod"));
-                    cbxProveedor2.addItem(rs.getString("nompro"));
-                    txtDescripcion2.setText(rs.getString("desprod"));
-                    Habilitar(1);
-                }
-                if (resultado == false) {
-                    JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
-                            JOptionPane.PLAIN_MESSAGE, iconAd);
-//                this.Habilitar(3);
-                    resultado = false;
-                }
-                acciones.conn.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
-                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+    private void btnBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar2ActionPerformed
+        Borrar(2);
+        Pintar(2);
+        Habilitar(2);
+    }//GEN-LAST:event_btnBorrar2ActionPerformed
+
+    private void txtDescripcion2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcion2KeyReleased
+        if (txtDescripcion2.getText().equals("")) {
+            txtDescripcion2.setBackground(Color.RED);
+        } else {
+            txtDescripcion2.setBackground(Color.green);
+        }
+    }//GEN-LAST:event_txtDescripcion2KeyReleased
+
+    private void txtPrecio1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtPrecio1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 9)) {
+                evt.consume();
+                getToolkit().beep();
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Campo Cedula vacio",
-                    "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
-        }
-        }else{
-     JOptionPane.showMessageDialog(null, "No debe estar el campo vacio");
-         }
-    }//GEN-LAST:event_btnBuscarActionPerformed
-    
-    private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtBActionPerformed
-
-    private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
-      int c = evt.getKeyChar();
-        if (!txtB.getText().equals("")) {
-            int var = cbxFiltro.getSelectedIndex();
-            if (var==0) {
-               if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-                   try {
-                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                            "Precio"};
-                        String sql = "select * from inventario inner join tipoproducto"
-                                + " on tipoproducto.codtip = inventario.tippro "
-                                + "where codprod = '" + txtB.getText() + "'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[5];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codprod");
-                            fila[1] = rs.getString("tipprod");
-                            fila[2] = rs.getString("desprod");
-                            fila[3] = rs.getString("canprod");
-                            fila[4] = rs.getString("preprod");
-                            model.addRow(fila);
-                        }
-                        tbl.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    }
-               }else{
-                JOptionPane.showMessageDialog(null, "Ingrese solo Numeros o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
-                this.txtB.setText("");
-               }
-           }
-            //compuebo el cbx opcion 2
-            if (var==1) {
-               if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
-                   try {
-                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                            "Precio"};
-                        String sql = "select * from inventario inner join tipoproducto"
-                                + " on tipoproducto.codtip = inventario.tippro "
-                                + "where tipprod like '" + txtB.getText() + "%'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[5];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codprod");
-                            fila[1] = rs.getString("tipprod");
-                            fila[2] = rs.getString("desprod");
-                            fila[3] = rs.getString("canprod");
-                            fila[4] = rs.getString("preprod");
-                            model.addRow(fila);
-                        }
-                        tbl.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    }
-               }else{
-                JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
-                this.txtB.setText("");
-               }
-           }
-      //compuebo el cbx opcion 3
-            if (var==2) {
-               if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
-                   try {
-                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                            "Precio"};
-                        String sql = "select * from inventario inner join tipoproducto"
-                                + " on tipoproducto.codtip = inventario.tippro "
-                                + "where desprod like '" + txtB.getText() + "%'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[5];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codprod");
-                            fila[1] = rs.getString("tipprod");
-                            fila[2] = rs.getString("desprod");
-                            fila[3] = rs.getString("canprod");
-                            fila[4] = rs.getString("preprod");
-                            model.addRow(fila);
-                        }
-                        tbl.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    }
-               }else{
-                JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
-                this.txtB.setText("");
-               }
-           }
-        } else {
-            this.Llenar();
-        }  
-    }//GEN-LAST:event_txtBKeyReleased
-
-    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxFiltroActionPerformed
-
-    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
-        if (evt.getClickCount() == 2) {
-            this.Llenar();
-            this.txtB.setText("");
-        }
-    }//GEN-LAST:event_tblMouseClicked
-
-    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
-
-    }//GEN-LAST:event_tblKeyPressed
-
-    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
-
-    }//GEN-LAST:event_tblKeyReleased
-
-    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
-        this.dispose();     // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir5ActionPerformed
+            getToolkit().beep();
+            evt.consume();
+        }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecio1KeyTyped
 
     private void txtPrecio1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyReleased
         Formatter formatter = new Formatter();
@@ -1405,24 +1774,94 @@ public class FInventario extends javax.swing.JFrame {
         } else {
             txtTotal1.setText("0");
         }
-
     }//GEN-LAST:event_txtPrecio1KeyReleased
+
+    private void txtPrecio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPrecio1ActionPerformed
+
+    private void cbxProveedor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProveedor1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxProveedor1ActionPerformed
+
+    private void btnIngresar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar1ActionPerformed
+        if (Verificacion1()) {
+            float total = 0;
+            try {
+                String sql = "insert into inventario(tippro, desprod, canprod,"
+                + "preprod, minprod, maxprod, codpro) values(?,?,?,?,?,?,?)";
+                PreparedStatement ps = acciones.Ingresar(sql);
+                total = Integer.parseInt(txtPrecio1.getText()) + (Integer.parseInt(txtPrecio1.getText()) * (getIva() / 100));
+                ps.setInt(1, getCodTipoProducto(cbxTipo1.getSelectedItem().toString()));
+                ps.setString(2, txtDescripcion1.getText());
+                ps.setInt(3, Integer.parseInt(txtCantidad1.getText()));
+                ps.setFloat(4, total);
+                ps.setInt(5, Integer.parseInt(txtMinimo1.getText()));
+                ps.setInt(6, Integer.parseInt(txtMaximo1.getText()));
+                ps.setInt(7, getCodProveedores(cbxProveedor1.getSelectedItem().toString()));
+                int n = ps.executeUpdate();
+                if (n > 0) {
+                    JOptionPane.showMessageDialog(null, "Producto ingresado con exito al inventario",
+                        "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    this.Borrar(1);
+                    Pintar(1);
+                    this.Llenar();
+                }
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al guardar cliente\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
+        }
+    }//GEN-LAST:event_btnIngresar1ActionPerformed
+
+    private void btnSalir1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir1ActionPerformed
+        dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir1ActionPerformed
+
+    private void btnBorrar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar1ActionPerformed
+        Borrar(1);
+        Pintar(1);// this.Borrar(1);
+    }//GEN-LAST:event_btnBorrar1ActionPerformed
 
     private void txtTotal1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotal1KeyReleased
 
     }//GEN-LAST:event_txtTotal1KeyReleased
 
-    private void txtMaximo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo1KeyReleased
-        int lim = txtMaximo1.getText().length();
-        if (!txtMaximo1.getText().equals("")) {
-            if (lim >= 0 && Integer.parseInt(txtMaximo1.getText()) > 0) {
-                txtMaximo1.setBackground(Color.GREEN);
+    private void txtTotal1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTotal1ActionPerformed
+
+    private void txtMinimo1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo1KeyTyped
+        char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtMinimo1.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 3)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtMinimo1KeyTyped
+
+    private void txtMinimo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo1KeyReleased
+        int lim = txtMinimo1.getText().length();
+        if (!txtMinimo1.getText().equals("")) {
+            if (lim >= 0 && Integer.parseInt(txtMinimo1.getText()) > 0) {
+                txtMinimo1.setBackground(Color.GREEN);
             }
         }
         if (lim == 0) {
-            txtMaximo1.setBackground(Color.RED);
+            txtMinimo1.setBackground(Color.RED);
         }
-    }//GEN-LAST:event_txtMaximo1KeyReleased
+    }//GEN-LAST:event_txtMinimo1KeyReleased
+
+    private void txtMinimo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMinimo1ActionPerformed
 
     private void txtMaximo1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo1KeyTyped
         char c = evt.getKeyChar();
@@ -1440,33 +1879,21 @@ public class FInventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtMaximo1KeyTyped
 
-    private void txtMinimo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo1KeyReleased
-        int lim = txtMinimo1.getText().length();
-        if (!txtMinimo1.getText().equals("")) {
-            if (lim >= 0 && Integer.parseInt(txtMinimo1.getText()) > 0) {
-                txtMinimo1.setBackground(Color.GREEN);
+    private void txtMaximo1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo1KeyReleased
+        int lim = txtMaximo1.getText().length();
+        if (!txtMaximo1.getText().equals("")) {
+            if (lim >= 0 && Integer.parseInt(txtMaximo1.getText()) > 0) {
+                txtMaximo1.setBackground(Color.GREEN);
             }
         }
         if (lim == 0) {
-            txtMinimo1.setBackground(Color.RED);
+            txtMaximo1.setBackground(Color.RED);
         }
-    }//GEN-LAST:event_txtMinimo1KeyReleased
+    }//GEN-LAST:event_txtMaximo1KeyReleased
 
-    private void txtMinimo1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo1KeyTyped
-        char c = evt.getKeyChar();
-        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            //establesco limite
-            int lim = txtMinimo1.getText().length();
-            //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 3)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        } else {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtMinimo1KeyTyped
+    private void txtMaximo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaximo1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaximo1ActionPerformed
 
     private void txtCantidad1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad1KeyTyped
         char c = evt.getKeyChar();
@@ -1497,153 +1924,6 @@ public class FInventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCantidad1KeyReleased
 
-    private void txtPrecio1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyTyped
-        char c = evt.getKeyChar();
-        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            //establesco limite
-            int lim = txtPrecio1.getText().length();
-            //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 9)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        } else {
-            getToolkit().beep();
-            evt.consume();
-        }        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio1KeyTyped
-
-    private void txtPrecio2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecio2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecio2ActionPerformed
-
-    private void txtPrecio2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyReleased
-        char c = evt.getKeyChar();
-        if (txtPrecio2.getText().equals("0")) {
-            txtPrecio2.setText("");
-        }
-        if (!txtPrecio2.getText().equals("") && c != 46) {
-            int lim = txtPrecio2.getText().length();
-            if (lim >= 0 && Float.parseFloat(txtPrecio2.getText()) > 0) {
-                float total = Float.parseFloat(txtPrecio2.getText()) + (Float.parseFloat(txtPrecio2.getText()) * (getIva() / 100));
-                txtTotal2.setText(String.valueOf(format.format(total)));
-                txtPrecio2.setBackground(Color.GREEN);
-            }
-            if (lim == 0) {
-                txtPrecio2.setBackground(Color.RED);
-            }
-        } else {
-            txtTotal2.setText("0");
-        }
-    }//GEN-LAST:event_txtPrecio2KeyReleased
-
-    private void txtPrecio2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyTyped
-        char c = evt.getKeyChar();
-        int lim = txtPrecio2.getText().length();
-        if (c >= 48 && c <= 57 || c == 46 || c == WCKeyEvent.VK_BACK) {
-            if (this.EventoKeyType(lim, 11)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        } else {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtPrecio2KeyTyped
-
-    private void txtCantidad2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad2KeyReleased
-        if (txtCantidad2.getText().equals("0")) {
-            txtCantidad2.setText("");
-        }
-        int lim = txtCantidad2.getText().length();
-        if (lim >= 1 && Integer.parseInt(txtCantidad2.getText()) > 0) {
-            txtCantidad2.setBackground(Color.GREEN);
-        }
-        if (lim == 0) {
-            txtCantidad2.setBackground(Color.RED);
-        }
-    }//GEN-LAST:event_txtCantidad2KeyReleased
-
-    private void txtCantidad2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad2KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantidad2KeyTyped
-
-    private void txtTotal2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTotal2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotal2ActionPerformed
-
-    private void txtTotal2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotal2KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTotal2KeyReleased
-
-    private void txtMaximo2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo2KeyReleased
-        int lim = txtMaximo2.getText().length();
-        if (!txtMaximo2.getText().equals("")) {
-            if (lim >= 0 && Integer.parseInt(txtMaximo2.getText()) > 0) {
-                txtMaximo2.setBackground(Color.GREEN);
-            }
-        }
-        if (lim == 0) {
-            txtMaximo2.setBackground(Color.RED);
-        }
-    }//GEN-LAST:event_txtMaximo2KeyReleased
-
-    private void txtMaximo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo2KeyTyped
-        char c = evt.getKeyChar();
-        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            //establesco limite
-            int lim = txtMaximo2.getText().length();
-            //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 3)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        } else {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtMaximo2KeyTyped
-
-    private void txtMinimo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMinimo2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMinimo2ActionPerformed
-
-    private void txtMinimo2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo2KeyReleased
-        int lim = txtMinimo2.getText().length();
-        if (!txtMinimo2.getText().equals("")) {
-            if (lim >= 0 && Integer.parseInt(txtMinimo2.getText()) > 0) {
-                txtMinimo2.setBackground(Color.GREEN);
-            }
-        }
-        if (lim == 0) {
-            txtMinimo2.setBackground(Color.RED);
-        }
-    }//GEN-LAST:event_txtMinimo2KeyReleased
-
-    private void txtMinimo2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo2KeyTyped
-        char c = evt.getKeyChar();
-        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            //establesco limite
-            int lim = txtMinimo2.getText().length();
-            //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 3)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        } else {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtMinimo2KeyTyped
-
-    private void txtMaximo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaximo1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaximo1ActionPerformed
-
-    private void txtMaximo2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaximo2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaximo2ActionPerformed
-
     private void txtDescripcion1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcion1KeyReleased
         if (txtDescripcion1.getText().equals("")) {
             txtDescripcion1.setBackground(Color.RED);
@@ -1651,287 +1931,7 @@ public class FInventario extends javax.swing.JFrame {
             txtDescripcion1.setBackground(Color.green);
         }
     }//GEN-LAST:event_txtDescripcion1KeyReleased
-
-    private void txtDescripcion2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcion2KeyReleased
-        if (txtDescripcion2.getText().equals("")) {
-            txtDescripcion2.setBackground(Color.RED);
-        } else {
-            txtDescripcion2.setBackground(Color.green);
-        }
-    }//GEN-LAST:event_txtDescripcion2KeyReleased
-
-    private void txtConsultar2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtConsultar2KeyTyped
-        char c = evt.getKeyChar();
-        int lim = txtConsultar2.getText().length();
-        if (c >= 48 && c <= 57 || c == 46 || c == WCKeyEvent.VK_BACK) {
-            if (this.EventoKeyType(lim, 11)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        } else {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtConsultar2KeyTyped
-
-    private void txtMinimo4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo4KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMinimo4KeyReleased
-
-    private void txtMinimo4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMinimo4KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMinimo4KeyTyped
-
-    private void btnBorrar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar3ActionPerformed
-        this.Borrar(3);
-    }//GEN-LAST:event_btnBorrar3ActionPerformed
-
-    private void btnSalir3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir3ActionPerformed
-        this.dispose();        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir3ActionPerformed
-
-    private void btnIngresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar3ActionPerformed
-        if (Verificacion3()) {
-            try {
-                String sql = "update inventario set canprod=? where codprod= '" + txtCodigo4.getText() + "'";
-                PreparedStatement ps = acciones.Actualizar(sql);
-                ps.setInt(1, Integer.parseInt(txtIngreso.getText()) + Integer.parseInt(txtCantidad4.getText()));
-                int n = ps.executeUpdate();
-                if (n > 0) {
-                    JOptionPane.showMessageDialog(null, "Cantidad Actualizada con exito",
-                            "Correcto", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
-                    this.Borrar(3);
-                    this.Habilitar(3);
-                    this.Pintar(3);
-                    this.Llenar2();
-                }
-                acciones.conn.close();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error al guardar Producto\nCodigo error:" + e.getMessage(),
-                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-            }
-        }
-    }//GEN-LAST:event_btnIngresar3ActionPerformed
-
-    private void tbl1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl1MouseClicked
-        if (evt.getClickCount() == 2) {
-            this.Llenar2();
-        } else {
-            txtIngreso.setEnabled(true);
-            this.Pintar(4);
-            int fila = this.tbl1.getSelectedRow();
-            String codigo = tbl1.getValueAt(fila, 0).toString();
-            try {
-                String sql = "select * from inventario inner join tipoproducto"
-                        + " on tipoproducto.codtip = inventario.tippro where codprod = '" + codigo + "'";
-                ResultSet rs = acciones.Consultar(sql);
-                while (rs.next()) {
-                    if (rs.getString("codprod") != "") {
-                        this.txtCodigo4.setText(rs.getString("codprod"));
-                    }
-
-                    if (rs.getString("canprod") != "") {
-                        this.txtCantidad4.setText(rs.getString("canprod"));
-                    }
-
-                    if (rs.getString("maxprod") != "") {
-                        this.txtMaximo4.setText(rs.getString("maxprod"));
-                    }
-
-                    if (rs.getString("minprod") != "") {
-                        this.txtMinimo4.setText(rs.getString("minprod"));
-                    }
-                }
-                acciones.conn.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Datos incompletos\n" + e);
-            }
-
-        }
-    }//GEN-LAST:event_tbl1MouseClicked
-
-    private void tbl1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl1KeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tbl1KeyPressed
-
-    private void tbl1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl1KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tbl1KeyReleased
-
-    private void txtCodigo4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigo4KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCodigo4KeyReleased
-
-    private void txtCodigo4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigo4KeyTyped
-
-    }//GEN-LAST:event_txtCodigo4KeyTyped
-
-    private void txtIngresoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIngresoKeyReleased
-        int lim = txtIngreso.getText().length();
-        if (!txtIngreso.getText().equals("")) {
-            if (lim >= 0 && Integer.parseInt(txtIngreso.getText()) > 0) {
-                txtIngreso.setBackground(Color.GREEN);
-            }
-        }
-        if (lim == 0) {
-            txtIngreso.setBackground(Color.RED);
-        }
-    }//GEN-LAST:event_txtIngresoKeyReleased
-
-    private void txtIngresoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIngresoKeyTyped
-        char c = evt.getKeyChar();
-        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            //establesco limite
-            int lim = txtIngreso.getText().length();
-            //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 3)) {
-                evt.consume();
-                getToolkit().beep();
-            }
-        } else {
-            getToolkit().beep();
-            evt.consume();
-        }
-    }//GEN-LAST:event_txtIngresoKeyTyped
-
-    private void txtCantidad4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad4KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantidad4KeyReleased
-
-    private void txtCantidad4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidad4KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantidad4KeyTyped
-
-    private void txtMaximo4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo4KeyReleased
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaximo4KeyReleased
-
-    private void txtMaximo4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaximo4KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtMaximo4KeyTyped
-
-    private void txtB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtB1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtB1ActionPerformed
-
-    private void txtB1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtB1KeyReleased
-      int c = evt.getKeyChar();
-        if (!txtB1.getText().equals("")) {
-            int var = cbxFiltro1.getSelectedIndex();
-            if (var==0) {
-               if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-                   try {
-                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                            "Precio"};
-                        String sql = "select * from inventario inner join tipoproducto"
-                                + " on tipoproducto.codtip = inventario.tippro "
-                                + "where codprod = '" + txtB1.getText() + "'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[5];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codprod");
-                            fila[1] = rs.getString("tipprod");
-                            fila[2] = rs.getString("desprod");
-                            fila[3] = rs.getString("canprod");
-                            fila[4] = rs.getString("preprod");
-                            model.addRow(fila);
-                        }
-                        tbl1.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    }
-               }else{
-                JOptionPane.showMessageDialog(null, "Ingrese solo Numeros o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
-                this.txtB1.setText("");
-                this.Llenar2();
-               }
-           }
-            //compuebo el cbx opcion 2
-            if (var==1) {
-               if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
-                   try {
-                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                            "Precio"};
-                        String sql = "select * from inventario inner join tipoproducto"
-                                + " on tipoproducto.codtip = inventario.tippro "
-                                + "where tipprod like '" + txtB1.getText() + "%'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[5];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codprod");
-                            fila[1] = rs.getString("tipprod");
-                            fila[2] = rs.getString("desprod");
-                            fila[3] = rs.getString("canprod");
-                            fila[4] = rs.getString("preprod");
-                            model.addRow(fila);
-                        }
-                        tbl1.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    }
-               }else{
-                JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
-                this.txtB1.setText("");
-                this.Llenar2();
-               }
-           }
-      //compuebo el cbx opcion 3
-            if (var==2) {
-               if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
-                   try {
-                        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
-                            "Precio"};
-                        String sql = "select * from inventario inner join tipoproducto"
-                                + " on tipoproducto.codtip = inventario.tippro "
-                                + "where desprod like '" + txtB1.getText() + "%'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[5];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codprod");
-                            fila[1] = rs.getString("tipprod");
-                            fila[2] = rs.getString("desprod");
-                            fila[3] = rs.getString("canprod");
-                            fila[4] = rs.getString("preprod");
-                            model.addRow(fila);
-                        }
-                        tbl1.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    }
-               }else{
-                JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
-                this.txtB1.setText("");
-                this.Llenar2();
-               }
-           }
-        } else {
-            this.Llenar2();
-        }
-    }//GEN-LAST:event_txtB1KeyReleased
-
-    private void cbxFiltro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltro1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxFiltro1ActionPerformed
-
-    private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
-    }//GEN-LAST:event_txtBKeyTyped
-
-    private void txtB1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtB1KeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtB1KeyTyped
-
+    
     /**
      * @param args the command line arguments
      */
