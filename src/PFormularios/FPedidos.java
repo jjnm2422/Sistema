@@ -542,7 +542,7 @@ public class FPedidos extends javax.swing.JFrame {
 
         txtNombre2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre2.setEnabled(false);
-        jPanel4.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 120, -1));
+        jPanel4.add(txtNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 130, -1));
 
         txtApellido2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtApellido2.setEnabled(false);

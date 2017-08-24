@@ -46,7 +46,7 @@ public class FInventario extends javax.swing.JFrame {
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
     public DefaultTableModel model;
     private int iva = 0;
-    private DecimalFormat format = new DecimalFormat("#.00 Bsf");
+    private DecimalFormat format = new DecimalFormat("#.00");
     private DefaultTableModel model2;
 
     public FInventario() {
@@ -1702,7 +1702,7 @@ public class FInventario extends javax.swing.JFrame {
                 ps.setInt(1, Integer.parseInt(txtConsultar2.getText()));
                 ps.setString(2, this.txtDescripcion2.getText());
                 ps.setInt(3, Integer.parseInt(txtCantidad2.getText()));
-                ps.setFloat(4, Float.parseFloat(this.txtPrecio2.getText()));
+                ps.setFloat(4, Float.parseFloat(this.txtTotal2.getText()));
                 ps.setInt(5, Integer.parseInt(txtMinimo2.getText()));
                 ps.setInt(6, Integer.parseInt(txtMaximo2.getText()));
                 int n = ps.executeUpdate();
@@ -1756,7 +1756,6 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPrecio1KeyTyped
 
     private void txtPrecio1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio1KeyReleased
-        Formatter formatter = new Formatter();
 
         if (txtPrecio1.getText().equals("0")) {
             txtPrecio1.setText("");
