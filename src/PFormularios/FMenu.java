@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -45,6 +46,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     private PClases.CFecha fecha = new PClases.CFecha();
     private String usuario;
     private int z = 0;
+    private long i=0;
 
     public FMenu() {
         this.setlook();
@@ -53,6 +55,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         h1.start();
         setLocationRelativeTo(null);
         lblFecha.setText(fecha.getFecha());
+        this.LlenarPendiente();
     }
     
     public String Hora() throws SQLException {
@@ -124,6 +127,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         lblHora = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
+        lblPendientes = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
@@ -280,6 +284,12 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         lblUsuario.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jPanel3.add(lblUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 80, 140, 20));
 
+        lblPendientes.setBackground(new java.awt.Color(255, 255, 255));
+        lblPendientes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblPendientes.setForeground(new java.awt.Color(255, 255, 255));
+        lblPendientes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jPanel3.add(lblPendientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 270, 20));
+
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 460));
 
         pack();
@@ -310,7 +320,9 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         //h1.stop();
-        System.exit(0);
+        //para salir System.exit(0);
+        this.dispose();
+        new PFormularios.FLogin().setVisible(true);
        // this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -360,6 +372,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;
+    private javax.swing.JLabel lblPendientes;
     private javax.swing.JLabel lblTitulo;
     public javax.swing.JLabel lblUsuario;
     // End of variables declaration//GEN-END:variables
@@ -376,6 +389,8 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                     Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 lblHora.setText(hora + ":" + minutos + ":" + segundos);
+                i++;
+                if (i%5==0) {
                 //Actualizara la hora en variables de la bb
                 try {
                     String sql = "update variables set hora=?";
@@ -391,7 +406,8 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                     JOptionPane.showMessageDialog(null, e.getMessage(),
                             "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 }
-                
+                LlenarPendiente();
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -415,5 +431,18 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         }
         minutos = calendario.get(Calendar.MINUTE) > 9 ? "" + calendario.get(Calendar.MINUTE) : "0" + calendario.get(Calendar.MINUTE);
         segundos = calendario.get(Calendar.SECOND) > 9 ? "" + calendario.get(Calendar.SECOND) : "0" + calendario.get(Calendar.SECOND);
+    }
+    
+    private void LlenarPendiente() {
+                    try {
+                        String sql = "select count(*) from pedidos where estped = 'Pendiente'";
+                        ResultSet rs = acciones.Consultar(sql);
+                        while (rs.next()) {
+                            lblPendientes.setText("Pedidos Pendientes: "+rs.getInt(1));
+                        }
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
     }
 }

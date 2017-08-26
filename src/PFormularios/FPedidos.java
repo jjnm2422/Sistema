@@ -53,7 +53,6 @@ public class FPedidos extends javax.swing.JFrame {
         initComponents();
         this.LlenarTabla();
         setLocationRelativeTo(null);
-
     }
 
     public void setlook() {
@@ -124,7 +123,7 @@ public class FPedidos extends javax.swing.JFrame {
         txtCedula1 = new javax.swing.JTextField();
         lblTitulo18 = new javax.swing.JLabel();
         lblTitulo13 = new javax.swing.JLabel();
-        lblTitulo14 = new javax.swing.JLabel();
+        lblCodigo = new javax.swing.JLabel();
         txtApellido1 = new javax.swing.JTextField();
         lblTitulo9 = new javax.swing.JLabel();
         lblTitulo15 = new javax.swing.JLabel();
@@ -140,6 +139,8 @@ public class FPedidos extends javax.swing.JFrame {
         lblTitulo21 = new javax.swing.JLabel();
         cbxEstado = new javax.swing.JComboBox<>();
         date2 = new com.toedter.calendar.JDateChooser();
+        lblTitulo23 = new javax.swing.JLabel();
+        lblTitulo24 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
@@ -247,6 +248,7 @@ public class FPedidos extends javax.swing.JFrame {
         txtDescripcion.setLineWrap(true);
         txtDescripcion.setRows(1);
         txtDescripcion.setWrapStyleWord(true);
+        txtDescripcion.setEnabled(false);
         txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtDescripcionKeyReleased(evt);
@@ -293,10 +295,11 @@ public class FPedidos extends javax.swing.JFrame {
         lblTitulo13.setText("Nombre");
         jPanel1.add(lblTitulo13, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 10, 50, 20));
 
-        lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTitulo14.setText("Apellido");
-        jPanel1.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 60, 20));
+        lblCodigo.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblCodigo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblCodigo.setEnabled(false);
+        lblCodigo.setOpaque(true);
+        jPanel1.add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 40, 60, 20));
 
         txtApellido1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtApellido1.setEnabled(false);
@@ -312,6 +315,7 @@ public class FPedidos extends javax.swing.JFrame {
         jPanel1.add(lblTitulo15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 80, 20));
 
         txtCantidad.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCantidad.setEnabled(false);
         txtCantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtCantidadKeyReleased(evt);
@@ -331,6 +335,7 @@ public class FPedidos extends javax.swing.JFrame {
         jPanel1.add(lblTitulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 80, 20));
 
         txtTotal.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTotal.setEnabled(false);
         txtTotal.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtTotalKeyReleased(evt);
@@ -343,7 +348,7 @@ public class FPedidos extends javax.swing.JFrame {
 
         txtNombre1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre1.setEnabled(false);
-        jPanel1.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 120, -1));
+        jPanel1.add(txtNombre1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 120, -1));
 
         lblTitulo35.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo35.setText("Fecha Entrega");
@@ -358,6 +363,7 @@ public class FPedidos extends javax.swing.JFrame {
         });
         jPanel1.add(btnGuardar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 100, 30));
 
+        date1.setEnabled(false);
         date1.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jPanel1.add(date1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 40, 120, -1));
 
@@ -378,11 +384,26 @@ public class FPedidos extends javax.swing.JFrame {
         lblTitulo21.setText("Cantidad Productos");
         jPanel1.add(lblTitulo21, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 230, 130, 20));
 
-        cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Completado" }));
+        cbxEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pendiente", "completado" }));
+        cbxEstado.setEnabled(false);
         jPanel1.add(cbxEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 100, -1));
 
+        date2.setForeground(new java.awt.Color(255, 255, 153));
+        date2.setEnabled(false);
         date2.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        date2.setMaxSelectableDate(new java.util.Date(253370782882000L));
+        date2.setMinSelectableDate(new java.util.Date(946702882000L));
         jPanel1.add(date2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 130, -1));
+
+        lblTitulo23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblTitulo23.setText("Apellido");
+        jPanel1.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 10, 60, 20));
+
+        lblTitulo24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblTitulo24.setText("Codigo del Pedido");
+        jPanel1.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, 120, 20));
 
         jTabbedPane1.addTab("Nuevo", jPanel1);
 
@@ -496,7 +517,7 @@ public class FPedidos extends javax.swing.JFrame {
         lblTitulo22.setText("Estado del Pedido");
         jPanel4.add(lblTitulo22, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 230, 110, 20));
 
-        cbxEstado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pendiente", "Completado" }));
+        cbxEstado1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pendiente", "completado" }));
         cbxEstado1.setEnabled(false);
         jPanel4.add(cbxEstado1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 100, -1));
 
@@ -599,7 +620,7 @@ public class FPedidos extends javax.swing.JFrame {
         jLabel26.setText("BUSQUEDA");
         jPanel6.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 60, 20));
 
-        cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Fecha Inicio", "Fecha Entrega" }));
+        cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Fecha Inicio", "Fecha Entrega", "Estado" }));
         cbxFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxFiltroActionPerformed(evt);
@@ -718,7 +739,7 @@ public class FPedidos extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "El codigo esta vacio",
                     "Informacion", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
-            if (cbxEstado1.getSelectedItem().toString().equals("Completado")) {
+            if (cbxEstado1.getSelectedItem().toString().equals("completado")) {
                 JOptionPane.showMessageDialog(null, "El pedido ha sido completado y no se puede Eliminar",
                         "Informacion", JOptionPane.PLAIN_MESSAGE, iconAd);
             } else {
@@ -776,6 +797,7 @@ public class FPedidos extends javax.swing.JFrame {
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Pedido ingresado con exito",
                             "Informacion", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                    this.Habilitar(4);
                     this.Borrar();
                     this.Pintar(1);
                 }
@@ -821,6 +843,8 @@ public class FPedidos extends javax.swing.JFrame {
 //                    txtTelefono22.setText(rs.getString("tel2cli"));
 //                    txtDireccion2.setText(rs.getString("dircli"));
 //                    txtComentario2.setText(rs.getString("comcli"));
+                    this.Habilitar(3);
+                    LlenarCodigo();
                 }
                 if (resultado == false) {
                     JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
@@ -889,6 +913,7 @@ public class FPedidos extends javax.swing.JFrame {
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         this.Borrar();
+        this.Habilitar(4);
         this.Pintar(1);
     }//GEN-LAST:event_btnBorrarActionPerformed
 
@@ -918,7 +943,7 @@ public class FPedidos extends javax.swing.JFrame {
                     txtTotal1.setText(String.valueOf(rs.getInt("preped")));
                     txtCantidad1.setText(String.valueOf(rs.getInt("canped")));
                     cbxEstado1.setSelectedItem(rs.getString("estped"));
-                    if ("Pendiente".equals(rs.getString("estped"))) {
+                    if ("pendiente".equals(rs.getString("estped"))) {
                         this.Habilitar(1);
                         txtTotal1.setBackground(Color.WHITE);
                         txtCantidad1.setBackground(Color.WHITE);
@@ -1076,7 +1101,7 @@ public class FPedidos extends javax.swing.JFrame {
                     try {
                         String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
                         String sql = "select * from pedidos inner join clientes on pedidos.cedcli = clientes.cedcli"
-                                + " where codped like '"+txtB.getText()+"%'";
+                                + " where codped = '"+txtB.getText()+"'";
                         model = new DefaultTableModel(null, titulos);
                         ResultSet rs = acciones.Consultar(sql);
                         String[] fila = new String[8];
@@ -1104,7 +1129,7 @@ public class FPedidos extends javax.swing.JFrame {
         } 
       //Fecha de inicio 
         if (var==1){
-            if (c >= 47 && c <= 57 || c == WCKeyEvent.VK_BACK ||c == WCKeyEvent.VK_TAB) {
+            if (c >= 47 && c <= 57 || c == WCKeyEvent.VK_BACK) {
                     try {
                         String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
                         String sql = "select * from pedidos inner join clientes on pedidos.cedcli = clientes.cedcli"
@@ -1133,6 +1158,68 @@ public class FPedidos extends javax.swing.JFrame {
                     JOptionPane.PLAIN_MESSAGE, iconAd);
             }
         }
+        if (var==2){
+            if (c >= 47 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+                    try {
+                        String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
+                        String sql = "select * from pedidos inner join clientes on pedidos.cedcli = clientes.cedcli"
+                                + " where culped like '"+txtB.getText()+"%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[8];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codped");
+                            fila[1] = rs.getString("fecped");
+                            fila[2] = rs.getString("culped");
+                            fila[3] = rs.getString("estped");
+                            fila[4] = rs.getString("canped");
+                            fila[5] = rs.getString("preped");
+                            fila[6] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+            } else {
+                txtB.setText("");
+                JOptionPane.showMessageDialog(null, "Ingrese una fecha valida en formato dd/mm/aaaa o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+            }
+        }
+        
+            if (var==3) {
+                //solo letras
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+               try {
+                        String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
+                        String sql = "select * from pedidos inner join clientes on pedidos.cedcli = clientes.cedcli"
+                                + " where estped like '"+txtB.getText()+"%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[8];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codped");
+                            fila[1] = rs.getString("fecped");
+                            fila[2] = rs.getString("culped");
+                            fila[3] = rs.getString("estped");
+                            fila[4] = rs.getString("canped");
+                            fila[5] = rs.getString("preped");
+                            fila[6] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+           }else{
+                    this.txtB.setText("");
+               JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+           }
+            }
     }
     }//GEN-LAST:event_txtBKeyReleased
 
@@ -1208,9 +1295,9 @@ public class FPedidos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo13;
-    private javax.swing.JLabel lblTitulo14;
     private javax.swing.JLabel lblTitulo15;
     private javax.swing.JLabel lblTitulo16;
     private javax.swing.JLabel lblTitulo17;
@@ -1219,6 +1306,8 @@ public class FPedidos extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo20;
     private javax.swing.JLabel lblTitulo21;
     private javax.swing.JLabel lblTitulo22;
+    private javax.swing.JLabel lblTitulo23;
+    private javax.swing.JLabel lblTitulo24;
     private javax.swing.JLabel lblTitulo27;
     private javax.swing.JLabel lblTitulo28;
     private javax.swing.JLabel lblTitulo29;
@@ -1283,7 +1372,7 @@ public class FPedidos extends javax.swing.JFrame {
             fechafinal = formateador.format(date4.getDate());
             fechainicio = formateador.format(date3.getDate());
             if (Integer.parseInt(fechafinal) > Integer.parseInt(fechainicio)) {
-                if (cbxEstado1.getSelectedItem().toString().equals("Completado")) {
+                if (cbxEstado1.getSelectedItem().toString().equals("completado")) {
                     JOptionPane.showMessageDialog(null, "El pedido ha sido completado y no se puede editar",
                             "Informacion", JOptionPane.PLAIN_MESSAGE, iconAd);
                     return false;
@@ -1303,6 +1392,7 @@ public class FPedidos extends javax.swing.JFrame {
     }
 
     private void Borrar() {
+        lblCodigo.setText("");
         txtNombre1.setText("");
         cbxEstado.setSelectedIndex(0);
         txtApellido1.setText("");
@@ -1360,10 +1450,43 @@ public class FPedidos extends javax.swing.JFrame {
                 txtCantidad1.setEnabled(false);
                 txtDescripcion2.setEnabled(false);
                 break;
+            case 3:
+                cbxEstado.setEnabled(true);
+                date1.setEnabled(true);
+                date2.setEnabled(true);
+                lblCodigo.setEnabled(true);
+                lblCodigo.setEnabled(true);
+                txtTotal.setEnabled(true);
+                txtCantidad.setEnabled(true);
+                txtDescripcion.setEnabled(true);
+                break;
+            case 4:
+                cbxEstado.setEnabled(false);
+                date1.setEnabled(false);
+                date2.setEnabled(false);
+                lblCodigo.setEnabled(false);
+                lblCodigo.setEnabled(false);
+                txtTotal.setEnabled(false);
+                txtCantidad.setEnabled(false);
+                txtDescripcion.setEnabled(false);
+                break;
             default:
 
         }
 
+    }
+    
+    private void LlenarCodigo(){
+      try {
+                        String sql = "select last_value+1 as valor from public.pedidos_codped_seq";
+                        ResultSet rs = acciones.Consultar(sql);
+                        while (rs.next()) {
+                            lblCodigo.setText(String.valueOf(rs.getInt("valor")));
+                        }
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }  
     }
 
     private void LlenarTabla() {

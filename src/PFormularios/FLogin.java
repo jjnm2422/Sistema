@@ -50,6 +50,7 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
     private String minutos;
     private String segundos;
     private String usuario;
+    private long i = 0;
         
     public FLogin() {
         this.setlook();
@@ -57,6 +58,7 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
         h1 = new Thread(this);
         h1.start();
         setLocationRelativeTo(null);
+        i=0;
     }
     
 
@@ -206,7 +208,7 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
 
         txtClave.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtClave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtClave.setText("1234");
+        txtClave.setText("2422");
         txtClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtClaveActionPerformed(evt);
@@ -345,7 +347,9 @@ setExtendedState(JFrame.ICONIFIED);
                     Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 lblHora.setText(hora + ":" + minutos + ":" + segundos);
-                //Actualizara la hora en variables de la bb
+                i++;
+                if (i%5==0) {
+                    //Actualizara la hora en variables de la bd
                 try {
                     String sql = "update variables set hora=?";
                     PreparedStatement ps = acciones.Actualizar(sql);
@@ -358,10 +362,13 @@ setExtendedState(JFrame.ICONIFIED);
                     JOptionPane.showMessageDialog(null, "Error al guardar Hora\ncodigo error:" + e.getMessage(),
                             "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 }
+                //Actualizara la hora en variables de la bd fin
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                 }
+                
             }
     }
 

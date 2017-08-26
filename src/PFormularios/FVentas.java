@@ -8,11 +8,14 @@ package PFormularios;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Random;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -24,8 +27,13 @@ public class FVentas extends javax.swing.JFrame {
     private int x;
     private int y;
     private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/oie_canvas.png"));
+    private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
+    private final ImageIcon iconError = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png"));
+    private final ImageIcon iconCorrecto = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/correcto.png"));
+    private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
+    private PClases.CFecha cFecha = new PClases.CFecha();
     private PClases.CFecha fecha = new PClases.CFecha();
-    
+
     public FVentas() {
         this.setlook();
         initComponents();
@@ -33,47 +41,49 @@ public class FVentas extends javax.swing.JFrame {
         txtFecha.setText(fecha.getFecha());
         txtCodigoV.setText(NumeroAleatorio());
     }
+
     public void setTitle(String title) {
         super.setTitle(title);
         lblTitulo.setText(title);
     }
-    
+
     public void setlook() {
-       try{
-          UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-        }catch(Exception e){
-          e.printStackTrace();
-        }  
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+
     private void restaurarVentana() {
-        if(getExtendedState() == JFrame.MAXIMIZED_BOTH){//1
+        if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {//1
             setExtendedState(JFrame.NORMAL);//2
-        }else{
+        } else {
             setExtendedState(JFrame.MAXIMIZED_BOTH);//3
         }
     }
-    public void Ajustar(JLabel label, ImageIcon icon){
+
+    public void Ajustar(JLabel label, ImageIcon icon) {
         //esta funcion ajusta un icono(parametro) al tamaño del label (parametro)
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
         label.setIcon(icono);
         this.repaint();
     }
-    
-        public String NumeroAleatorio(){
-    long numero = 0;
-    Random rd=new Random();
-    numero = rd.nextInt(99999999)+1;
-    /*try {
-        String sql = "select * from ventas where cod_venta= '"+numero+"'";
-        ResultSet rs= operaciones.Consultar(sql);
+
+    public String NumeroAleatorio() {
+        long numero = 0;
+        Random rd = new Random();
+        numero = rd.nextInt(9999999) + 1;
+        try {
+        String sql = "select * from ventas where codven= '"+numero+"'";
+        ResultSet rs= acciones.Consultar(sql);
         while(rs.next()){
         numero = Long.parseLong(this.NumeroAleatorio());
         }
     } catch (SQLException e) {
        JOptionPane.showMessageDialog(null, e.getMessage());    
-    }*/
-    return String.valueOf(numero);
+    }
+        return String.valueOf(numero);
     }
 
     /**
@@ -519,23 +529,22 @@ public class FVentas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
-    x = evt.getX();
-    y = evt.getY();
+        x = evt.getX();
+        y = evt.getY();
     }//GEN-LAST:event_jPanel3MousePressed
 
     private void jPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseDragged
-    Point ubicacion = MouseInfo.getPointerInfo().getLocation();//1
-    System.out.println("Coordenadas: ("+ubicacion.x+","+ubicacion.y+")");//2
-    setLocation(ubicacion.x - x, ubicacion.y - y);//3
+        Point ubicacion = MouseInfo.getPointerInfo().getLocation();//1
+        setLocation(ubicacion.x - x, ubicacion.y - y);//3
     }//GEN-LAST:event_jPanel3MouseDragged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-dispose();
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-restaurarVentana();
-setExtendedState(JFrame.ICONIFIED);
+        restaurarVentana();
+        setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void tbl1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tbl1KeyReleased
@@ -606,8 +615,7 @@ setExtendedState(JFrame.ICONIFIED);
             }
         });
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup;
