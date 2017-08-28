@@ -435,7 +435,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     
     private void LlenarPendiente() {
                     try {
-                        String sql = "select count(*) from pedidos where estped = 'Pendiente'";
+                        String sql = "select count(*) from pedidos where estped = 'pendiente'";
                         ResultSet rs = acciones.Consultar(sql);
                         while (rs.next()) {
                             lblPendientes.setText("Pedidos Pendientes: "+rs.getInt(1));

@@ -1372,7 +1372,7 @@ public class FPedidos extends javax.swing.JFrame {
             fechafinal = formateador.format(date4.getDate());
             fechainicio = formateador.format(date3.getDate());
             if (Integer.parseInt(fechafinal) > Integer.parseInt(fechainicio)) {
-                if (cbxEstado1.getSelectedItem().toString().equals("completado")) {
+                if (!cbxEstado1.isEnabled()) {
                     JOptionPane.showMessageDialog(null, "El pedido ha sido completado y no se puede editar",
                             "Informacion", JOptionPane.PLAIN_MESSAGE, iconAd);
                     return false;

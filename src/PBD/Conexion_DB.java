@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Conexion_DB {
 
-    private static String bd="dbventas", user="postgres",pass="123456", url="jdbc:postgresql://192.168.0.106:5432/"+bd;
+    private static String bd="dbventas", user="postgres",pass="123456", url="jdbc:postgresql://localhost:5432/"+bd;
     private static Connection conn;
     private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
     
