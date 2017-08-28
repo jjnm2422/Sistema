@@ -38,6 +38,8 @@ public class FVentas extends javax.swing.JFrame {
     private PClases.CFecha fecha = new PClases.CFecha();
     TextAutoCompleter txtAuto;
     private DefaultTableModel model;
+    private String cantidad;
+    private String total;
 
 
     public FVentas() {
@@ -126,7 +128,7 @@ public void AddLista(Object x) {
         txtB = new javax.swing.JTextField();
         jLabel26 = new javax.swing.JLabel();
         cbxFiltro = new javax.swing.JComboBox<>();
-        bntIngresar = new javax.swing.JButton();
+        bntAñadir = new javax.swing.JButton();
         txtFecha = new javax.swing.JTextField();
         lblTitulo23 = new javax.swing.JLabel();
         lblTitulo24 = new javax.swing.JLabel();
@@ -140,7 +142,6 @@ public void AddLista(Object x) {
         lblTitulo21 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         lblTitulo22 = new javax.swing.JLabel();
-        lblTitulo32 = new javax.swing.JLabel();
         txtCodigoV = new javax.swing.JTextField();
         lblTitulo13 = new javax.swing.JLabel();
         txtCedula2 = new javax.swing.JTextField();
@@ -152,6 +153,9 @@ public void AddLista(Object x) {
                 return false; //Disallow the editing of any cell
             }
         };
+        lblTitulo35 = new javax.swing.JLabel();
+        lblTitulo36 = new javax.swing.JLabel();
+        txtTransaccion = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
@@ -292,19 +296,20 @@ public void AddLista(Object x) {
         });
         jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, 90, 20));
 
-        bntIngresar.addActionListener(new java.awt.event.ActionListener() {
+        bntAñadir.setText("Añadir");
+        bntAñadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bntIngresarActionPerformed(evt);
+                bntAñadirActionPerformed(evt);
             }
         });
-        bntIngresar.addKeyListener(new java.awt.event.KeyAdapter() {
+        bntAñadir.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                bntIngresarKeyTyped(evt);
+                bntAñadirKeyTyped(evt);
             }
         });
-        jPanel6.add(bntIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 30, 20));
+        jPanel6.add(bntAñadir, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, 70, 20));
 
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 650, 50));
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 650, 50));
 
         txtFecha.setEditable(false);
         txtFecha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -341,6 +346,11 @@ public void AddLista(Object x) {
         jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(jRadioButton1);
         jRadioButton1.setText("Pedido");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
         jPanel2.add(jRadioButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, -1, -1));
 
         jRadioButton2.setBackground(new java.awt.Color(255, 255, 255));
@@ -360,10 +370,6 @@ public void AddLista(Object x) {
         lblTitulo22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo22.setText("Cliente");
         jPanel2.add(lblTitulo22, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 40, 100, 20));
-
-        lblTitulo32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo32.setText("Tipo de Pago");
-        jPanel2.add(lblTitulo32, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 100, 20));
 
         txtCodigoV.setEditable(false);
         txtCodigoV.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -434,6 +440,18 @@ public void AddLista(Object x) {
         jScrollPane4.setViewportView(tbl);
 
         jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 640, 170));
+
+        lblTitulo35.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo35.setText("Tipo de Pago");
+        jPanel2.add(lblTitulo35, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 100, 20));
+
+        lblTitulo36.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo36.setText("Nº Transaccion");
+        jPanel2.add(lblTitulo36, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 100, 20));
+
+        txtTransaccion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtTransaccion.setEnabled(false);
+        jPanel2.add(txtTransaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 180, 20));
 
         jTabbedPane1.addTab("Nueva Venta", jPanel2);
 
@@ -633,8 +651,12 @@ public void AddLista(Object x) {
     }//GEN-LAST:event_cbxFiltroActionPerformed
 
     private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
-
-        if (cbxFiltro.getSelectedIndex() == 3) {
+if (cbxFiltro.getSelectedIndex() == 0) {
+    
+}
+        
+        
+    if (cbxFiltro.getSelectedIndex() == 3) {
             try {
                 String[] titulos = {"Codigo", "Nombre", "Descripcion", "Precio",
                     "Cantidad"};
@@ -656,29 +678,7 @@ public void AddLista(Object x) {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
-        }
-       /* if ("".equals(txtB.getText())) {
-            try {
-                String[] titulos = {"Codigo", "Nombre", "Descripcion", "Precio",
-                    "Cantidad"};
-                String sql = "select * from inventario";
-                model = new DefaultTableModel(null, titulos);
-                ResultSet rs = acciones.Consultar(sql);
-                String[] fila = new String[5];
-                while (rs.next()) {
-                    fila[0] = rs.getString("cod_producto");
-                    fila[1] = rs.getString("nombre_producto");
-                    fila[2] = rs.getString("descripcion");
-                    fila[3] = rs.getString("precio_venta");
-                    fila[4] = rs.getString("cantidad");
-                    model.addRow(fila);
-                }
-                tbl.setModel(model);
-                acciones.conn.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e.getMessage());
-            }
-        }*/
+    }
     }//GEN-LAST:event_txtBKeyReleased
 
     private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
@@ -750,6 +750,11 @@ public void AddLista(Object x) {
     }//GEN-LAST:event_btnBuscarKeyTyped
 
     private void cbxPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxPagoActionPerformed
+        if (cbxPago.getSelectedIndex()!=0) {
+            txtTransaccion.setEnabled(true);
+        }else{
+            txtTransaccion.setEnabled(false);
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxPagoActionPerformed
 
@@ -772,13 +777,42 @@ public void AddLista(Object x) {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBKeyPressed
 
-    private void bntIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntIngresarActionPerformed
-    
-    }//GEN-LAST:event_bntIngresarActionPerformed
+    private void bntAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAñadirActionPerformed
+if (cbxFiltro.getSelectedIndex() == 0) {
+    try {
+        String[] titulos = {"Codigo", "Nombre", "Descripcion", "Precio",
+                    "Cantidad"};
+                String sql = "select * from inventario where codprod = '"+txtB.getText()+"'";
+                model = new DefaultTableModel(null, titulos);
+                ResultSet rs = acciones.Consultar(sql);
+                String[] fila = new String[5];
+                while (rs.next()) {
+                    fila[0] = rs.getString("codprod");
+                    fila[1] = rs.getString("tippro");
+                    fila[2] = rs.getString("desprod");
+                    fila[3] = rs.getString("preprod");
+//                    fila[3] = cantidad;
+//                    fila[4] = total;
+                    model.addRow(fila);
+                }
+                tbl.setModel(model);
+                acciones.conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, e.getMessage());
+            } 
+}
+            
+    }//GEN-LAST:event_bntAñadirActionPerformed
 
-    private void bntIngresarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bntIngresarKeyTyped
+    private void bntAñadirKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bntAñadirKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_bntIngresarKeyTyped
+    }//GEN-LAST:event_bntAñadirKeyTyped
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    txtCodigo.setEnabled(true);
+    txtCedula2.setEnabled(false);
+    btnBuscar.setEnabled(false);
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     public void LlenarLista(int x){
         txtAuto.removeAllItems();
@@ -833,7 +867,7 @@ public void AddLista(Object x) {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bntIngresar;
+    private javax.swing.JButton bntAñadir;
     private javax.swing.JButton btnBuscar;
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -887,9 +921,10 @@ public void AddLista(Object x) {
     private javax.swing.JLabel lblTitulo29;
     private javax.swing.JLabel lblTitulo30;
     private javax.swing.JLabel lblTitulo31;
-    private javax.swing.JLabel lblTitulo32;
     private javax.swing.JLabel lblTitulo33;
     private javax.swing.JLabel lblTitulo34;
+    private javax.swing.JLabel lblTitulo35;
+    private javax.swing.JLabel lblTitulo36;
     private javax.swing.JTable tbl;
     private javax.swing.JTable tbl1;
     private javax.swing.JTextField txtB;
@@ -898,5 +933,6 @@ public void AddLista(Object x) {
     private javax.swing.JTextField txtCodigoV;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtTransaccion;
     // End of variables declaration//GEN-END:variables
 }
