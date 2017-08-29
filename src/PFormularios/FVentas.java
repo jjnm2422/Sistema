@@ -889,64 +889,24 @@ public class FVentas extends javax.swing.JFrame {
         boolean productoAñadido = false;
         //compruebo la entrada y consulto para comprobar si existe
         if (entrada && verificacion()) {
+                //busco la cantidad basado en el codigo en la matriz
             for (int i = 0; i < matriz.length; i++) {
                     if (matriz[i][0] == codigo) {
-                        cantidadProducto =  Math.abs(matriz[i][1]);
-                        cantidadventa  = Math.abs(matriz[i][1])-cantidadMinimo;
+                        if (cantidadMinimo<=matriz[i][1]) {
+                            cantidadventa  = matriz[i][1]-cantidadMinimo;
+                        } else {
+                            cantidadventa = matriz[i][1];
+                        }
                         break;
                     }
             }
-            
-            //compruebo si la cantidad que ingreso en el joption es menor a la existente en el inventario
-            if (Integer.parseInt(cantidad) <= cantidadProducto) {
-                
-                //compruebo que diferencia de la cantidad existente y la ingresada en joption sea mayor al inventario minimo
-                if ((cantidadProducto - Integer.parseInt(cantidad)) >= cantidadMinimo) {
-                    //compruebo si la tabla esta vacia para añadir por primera vez
-                    if (tbl.getRowCount() == 0) {
-                        row1[0] = String.valueOf(codigo);
-                        row1[1] = String.valueOf(tipoProducto);
-                        row1[2] = descripcion;
-                        row1[3] = String.valueOf(precioProducto);
-                        row1[4] = cantidad;
-                        row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
-                        model.addRow(row1);
-                    } else {
-                        //recorro la tabla en busca de registros iguales basado en el codigo
-                        for (int i = 0; i < tbl.getRowCount(); i++) {
-                            if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
-                                tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
-                                tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
-                                productoAñadido = true;
-                            }
-                        }
-                        //añado nuevo producto a la tabla
-                        if (productoAñadido == false) {
-                            row1[0] = String.valueOf(codigo);
-                            row1[1] = String.valueOf(tipoProducto);
-                            row1[2] = descripcion;
-                            row1[3] = String.valueOf(precioProducto);
-                            row1[4] = cantidad;
-                            row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
-                            model.addRow(row1);
-                        }
-                    }
-                    //reinicio la variable
-                    productoAñadido = false;
-                    //hacemos la resta de la cantidad
-                    for (int i = 0; i < matriz.length; i++) {
-                        if (matriz[i][0] == codigo) {
-                            matriz[i][1] = matriz[i][1] - Integer.parseInt(cantidad) ;
-                            break;
-                        }
-                    }
-                    this.Calculos();
-                    //cantidad menor al minimo
-                } else if ((cantidadProducto - Integer.parseInt(cantidad)) <= 0 && (cantidadProducto - Integer.parseInt(cantidad)) >= cantidadMinimo) {
-                    int seleccion = JOptionPane.showOptionDialog(
+            // <editor-fold desc="CODIGO PARA CUANDO SE VENDA PRODUCTOS BAJO EL MINIMO"> 
+                //compruebo si ya se vendio todo los disponible para preguntar si quiere vender bajo el minimo
+                if (cantidadventa == 0) {
+                     int seleccion = JOptionPane.showOptionDialog(
                             null,
                             "El Producto ha llegado al inventario minimo.\n"
-                            + "¿Desea continuar? Tenga en cuenta que puede afectar futuras ventas.",
+                            + "¿Desea continuar? Tenga en cuenta que puede afectar ventas futuras.",
                             "Selector de opciones",
                             JOptionPane.YES_NO_OPTION,
                             JOptionPane.PLAIN_MESSAGE,
@@ -955,7 +915,8 @@ public class FVentas extends javax.swing.JFrame {
                             "No");
                     if (seleccion == 0) {
                         //si asume el riesgo
-                        if ((cantidadProducto - Integer.parseInt(cantidad)) >= 0) {
+                        if (Integer.parseInt(cantidad) <= cantidadMinimo) {
+                            //ingreso si esta vacio
                             if (tbl.getRowCount() == 0) {
                                 row1[0] = String.valueOf(codigo);
                                 row1[1] = String.valueOf(tipoProducto);
@@ -989,7 +950,7 @@ public class FVentas extends javax.swing.JFrame {
                             //hacemos la resta de la cantidad
                             for (int i = 0; i < matriz.length; i++) {
                                 if (matriz[i][0] == codigo) {
-                                    matriz[i][1] = Integer.parseInt(cantidad) - matriz[i][1];
+                                    matriz[i][1] = cantidadventa ;
                                     break;
                                 }
                             }
@@ -998,12 +959,53 @@ public class FVentas extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "El producto seleccionado excede la cantidad Disponible", null, JOptionPane.ERROR_MESSAGE);
                         }
                     }
-                }else {
-                    JOptionPane.showMessageDialog(null, "El producto selecionado ha llegado al inventario de seguridad..."
-                        + "\nLa cantidad maxima disponble para la venta es: "+cantidadVenta, null, JOptionPane.ERROR_MESSAGE);
                 }
+            //fin de producto bajo inventario
+         // </editor-fold>   
+            //compruebo si la cantidad que ingreso en el joption es menor a la disponible para la venta
+            if (Integer.parseInt(cantidad) <= cantidadventa) {
+                cantidadventa=cantidadventa - Integer.parseInt(cantidad);
+                //compruebo que diferencia de la cantidad existente y la ingresada en joption sea mayor al inventario minimo
+                if (tbl.getRowCount() == 0) {
+                        row1[0] = String.valueOf(codigo);
+                        row1[1] = String.valueOf(tipoProducto);
+                        row1[2] = descripcion;
+                        row1[3] = String.valueOf(precioProducto);
+                        row1[4] = cantidad;
+                        row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                        model.addRow(row1);
+                    } else {
+                        //recorro la tabla en busca de registros iguales basado en el codigo
+                        for (int i = 0; i < tbl.getRowCount(); i++) {
+                            if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
+                                tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
+                                tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
+                                productoAñadido = true;
+                            }
+                        }
+                        //añado nuevo producto a la tabla si no encontro uno ya insertado
+                        if (productoAñadido == false) {
+                            row1[0] = String.valueOf(codigo);
+                            row1[1] = String.valueOf(tipoProducto);
+                            row1[2] = descripcion;
+                            row1[3] = String.valueOf(precioProducto);
+                            row1[4] = cantidad;
+                            row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                            model.addRow(row1);
+                        }
+                    }
+                    //reinicio la variable
+                    productoAñadido = false;
+                    //hacemos la resta de la cantidad
+                    for (int i = 0; i < matriz.length; i++) {
+                        if (matriz[i][0] == codigo) {
+                            matriz[i][1] = cantidadventa ;
+                            break;
+                        }
+                    }
+                    this.Calculos();
             }else {
-            JOptionPane.showMessageDialog(null, "La cantidad seleccionada excede la cantidad disponible", null, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "La cantidad seleccionada excede la cantidad Disponible la cual es: "+cantidadventa, null, JOptionPane.ERROR_MESSAGE);
         }
         } 
     }//GEN-LAST:event_bntAñadirActionPerformed
