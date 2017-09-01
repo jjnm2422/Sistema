@@ -125,11 +125,14 @@ public class FReportes extends javax.swing.JFrame{
         lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         lblHora = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Control de Acceso");
+        setTitle("Reportes");
         setUndecorated(true);
         addWindowFocusListener(new java.awt.event.WindowFocusListener() {
             public void windowGainedFocus(java.awt.event.WindowEvent evt) {
@@ -167,7 +170,7 @@ public class FReportes extends javax.swing.JFrame{
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 30, 30));
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 0, 30, 30));
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/minimizar.png"))); // NOI18N
         jButton10.setBorderPainted(false);
@@ -177,14 +180,16 @@ public class FReportes extends javax.swing.JFrame{
                 jButton10ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 30, 30));
+        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 30, 30));
 
-        lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 20));
+        lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
+        lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 610, 50));
 
         jLabel1.setBackground(new java.awt.Color(255, 102, 0));
         jLabel1.setOpaque(true);
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 30));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 30));
 
         lblHora.setBackground(new java.awt.Color(255, 255, 255));
         lblHora.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -192,18 +197,63 @@ public class FReportes extends javax.swing.JFrame{
         lblHora.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jPanel3.add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 140, 20));
 
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Clientes.png"))); // NOI18N
+        jButton7.setContentAreaFilled(false);
+        jButton7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton7.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/ClientesR.png"))); // NOI18N
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton7ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
+        jPanel3.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 210, 130));
 
-        jButton3.setText("jButton3");
-        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, -1, -1));
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/ventas.png"))); // NOI18N
+        jButton4.setBorderPainted(false);
+        jButton4.setContentAreaFilled(false);
+        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Ventas2.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 200, 170));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 340));
+        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Pedidos.png"))); // NOI18N
+        jButton5.setContentAreaFilled(false);
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Pedidos2.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 200, 170));
+
+        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Proveedores.png"))); // NOI18N
+        jButton8.setContentAreaFilled(false);
+        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton8.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/ProveedoresR.png"))); // NOI18N
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, 210, 130));
+
+        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Inventario.png"))); // NOI18N
+        jButton6.setContentAreaFilled(false);
+        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/InventarioR.png"))); // NOI18N
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 210, 130));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 410));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -235,10 +285,10 @@ setExtendedState(JFrame.ICONIFIED);
  
     }//GEN-LAST:event_formWindowOpened
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
     try {
             Connection conn = PBD.Conexion_DB.geConnection();
-            String dir = "E:\\juniorReport\\reporteC.jrxml";
+            String dir = "C:\\juniorReport\\reporteC.jrxml";
             Map<String, Object> p2 = new HashMap<>();
             p2.put("usuario", usuario);
 //            p2.put("ruta", ruta.getRuta());
@@ -249,7 +299,60 @@ setExtendedState(JFrame.ICONIFIED);
         } catch (JRException ex) {
             JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        new PFormularios.FVentas().setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+     try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = "C:\\juniorReport\\reportePE.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", usuario);
+//            p2.put("ruta", ruta.getRuta());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = "C:\\juniorReport\\reporteP.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", usuario);
+//            p2.put("ruta", ruta.getRuta());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+    try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = "C:\\juniorReport\\reporteI.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", usuario);
+//            p2.put("ruta", ruta.getRuta());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -268,8 +371,11 @@ setExtendedState(JFrame.ICONIFIED);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblHora;

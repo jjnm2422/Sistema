@@ -1031,7 +1031,7 @@ this.AñadirVentas();
             try {
                 String sql = "select * from inventario "
                         + "inner join tipoproducto on tippro=codtip "
-                        + "inner join proveedores on inventario.codpro = proveedores.codpro "
+                        + "inner join proveedores on inventario.codpro = proveedores.rifpro "
                         + "where codprod = '" + txtB.getText() + "'";
                 ResultSet rs = acciones.Consultar(sql);
                 while (rs.next()) {
@@ -1055,7 +1055,7 @@ this.AñadirVentas();
             try {
                 String sql = "select * from inventario "
                         + "inner join tipoproducto on tippro=codtip "
-                        + "inner join proveedores on inventario.codpro = proveedores.codpro "
+                        + "inner join proveedores on inventario.codpro = proveedores.rifpro "
                         + "where desprod = '" + txtB.getText() + "'";
                 ResultSet rs = acciones.Consultar(sql);
                 while (rs.next()) {
@@ -1248,7 +1248,7 @@ this.dispose();        // TODO add your handling code here:
             try {
                 String sql = "select * from inventario "
                         + "inner join tipoproducto on tippro=codtip "
-                        + "inner join proveedores on inventario.codpro = proveedores.codpro "
+                        + "inner join proveedores on inventario.codpro = proveedores.rifpro "
                         + "where codprod = '" + txtB.getText() + "'";
                 ResultSet rs = acciones.Consultar(sql);
                 while (rs.next()) {
@@ -1275,7 +1275,7 @@ this.dispose();        // TODO add your handling code here:
             try {
                 String sql = "select * from inventario "
                         + "inner join tipoproducto on tippro=codtip "
-                        + "inner join proveedores on inventario.codpro = proveedores.codpro "
+                        + "inner join proveedores on inventario.codpro = proveedores.rifpro "
                         + "where desprod = '" + txtB.getText() + "'";
                 ResultSet rs = acciones.Consultar(sql);
                 String[] fila = new String[6];
