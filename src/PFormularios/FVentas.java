@@ -14,6 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Random;
 import javax.swing.Icon;
@@ -309,13 +311,13 @@ public class FVentas extends javax.swing.JFrame {
         jPanel2.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 150, -1));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
-        jButton3.setText("Cancelar");
+        jButton3.setText("Borrar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 400, 100, 30));
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 400, 100, 30));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         jButton4.setText("Salir");
@@ -324,7 +326,7 @@ public class FVentas extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 400, 100, 30));
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 400, 100, 30));
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497479141_list-add.png"))); // NOI18N
         jButton7.setText("Añadir");
@@ -590,7 +592,7 @@ public class FVentas extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, 100, 30));
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, 100, 30));
 
         lblTitulo32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo32.setText("Precio");
@@ -799,7 +801,7 @@ public class FVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_tblKeyPressed
 
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
-     if (evt.getClickCount() == 2) {
+     if (evt.getClickCount() == 2 && tbl.isEnabled()) {
             int fila = this.tbl.getSelectedRow();
             if (Integer.parseInt(tbl.getValueAt(this.tbl.getSelectedRow(), 4).toString()) > 1) {
                 //busco donde devolvere la cantidad que estoy eliminando
@@ -940,10 +942,16 @@ this.AñadirVentas();
         txtCodigo.setEnabled(true);
         txtCedula2.setEnabled(false);
         btnBuscar.setEnabled(false);
+        txtB.setEnabled(false);
+        cbxFiltro.setEnabled(false);
+        bntAñadir.setEnabled(false);
+        tbl.setEnabled(false);
+        lblTitulo23.setVisible(false);
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         txtCodigo.setEnabled(false);
+        lblTitulo23.setVisible(false);
         txtNombre.setText("");
         txtTransaccion.setText("");
         txtCedula2.setEnabled(true);
@@ -951,7 +959,44 @@ this.AñadirVentas();
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-        // TODO add your handling code here:
+       SimpleDateFormat formateador2 = new SimpleDateFormat("dd/MM/yyyy");
+       iva = getIva();
+        if (txtCodigo.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo codigo", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+        } else {
+            String codigo = txtCodigo.getText();
+            boolean resultado = false;
+            float iva = getIva();
+            try {
+                String[] titulos = {"Descripcion"};
+                String sql = "select * from pedidos inner join clientes"
+                        + " on clientes.cedcli = pedidos.cedcli where codped = '" + codigo + "'";
+                model = new DefaultTableModel(null, titulos);
+                ResultSet rs = acciones.Consultar(sql);
+                while (rs.next()) {
+                    resultado = true;
+                    txtNombre.setText(rs.getString("nomcli")+" "+rs.getString("apecli"));
+                    txtCedula2.setText(rs.getString("cedcli"));
+                    row1[0] = rs.getString("desped");
+                    txtTotal.setText(String.valueOf(rs.getInt("preped")));
+                    float subtotal = (Float.parseFloat(txtTotal.getText()) / (1 + (iva / 100)));
+                    txtPrecio.setText(String.valueOf(subtotal));
+                    txtCantidad.setText(String.valueOf(rs.getInt("canped")));
+                    model.addRow(row1);
+                }
+                tbl.setModel(model);
+                if (resultado == false) {
+                    JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
+                    resultado = false;
+//                    this.Habilitar(2);
+                }
+                acciones.conn.close();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error al consultar Pedidos\ncodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
+        }
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
     private void btnBuscar1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscar1KeyTyped
@@ -959,9 +1004,8 @@ this.AñadirVentas();
     }//GEN-LAST:event_btnBuscar1KeyTyped
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        txtCodigo.setEnabled(false);
-        txtCedula2.setEnabled(true);
-        btnBuscar.setEnabled(true);
+        this.Borrar(1);
+        this.Habilitar(1);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -1042,7 +1086,24 @@ this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+    int y = model.getRowCount();
+        //busco donde devolvere la cantidad que estoy eliminando
+        for (int i = 0; i < y; i++) {
+            int codigo = Integer.parseInt(model.getValueAt(i, 0).toString());
+            int valor = Integer.parseInt(model.getValueAt(i, 4).toString());
+            for (int j = 0; j < matriz.length; j++) {
+                if (matriz[j][0]==codigo) {
+                    matriz[j][1]=matriz[j][1] + valor;
+                    tbl.setModel(model);
+                }
+            }
+        }
+        for (int i = 1; i <= y; i++) {
+            model.removeRow(0);
+        }
+        txtCantidad.setText(null);
+        txtPrecio.setText(null);
+        txtTotal.setText(null);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     public void LlenarLista(int x) {
@@ -1052,7 +1113,6 @@ this.dispose();        // TODO add your handling code here:
                 try {
                     String sql = "select * from inventario";
                     ResultSet rs = acciones.Consultar(sql);
-                    String[] fila = new String[5];
                     while (rs.next()) {
                         this.AddLista(rs.getString("desprod"));
                     }
@@ -1065,7 +1125,6 @@ this.dispose();        // TODO add your handling code here:
                 try {
                     String sql = "select * from inventario";
                     ResultSet rs = acciones.Consultar(sql);
-                    String[] fila = new String[5];
                     while (rs.next()) {
                         this.AddLista(rs.getString("codprod"));
                     }
@@ -1400,5 +1459,21 @@ this.dispose();        // TODO add your handling code here:
         }
         // </editor-fold>
         System.out.println(tbl.getRowCount());
+    }
+
+    private void Borrar(int i) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void Habilitar(int i) {
+        switch (i) {
+            case 1:
+                txtCodigo.setEnabled(false);
+                txtCedula2.setEnabled(true);
+                btnBuscar.setEnabled(true);
+                break;
+            default:
+                throw new AssertionError();
+        }
     }
 }
