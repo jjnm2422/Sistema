@@ -5,22 +5,25 @@
  */
 package PFormularios;
 
-import Atxy2k.CustomTextField.RestrictedTextField;
 import com.sun.awt.AWTUtilities;
-import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
-import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DecimalFormat;
-import java.util.Formatter;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -29,28 +32,49 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Navarro
  */
-public class FReportes extends javax.swing.JFrame {
+public class FReportes extends javax.swing.JFrame{
 
     private int x;
     private int y;
-    private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/oie_canvas.png"));
-    private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
     private final ImageIcon iconError = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png"));
-    private final ImageIcon iconCorrecto = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/correcto.png"));
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
-    public DefaultTableModel model;
-    private int iva = 0;
-    private DecimalFormat format = new DecimalFormat("#.00 Bsf");
-    private DefaultTableModel model2;
+    private final ImageIcon iconCorrecto = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/correcto.png"));
+    private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
+    PClases.CFecha fecha = new PClases.CFecha();
+    private String hora = "";
+    private String ampm;
+    private String minutos;
+    private String segundos;
+    private String usuario;
+    private long i = 0;
+    PBD.Conexion_DB conexion = new PBD.Conexion_DB();
+    
+        
+    public FReportes() {
+        this.setlook();
+        initComponents();
+        setLocationRelativeTo(null);
+        i=0;
+    }
+    
 
- 
-
+    
+    public void setTitle(String title) {
+        super.setTitle(title);
+        lblTitulo.setText(title);
+    }
+    
     public void setlook() {
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -58,162 +82,34 @@ public class FReportes extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-
-    public void setTitle(String title) {
-        super.setTitle(title);
-        lblTitulo.setText(title);
-    }
-
-
-
-   
-
-    public int getCodProveedores(String nombre) {
-        int cod = 0;
+    
+        public void ActualizarUsuario() {
         try {
-            String sql = "select * from proveedores where nompro = '" + nombre + "'";
-            ResultSet rs = acciones.Consultar(sql);
-            while (rs.next()) {
-                cod = rs.getInt("rifpro");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            String sql1 = "update usuarios set fecult=?, horult=? where nomusu= '"+usuario+"'";
+            PreparedStatement ps = acciones.Actualizar(sql1);
+            ps.setString(1, fecha.getFecha());  
+            ps.setString(2, lblHora.getText());
+            int n = ps.executeUpdate();
+            acciones.conn.close();
+        } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR ULTIMO ACCESO" + e.getMessage()); 
         }
-        return cod;
     }
-
-    public float getIva() {
-        try {
-            String sql = "select * from variables where codvar = '1'";
-            ResultSet rs = acciones.Consultar(sql);
-            while (rs.next()) {
-                iva = rs.getInt("iva");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar Iva\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-        return iva;
-    }
-
-
-
-    public int getCodTipoProducto(String nombre) {
-        int cod = 0;
-        try {
-            String sql = "select * from tipoproducto where tipprod = '" + nombre + "'";
-            ResultSet rs = acciones.Consultar(sql);
-            while (rs.next()) {
-                cod = rs.getInt("codtip");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-        return cod;
-    }
-
+    
     private void restaurarVentana() {
-        if (getExtendedState() == JFrame.MAXIMIZED_BOTH) {//1
+        if(getExtendedState() == JFrame.MAXIMIZED_BOTH){//1
             setExtendedState(JFrame.NORMAL);//2
-        } else {
+        }else{
             setExtendedState(JFrame.MAXIMIZED_BOTH);//3
         }
     }
-
-  
-
-  
-
-    public void Ajustar(JLabel label, ImageIcon icon) {
+    public void Ajustar(JLabel label, ImageIcon icon){
         //esta funcion ajusta un icono(parametro) al tamaño del label (parametro)
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
         label.setIcon(icono);
         this.repaint();
     }
 
-    /* private void Habilitar(int x) {
-        switch (x) {
-            case 2:
-            txtNombre2.setEnabled(true);
-//            txtApellido2.setEnabled(true);
-            txtComentario2.setEnabled(true);
-            txtTelefono22.setEnabled(true);
-            txtTelefono21.setEnabled(true);
-            txtDireccion2.setEnabled(true);
-            txtHorario2.setEnabled(true);
-            txtPagina2.setEnabled(true);
-                break; 
-            case 3:
-           txtNombre2.setEnabled(false);
-//            txtApellido2.setEnabled(false);
-            txtComentario2.setEnabled(false);
-            txtTelefono21.setEnabled(false);
-            txtTelefono22.setEnabled(false);
-            txtDireccion2.setEnabled(false);
-            txtHorario2.setEnabled(false);
-            txtPagina2.setEnabled(false);
-           
-                break;
-            default:
-        }       
-    }*/
- /* private void Borrar(int x) {
-        switch (x) {
-            case 1:
-            txtNombre1.setText("");
-            txtPagina1.setText("");
-            txtHorario1.setText("");
-            txtComentario1.setText("");
-            txtCedula1.setText("");
-            txtTelefono11.setText("");
-            txtTelefono12.setText(""); 
-            txtDireccion1.setText("");
-                break;
-            case 2:
-            txtNombre2.setText("");
-            txtPagina2.setText("");
-            txtHorario2.setText("");
-            txtComentario2.setText("");
-            txtCedula2.setText("");
-            txtTelefono21.setText("");
-            txtTelefono22.setText(""); 
-            txtDireccion2.setText("");
-                break;
-            case 3:
-            txtNombre2.setText("");
-            txtPagina2.setText("");
-            txtHorario2.setText("");
-            txtComentario2.setText("");
-            txtTelefono21.setText("");
-            txtTelefono22.setText(""); 
-            txtDireccion2.setText("");
-                break;
-            default:
-        }
-    }*/
- /* private boolean Verificacion1(){
-        if (txtNombre1.getText().equals("")
-         || txtCedula1.getText().equals("") || txtTelefono11.getText().equals("")
-         || txtDireccion1.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia",JOptionPane.PLAIN_MESSAGE,iconAd);
-            return false;
-        } else {
-            return true;
-        }
-    }
-    
-    private boolean Verificacion2(){
-        if (txtNombre2.getText().equals("")
-         || txtCedula2.getText().equals("") || txtTelefono21.getText().equals("")
-         || txtDireccion2.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Verifique que los campos esten llenos", "Advertencia",JOptionPane.PLAIN_MESSAGE,iconAd);
-            return false;
-        } else {
-            return true;
-        }
-    }*/
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -228,15 +124,29 @@ public class FReportes extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         lblTitulo = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        lblHora = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Inventario");
+        setTitle("Control de Acceso");
         setUndecorated(true);
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+                formWindowLostFocus(evt);
+            }
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel3.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseDragged(java.awt.event.MouseEvent evt) {
                 jPanel3MouseDragged(evt);
@@ -257,7 +167,7 @@ public class FReportes extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 30, 30));
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 30, 30));
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/minimizar.png"))); // NOI18N
         jButton10.setBorderPainted(false);
@@ -267,69 +177,102 @@ public class FReportes extends javax.swing.JFrame {
                 jButton10ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 30, 30));
+        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 0, 30, 30));
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 20));
 
-        jLabel1.setBackground(new java.awt.Color(0, 255, 255));
+        jLabel1.setBackground(new java.awt.Color(255, 102, 0));
         jLabel1.setOpaque(true);
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 30));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 30));
 
-        jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
+        lblHora.setBackground(new java.awt.Color(255, 255, 255));
+        lblHora.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblHora.setForeground(new java.awt.Color(255, 255, 255));
+        lblHora.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jPanel3.add(lblHora, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 140, 20));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 255, 255), 4));
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jTabbedPane1.addTab("Nuevo", jPanel2);
+        jButton2.setText("jButton2");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, -1, -1));
 
-        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 570, 300));
+        jButton3.setText("jButton3");
+        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, -1, -1));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 360));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 550, 340));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
-        x = evt.getX();
-        y = evt.getY();
+    x = evt.getX();
+    y = evt.getY();
     }//GEN-LAST:event_jPanel3MousePressed
 
     private void jPanel3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseDragged
-        Point ubicacion = MouseInfo.getPointerInfo().getLocation();//1
-        setLocation(ubicacion.x - x, ubicacion.y - y);//3
+    Point ubicacion = MouseInfo.getPointerInfo().getLocation();//1
+    setLocation(ubicacion.x - x, ubicacion.y - y);//3
     }//GEN-LAST:event_jPanel3MouseDragged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        dispose();
+        System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        restaurarVentana();
-        setExtendedState(JFrame.ICONIFIED);
+restaurarVentana();
+setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton10ActionPerformed
-    
+
+    private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
+//    this.requestFocus();     
+    }//GEN-LAST:event_formWindowLostFocus
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+ 
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = "E:\\juniorReport\\reporteC.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", usuario);
+//            p2.put("ruta", ruta.getRuta());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-
-        /* Create and display the form */
+    public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new FReportes().setVisible(true);
             }
         });
     }
 
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lblHora;
     private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
-
 }
