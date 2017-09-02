@@ -119,7 +119,7 @@ public class FClientes extends javax.swing.JFrame {
     private boolean Verificacion1() {
         //verifico que no esten vacios
         if (txtNombre1.getText().equals("") || txtApellido1.getText().equals("")
-                || txtCedula1.getText().equals("") || txtTelefono11.getText().equals("")
+                || txtCedula1.getText().equals("") || txtCedula1.getText().length()>=5 || txtTelefono11.getText().equals("")
                 || txtDireccion1.getText().equals("") || txtTelefono11.getBackground().equals(Color.RED) || txtCedula1.getBackground().equals(Color.RED)
                 || txtTelefono12.getBackground().equals(Color.RED)) {
             JOptionPane.showMessageDialog(null, "Verifique:\n"
@@ -755,6 +755,9 @@ int seleccion = JOptionPane.showOptionDialog(
         if (txtCedula2.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo cedula", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
+            if (Integer.parseInt(txtCedula2.getText())==1) {
+                JOptionPane.showMessageDialog(null, "Pedido No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            } else {
             this.txtCedula2.setEnabled(false);
             boolean resultado = false;
             this.Borrar(3);
@@ -785,6 +788,7 @@ int seleccion = JOptionPane.showOptionDialog(
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -895,7 +899,107 @@ int seleccion = JOptionPane.showOptionDialog(
     }//GEN-LAST:event_txtBActionPerformed
 
     private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
-  
+int c = evt.getKeyChar();
+        int var = cbxFiltro.getSelectedIndex();
+        if (var>=1) {
+          if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+              if (!txtB.getText().equals("")) {
+                switch (var) {
+                case 1:
+                    try {
+                        String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
+                            "Direccion", "Telefono", "Telefono"};
+                        String sql = "select * from clientes where cedcli like '" + txtB.getText() + "%'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[7];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codcli");
+                            fila[1] = rs.getString("nomcli");
+                            fila[2] = rs.getString("apecli");
+                            fila[3] = rs.getString("cedcli");
+                            fila[4] = rs.getString("dircli");
+                            fila[5] = rs.getString("telcli");
+                            fila[6] = rs.getString("tel2cli");
+                            model.addRow(fila);
+                        }
+                        tbl.setModel(model);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
+                            "Direccion", "Telefono", "Telefono"};
+                        String sql = "select * from clientes where codcli = '" + txtB.getText() + "'";
+                        model = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[7];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codcli");
+                            fila[1] = rs.getString("nomcli");
+                            fila[2] = rs.getString("apecli");
+                            fila[3] = rs.getString("cedcli");
+                            fila[4] = rs.getString("dircli");
+                            fila[5] = rs.getString("telcli");
+                            fila[6] = rs.getString("tel2cli");
+                            model.addRow(fila);
+                            acciones.conn.close();
+                        }
+                        tbl.setModel(model);
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage());
+                    }
+                    break;
+            }   
+              }else{
+                  this.LlenarTabla();
+              }
+           
+        } else {
+            txtB.setText("");
+            JOptionPane.showMessageDialog(null, "Ingrese solo numeros o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+        }  
+        }else{
+            if (var < 1) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                switch (var) {
+                    case 0:
+                        try {
+                            String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
+                                "Direccion", "Telefono", "Telefono"};
+                            String sql = "select * from clientes where nomcli like '" + txtB.getText() + "%'";
+                            model = new DefaultTableModel(null, titulos);
+                            ResultSet rs = acciones.Consultar(sql);
+                            String[] fila = new String[7];
+                            while (rs.next()) {
+                                fila[0] = rs.getString("codcli");
+                                fila[1] = rs.getString("nomcli");
+                                fila[2] = rs.getString("apecli");
+                                fila[3] = rs.getString("cedcli");
+                                fila[4] = rs.getString("dircli");
+                                fila[5] = rs.getString("telcli");
+                                fila[6] = rs.getString("tel2cli");
+                                model.addRow(fila);
+                            }
+                            tbl.setModel(model);
+                            acciones.conn.close();
+                        } catch (SQLException e) {
+                            JOptionPane.showMessageDialog(null, e.getMessage());
+                        }
+                        break;
+                    default:
+                }
+            }else{
+                txtB.setText("");
+                JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                    JOptionPane.PLAIN_MESSAGE, iconAd);
+            }
+            }
+        }  
     }//GEN-LAST:event_txtBKeyReleased
 
     private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
@@ -1158,102 +1262,7 @@ int seleccion = JOptionPane.showOptionDialog(
     }//GEN-LAST:event_txtComentario1KeyReleased
 
     private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
-        int c = evt.getKeyChar();
-        int var = cbxFiltro.getSelectedIndex();
-        if (var>=1) {
-          if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            switch (var) {
-                case 1:
-                    try {
-                        String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
-                            "Direccion", "Telefono", "Telefono"};
-                        String sql = "select * from clientes where cedcli like '" + txtB.getText() + "%'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[7];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codcli");
-                            fila[1] = rs.getString("nomcli");
-                            fila[2] = rs.getString("apecli");
-                            fila[3] = rs.getString("cedcli");
-                            fila[4] = rs.getString("dircli");
-                            fila[5] = rs.getString("telcli");
-                            fila[6] = rs.getString("tel2cli");
-                            model.addRow(fila);
-                        }
-                        tbl.setModel(model);
-                        acciones.conn.close();
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                    }
-                    break;
-                case 2:
-                    try {
-                        String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
-                            "Direccion", "Telefono", "Telefono"};
-                        String sql = "select * from clientes where codcli = '" + txtB.getText() + "'";
-                        model = new DefaultTableModel(null, titulos);
-                        ResultSet rs = acciones.Consultar(sql);
-                        String[] fila = new String[7];
-                        while (rs.next()) {
-                            fila[0] = rs.getString("codcli");
-                            fila[1] = rs.getString("nomcli");
-                            fila[2] = rs.getString("apecli");
-                            fila[3] = rs.getString("cedcli");
-                            fila[4] = rs.getString("dircli");
-                            fila[5] = rs.getString("telcli");
-                            fila[6] = rs.getString("tel2cli");
-                            model.addRow(fila);
-                            acciones.conn.close();
-                        }
-                        tbl.setModel(model);
-                    } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage());
-                    }
-                    break;
-            }
-        } else {
-            evt.consume();
-            JOptionPane.showMessageDialog(null, "Ingrese solo numeros o seleccione otro filtro", "Advertencia",
-                    JOptionPane.PLAIN_MESSAGE, iconAd);
-        }  
-        }else{
-            if (var < 1) {
-                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
-                switch (var) {
-                    case 0:
-                        try {
-                            String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
-                                "Direccion", "Telefono", "Telefono"};
-                            String sql = "select * from clientes where nomcli like '" + txtB.getText() + "%'";
-                            model = new DefaultTableModel(null, titulos);
-                            ResultSet rs = acciones.Consultar(sql);
-                            String[] fila = new String[7];
-                            while (rs.next()) {
-                                fila[0] = rs.getString("codcli");
-                                fila[1] = rs.getString("nomcli");
-                                fila[2] = rs.getString("apecli");
-                                fila[3] = rs.getString("cedcli");
-                                fila[4] = rs.getString("dircli");
-                                fila[5] = rs.getString("telcli");
-                                fila[6] = rs.getString("tel2cli");
-                                model.addRow(fila);
-                            }
-                            tbl.setModel(model);
-                            acciones.conn.close();
-                        } catch (SQLException e) {
-                            JOptionPane.showMessageDialog(null, e.getMessage());
-                        }
-                        break;
-                    default:
-                }
-            }else{
-                evt.consume();
-                JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
-                    JOptionPane.PLAIN_MESSAGE, iconAd);
-            }
-            }
-        }
+        
     }//GEN-LAST:event_txtBKeyTyped
 
     /**

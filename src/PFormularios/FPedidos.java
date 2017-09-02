@@ -83,22 +83,6 @@ public class FPedidos extends javax.swing.JFrame {
         this.repaint();
     }
 
-    public String NumeroAleatorio() {
-        long numero = 0;
-        Random rd = new Random();
-        numero = rd.nextInt(99999999) + 1;
-        /*try {
-        String sql = "select * from ventas where cod_venta= '"+numero+"'";
-        ResultSet rs= operaciones.Consultar(sql);
-        while(rs.next()){
-        numero = Long.parseLong(this.NumeroAleatorio());
-        }
-    } catch (SQLException e) {
-       JOptionPane.showMessageDialog(null, e.getMessage());    
-    }*/
-        return String.valueOf(numero);
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -141,6 +125,8 @@ public class FPedidos extends javax.swing.JFrame {
         date2 = new com.toedter.calendar.JDateChooser();
         lblTitulo23 = new javax.swing.JLabel();
         lblTitulo24 = new javax.swing.JLabel();
+        cbxTipo1 = new javax.swing.JComboBox<>();
+        lblTitulo25 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
@@ -256,7 +242,7 @@ public class FPedidos extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txtDescripcion);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 650, 130));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 650, 110));
 
         btnSalir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir.setText("Salir");
@@ -307,7 +293,7 @@ public class FPedidos extends javax.swing.JFrame {
 
         lblTitulo9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo9.setText("Descripcion Detallada:");
-        jPanel1.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 140, 20));
+        jPanel1.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 140, 20));
 
         lblTitulo15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo15.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -404,6 +390,14 @@ public class FPedidos extends javax.swing.JFrame {
         lblTitulo24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblTitulo24.setText("Codigo del Pedido");
         jPanel1.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, 120, 20));
+
+        cbxTipo1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "pedidos" }));
+        cbxTipo1.setEnabled(false);
+        jPanel1.add(cbxTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 120, 20));
+
+        lblTitulo25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lblTitulo25.setText("Tipo Producto");
+        jPanel1.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 90, -1));
 
         jTabbedPane1.addTab("Nuevo", jPanel1);
 
@@ -922,6 +916,9 @@ public class FPedidos extends javax.swing.JFrame {
         if (txtCodigo.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo codigo", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
+            if (Integer.parseInt(txtCodigo.getText())==1) {
+                JOptionPane.showMessageDialog(null, "Pedido No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            } else {
             String codigo = txtCodigo.getText();
             boolean resultado = false;
             try {
@@ -959,6 +956,7 @@ public class FPedidos extends javax.swing.JFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al consultar Pedidos\ncodigo error:" + e.getMessage(),
                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
             }
         }
     }//GEN-LAST:event_btnBuscar1ActionPerformed
@@ -1275,6 +1273,7 @@ public class FPedidos extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbxEstado;
     private javax.swing.JComboBox<String> cbxEstado1;
     private javax.swing.JComboBox<String> cbxFiltro;
+    private javax.swing.JComboBox<String> cbxTipo1;
     private com.toedter.calendar.JDateChooser date1;
     private com.toedter.calendar.JDateChooser date2;
     private com.toedter.calendar.JDateChooser date3;
@@ -1308,6 +1307,7 @@ public class FPedidos extends javax.swing.JFrame {
     private javax.swing.JLabel lblTitulo22;
     private javax.swing.JLabel lblTitulo23;
     private javax.swing.JLabel lblTitulo24;
+    private javax.swing.JLabel lblTitulo25;
     private javax.swing.JLabel lblTitulo27;
     private javax.swing.JLabel lblTitulo28;
     private javax.swing.JLabel lblTitulo29;

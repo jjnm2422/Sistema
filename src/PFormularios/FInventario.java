@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.event.KeyEvent;
 import java.awt.geom.RoundRectangle2D;
 import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
@@ -1152,7 +1153,7 @@ public class FInventario extends javax.swing.JFrame {
             }
             //compuebo el cbx opcion 2
             if (var==1) {
-                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK|| c == KeyEvent.VK_SPACE) {
                     try {
                         String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
                             "Precio"};
@@ -1185,7 +1186,7 @@ public class FInventario extends javax.swing.JFrame {
             }
             //compuebo el cbx opcion 3
             if (var==2) {
-                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                if (c >= 48 && c <= 57 || c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK|| c == KeyEvent.VK_SPACE) {
                     try {
                         String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
                             "Precio"};
@@ -1293,7 +1294,12 @@ public class FInventario extends javax.swing.JFrame {
             this.Pintar(4);
             int fila = this.tbl1.getSelectedRow();
             String codigo = tbl1.getValueAt(fila, 0).toString();
-            try {
+            if (codigo.equals("1")) {
+            JOptionPane.showMessageDialog(null, "No se Puede Modificar Este Producto",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            txtIngreso.setText("");
+            } else {
+                try {
                 String sql = "select * from inventario inner join tipoproducto"
                 + " on tipoproducto.codtip = inventario.tippro where codprod = '" + codigo + "'";
                 ResultSet rs = acciones.Consultar(sql);
@@ -1318,7 +1324,7 @@ public class FInventario extends javax.swing.JFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Datos incompletos\n" + e);
             }
-
+            }
         }
     }//GEN-LAST:event_tbl1MouseClicked
 
@@ -1425,7 +1431,7 @@ public class FInventario extends javax.swing.JFrame {
             }
             //compuebo el cbx opcion 2
             if (var==1) {
-                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK|| c == KeyEvent.VK_SPACE) {
                     try {
                         String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
                             "Precio"};
@@ -1457,7 +1463,7 @@ public class FInventario extends javax.swing.JFrame {
             }
             //compuebo el cbx opcion 3
             if (var==2) {
-                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                if (c >= 48 && c <= 57 || c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK|| c == KeyEvent.VK_SPACE) {
                     try {
                         String[] titulos = {"Codigo", "Tipo", "Descripcion", "Disponible",
                             "Precio"};
@@ -1632,7 +1638,11 @@ public class FInventario extends javax.swing.JFrame {
         cbxTipo2.removeAllItems();
         cbxProveedor2.removeAllItems();
         if(!txtConsultar2.getText().equals("")){
-            String cedula = this.txtConsultar2.getText();
+            if(Integer.parseInt(txtConsultar2.getText())==1){
+                JOptionPane.showMessageDialog(null, "No se Puede Modificar Este Producto",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }else{
+             String cedula = this.txtConsultar2.getText();
             if (!cedula.equals("")) {
                 float total = 0;
                 try {
@@ -1657,6 +1667,7 @@ public class FInventario extends javax.swing.JFrame {
                     if (resultado == false) {
                         JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
                             JOptionPane.PLAIN_MESSAGE, iconAd);
+                        txtConsultar2.setEnabled(true);
                         //                this.Habilitar(3);
                         resultado = false;
                     }
@@ -1668,6 +1679,7 @@ public class FInventario extends javax.swing.JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Campo Cedula vacio",
                     "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+            }   
             }
         }else{
             JOptionPane.showMessageDialog(null, "No debe estar el campo vacio");
@@ -1722,7 +1734,7 @@ public class FInventario extends javax.swing.JFrame {
     }//GEN-LAST:event_btnIngresar2ActionPerformed
 
     private void btnSalir2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir2ActionPerformed
-        // TODO add your handling code here:
+this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_btnSalir2ActionPerformed
 
     private void btnBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar2ActionPerformed

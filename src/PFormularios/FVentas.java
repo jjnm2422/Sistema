@@ -10,6 +10,8 @@ import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -58,10 +60,13 @@ public class FVentas extends javax.swing.JFrame {
     private String tipoProducto = "";
     private String[] row1 = new String[6];
     private int[][] matriz;
+    private int codusu = 0;
+    private int codcli = 0;
     //establesco la region de la simobologia y formatos
     DecimalFormatSymbols simbolos = DecimalFormatSymbols.getInstance(Locale.ENGLISH);
     private DecimalFormat format = new DecimalFormat("#0.00", simbolos);
     private DecimalFormat formato = new DecimalFormat("##########", simbolos);
+    private int codorden;
 
     public int getIva() {
         try {
@@ -86,6 +91,7 @@ public class FVentas extends javax.swing.JFrame {
         txtCodigoV.setText(NumeroAleatorio());
         this.txtAuto = new TextAutoCompleter(txtB);
         this.inicializar();
+        this.Llenar();
     }
 
     public void inicializar() {
@@ -162,6 +168,36 @@ public class FVentas extends javax.swing.JFrame {
         }
         return String.valueOf(numero);
     }
+    
+     public String NumeroAleatorio2() {
+        long numero = 0;
+        Random rd = new Random();
+        numero = rd.nextInt(9999999) + 1;
+        try {
+            String sql = "select * from orden where codord= '" + numero + "'";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                numero = Long.parseLong(this.NumeroAleatorio());
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return String.valueOf(numero);
+    }
+
+    public int getCodUsu() throws SQLException {
+        try {
+            String sql = "select * from usuarios where nomusu = '" + lblResponsable.getText() + "'";
+            ResultSet rs = acciones.Consultar(sql);
+            while (rs.next()) {
+                codusu = rs.getInt("codusu");
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        acciones.conn.close();
+        return codusu;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -183,7 +219,6 @@ public class FVentas extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         lblTitulo11 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         lblTitulo12 = new javax.swing.JLabel();
@@ -225,33 +260,20 @@ public class FVentas extends javax.swing.JFrame {
         btnBuscar1 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         lblTitulo32 = new javax.swing.JLabel();
+        lblResponsable = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jTextField21 = new javax.swing.JTextField();
-        lblTitulo27 = new javax.swing.JLabel();
-        jTextField22 = new javax.swing.JTextField();
-        lblTitulo16 = new javax.swing.JLabel();
-        lblTitulo17 = new javax.swing.JLabel();
-        jTextField23 = new javax.swing.JTextField();
         lblTitulo28 = new javax.swing.JLabel();
-        lblTitulo29 = new javax.swing.JLabel();
-        jTextField24 = new javax.swing.JTextField();
-        lblTitulo30 = new javax.swing.JLabel();
-        lblTitulo33 = new javax.swing.JLabel();
-        jTextField27 = new javax.swing.JTextField();
-        jTextField28 = new javax.swing.JTextField();
-        lblTitulo34 = new javax.swing.JLabel();
-        jTextField29 = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         tbl1 = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex) {
                 return false; //Disallow the editing of any cell
             }
         };
-        lblTitulo31 = new javax.swing.JLabel();
-        jTextField25 = new javax.swing.JTextField();
+        cbxFiltro1 = new javax.swing.JComboBox<>();
+        jLabel26 = new javax.swing.JLabel();
+        txtB1 = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ventas");
@@ -310,15 +332,6 @@ public class FVentas extends javax.swing.JFrame {
         txtCodigo.setEnabled(false);
         jPanel2.add(txtCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 150, -1));
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
-        jButton3.setText("Borrar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 400, 100, 30));
-
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         jButton4.setText("Salir");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -350,6 +363,7 @@ public class FVentas extends javax.swing.JFrame {
         jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 60, 20));
 
         txtB.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        txtB.setEnabled(false);
         txtB.addCaretListener(new javax.swing.event.CaretListener() {
             public void caretUpdate(javax.swing.event.CaretEvent evt) {
                 txtBCaretUpdate(evt);
@@ -390,6 +404,7 @@ public class FVentas extends javax.swing.JFrame {
         jPanel6.add(lblDisponible, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 80, 30));
 
         cbxFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Descripcion" }));
+        cbxFiltro.setEnabled(false);
         cbxFiltro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxFiltroActionPerformed(evt);
@@ -398,6 +413,7 @@ public class FVentas extends javax.swing.JFrame {
         jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 20, 90, 20));
 
         bntAñadir.setText("Añadir");
+        bntAñadir.setEnabled(false);
         bntAñadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bntAñadirActionPerformed(evt);
@@ -412,10 +428,10 @@ public class FVentas extends javax.swing.JFrame {
 
         jLabel27.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         jLabel27.setText("BUSQUEDA");
-        jPanel6.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 60, 20));
+        jPanel6.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 80, 20));
 
         jLabel28.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
-        jLabel28.setText("Inventario:");
+        jLabel28.setText("INVENTARIO:");
         jPanel6.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 80, 30));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 640, -1));
@@ -425,7 +441,7 @@ public class FVentas extends javax.swing.JFrame {
         jPanel2.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 180, 20));
 
         lblTitulo23.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
-        lblTitulo23.setText("Para eliminar  todas las cantidades de un producto seleccione y pulse suprimir o la tecla de borrar");
+        lblTitulo23.setText("Para eliminar  todas las cantidades de un producto seleccionelo y pulse suprimir o la tecla de borrar");
         jPanel2.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 610, 20));
 
         lblTitulo24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -519,6 +535,7 @@ public class FVentas extends javax.swing.JFrame {
 
         cbxPago.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         cbxPago.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Efectivo", "Debito", "Cheque", "Credito", "Transferencia", "Otro" }));
+        cbxPago.setEnabled(false);
         cbxPago.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxPagoActionPerformed(evt);
@@ -573,6 +590,7 @@ public class FVentas extends javax.swing.JFrame {
         jPanel2.add(txtTransaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 180, 20));
 
         btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
+        btnBuscar1.setEnabled(false);
         btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscar1ActionPerformed(evt);
@@ -592,11 +610,14 @@ public class FVentas extends javax.swing.JFrame {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, 100, 30));
+        jPanel2.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 400, 100, 30));
 
         lblTitulo32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo32.setText("Precio");
         jPanel2.add(lblTitulo32, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 70, 20));
+
+        lblResponsable.setText("acmk");
+        jPanel2.add(lblResponsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 40, 120, 20));
 
         jTabbedPane1.addTab("Nueva Venta", jPanel2);
 
@@ -611,85 +632,11 @@ public class FVentas extends javax.swing.JFrame {
                 jButton12ActionPerformed(evt);
             }
         });
-        jPanel4.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 280, 100, 30));
+        jPanel4.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 390, 100, 30));
 
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497313212_trash.png"))); // NOI18N
-        jButton13.setText("Eliminar");
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 100, 30));
-
-        jButton14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497479197_floppy_disk_save.png"))); // NOI18N
-        jButton14.setText("Guardar");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 100, 30));
-
-        jTextField21.setEditable(false);
-        jTextField21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jPanel4.add(jTextField21, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, 180, -1));
-
-        lblTitulo27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo27.setText("Cedula/RIF");
-        jPanel4.add(lblTitulo27, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 20));
-
-        jTextField22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField22.setEnabled(false);
-        jPanel4.add(jTextField22, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 100, -1));
-
-        lblTitulo16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo16.setText("Nombre");
-        jPanel4.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 70, 20));
-
-        lblTitulo17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo17.setText("Apellido");
-        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 40, 70, 20));
-
-        jTextField23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField23.setEnabled(false);
-        jPanel4.add(jTextField23, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, 180, -1));
-
-        lblTitulo28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo28.setText("Descripcion del Pedido:");
-        jPanel4.add(lblTitulo28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 150, 20));
-
-        lblTitulo29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo29.setText("Fecha");
-        jPanel4.add(lblTitulo29, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, 40, 20));
-
-        jTextField24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField24.setEnabled(false);
-        jPanel4.add(jTextField24, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 210, 90, -1));
-
-        lblTitulo30.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo30.setText("Cantidad Productos");
-        jPanel4.add(lblTitulo30, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 210, 140, 20));
-
-        lblTitulo33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo33.setText("Total");
-        jPanel4.add(lblTitulo33, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 240, 60, 20));
-
-        jTextField27.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField27.setEnabled(false);
-        jPanel4.add(jTextField27, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 240, 90, -1));
-
-        jTextField28.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField28.setEnabled(false);
-        jPanel4.add(jTextField28, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 180, -1));
-
-        lblTitulo34.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo34.setText("Fecha Entrega");
-        jPanel4.add(lblTitulo34, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, -1, 20));
-
-        jTextField29.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField29.setEnabled(false);
-        jPanel4.add(jTextField29, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 100, -1));
+        lblTitulo28.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        lblTitulo28.setText("Detalles de la Venta:");
+        jPanel4.add(lblTitulo28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 150, 20));
 
         tbl1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -717,17 +664,41 @@ public class FVentas extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tbl1);
 
-        jPanel4.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 640, 100));
+        jPanel4.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 640, 290));
 
-        lblTitulo31.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        lblTitulo31.setText("Codigo del Pedido");
-        jPanel4.add(lblTitulo31, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 140, 20));
+        cbxFiltro1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Codigo", "Nombre Cliente", "Fecha" }));
+        cbxFiltro1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxFiltro1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cbxFiltro1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, 150, 20));
 
-        jTextField25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jTextField25.setEnabled(false);
-        jPanel4.add(jTextField25, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 90, -1));
+        jLabel26.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel26.setText("FILTROS:");
+        jPanel4.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 20, 80, 20));
 
-        jTabbedPane1.addTab("Consultar", jPanel4);
+        txtB1.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
+        txtB1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtB1ActionPerformed(evt);
+            }
+        });
+        txtB1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtB1KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtB1KeyTyped(evt);
+            }
+        });
+        jPanel4.add(txtB1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, 160, 20));
+
+        jLabel29.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel29.setText("BUSQUEDA");
+        jPanel4.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 20, 90, 20));
+
+        jTabbedPane1.addTab("Listado", jPanel4);
 
         jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 680, 470));
 
@@ -767,26 +738,18 @@ public class FVentas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tbl1MouseClicked
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton14ActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton13ActionPerformed
-
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+this.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
-    int c = evt.getKeyCode();
+        int c = evt.getKeyCode();
         if (c == evt.VK_DELETE || c == evt.VK_BACK_SPACE) {
             int fila = this.tbl.getSelectedRow();
             //busco donde devolvere la cantidad que estoy eliminando
             for (int i = 0; i < matriz.length; i++) {
                 if (model.getValueAt(fila, 0).equals(String.valueOf(matriz[i][0]))) {
-                    matriz[i][1]= matriz[i][1] + Integer.parseInt(model.getValueAt(fila, 4).toString());
+                    matriz[i][1] = matriz[i][1] + Integer.parseInt(model.getValueAt(fila, 4).toString());
                     tbl.setModel(model);
                 }
             }
@@ -801,13 +764,13 @@ public class FVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_tblKeyPressed
 
     private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
-     if (evt.getClickCount() == 2 && tbl.isEnabled()) {
+        if (evt.getClickCount() == 2 && tbl.isEnabled()) {
             int fila = this.tbl.getSelectedRow();
             if (Integer.parseInt(tbl.getValueAt(this.tbl.getSelectedRow(), 4).toString()) > 1) {
                 //busco donde devolvere la cantidad que estoy eliminando
                 for (int i = 0; i < matriz.length; i++) {
-                   if (model.getValueAt(fila, 0).equals(String.valueOf(matriz[i][0]))) {
-                        matriz[i][1]= matriz[i][1] + 1;
+                    if (model.getValueAt(fila, 0).equals(String.valueOf(matriz[i][0]))) {
+                        matriz[i][1] = matriz[i][1] + 1;
                     }
                 }
                 tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(fila, 4).toString()) - 1), fila, 4);
@@ -815,7 +778,7 @@ public class FVentas extends javax.swing.JFrame {
             } else {
                 for (int i = 0; i < matriz.length; i++) {
                     if (model.getValueAt(fila, 0).equals(String.valueOf(matriz[i][0]))) {
-                        matriz[i][1]= matriz[i][1] + 1;
+                        matriz[i][1] = matriz[i][1] + 1;
                     }
                 }
                 model.removeRow(fila);
@@ -834,7 +797,7 @@ public class FVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBKeyReleased
 
     private void txtBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBActionPerformed
-     // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtBActionPerformed
 
     private void txtCedula2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyPressed
@@ -862,17 +825,27 @@ public class FVentas extends javax.swing.JFrame {
         if (txtCedula2.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo cedula", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
-            this.txtCedula2.setEnabled(false);
+            if (Integer.parseInt(txtCedula2.getText())==1) {
+                JOptionPane.showMessageDialog(null, "Cliente No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            } else {
+                this.txtCedula2.setEnabled(false);
             boolean resultado = false;
-            int codigo = 0;
             String cedula = this.txtCedula2.getText();
             try {
                 String sql = "select * from clientes where cedcli = '" + cedula + "'";
                 ResultSet rs = acciones.Consultar(sql);
                 while (rs.next()) {
                     resultado = true;
-                    codigo = rs.getInt("codcli");
+                    codcli = rs.getInt("codcli");
                     txtNombre.setText(rs.getString("nomcli") + " " + rs.getString("apecli"));
+                    cbxPago.setEnabled(true);
+                    cbxPago.setSelectedIndex(0);
+                    txtB.setEnabled(true);
+                    tbl.setEnabled(true);
+                    cbxFiltro.setEnabled(true);
+                    bntAñadir.setEnabled(true);
+                    txtCedula2.setEnabled(false);
+                    btnBuscar.setEnabled(false);
                 }
                 if (resultado == false) {
                     JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
@@ -884,6 +857,7 @@ public class FVentas extends javax.swing.JFrame {
             } catch (SQLException e) {
                 JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            }
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -904,20 +878,20 @@ public class FVentas extends javax.swing.JFrame {
     private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
         char c = evt.getKeyChar();
         if (c == evt.VK_ENTER) {
-        AñadirVentas();
+            AñadirVentas();
         } else {
             if (cbxFiltro.getSelectedIndex() == 1) {
-                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK || c == evt.VK_SPACE){
-                this.LlenarLista(1);    
-                }else{
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK || c == evt.VK_SPACE) {
+                    this.LlenarLista(1);
+                } else {
                     getToolkit().beep();
                     evt.consume();
                 }
             }
             if (cbxFiltro.getSelectedIndex() == 0) {
-                if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK){
-                this.LlenarLista(2);    
-                }else{
+                if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+                    this.LlenarLista(2);
+                } else {
                     getToolkit().beep();
                     evt.consume();
                 }
@@ -931,7 +905,7 @@ public class FVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBKeyPressed
 
     private void bntAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAñadirActionPerformed
-this.AñadirVentas();
+        this.AñadirVentas();
     }//GEN-LAST:event_bntAñadirActionPerformed
 
     private void bntAñadirKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bntAñadirKeyTyped
@@ -939,31 +913,64 @@ this.AñadirVentas();
     }//GEN-LAST:event_bntAñadirKeyTyped
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        String[] titulos = {"Descripcion"};
+        model = new DefaultTableModel(null, titulos);
+        tbl.setModel(model);
+        txtCantidad.setText(null);
+        txtCedula2.setText(null);
+        txtNombre.setText(null);
+        txtPrecio.setText(null);
+        txtTotal.setText(null);
+        txtB.setText(null);
+        txtTransaccion.setText(null);
+        cbxPago.setSelectedIndex(0);
+        tbl.setEnabled(false);
+
+        txtTransaccion.setEnabled(false);
+
         txtCodigo.setEnabled(true);
-        txtCedula2.setEnabled(false);
-        btnBuscar.setEnabled(false);
+        btnBuscar1.setEnabled(true);
         txtB.setEnabled(false);
         cbxFiltro.setEnabled(false);
         bntAñadir.setEnabled(false);
-        tbl.setEnabled(false);
-        lblTitulo23.setVisible(false);
+        txtCedula2.setEnabled(false);
+        btnBuscar.setEnabled(false);
+        cbxPago.setEnabled(false);
+
+        int y = model.getRowCount();
+        if (y > 0) {
+            //busco donde devolvere la cantidad que estoy eliminando
+            for (int i = 0; i < y; i++) {
+                int codigo = Integer.parseInt(model.getValueAt(i, 0).toString());
+                int valor = Integer.parseInt(model.getValueAt(i, 4).toString());
+                for (int j = 0; j < matriz.length; j++) {
+                    if (matriz[j][0] == codigo) {
+                        matriz[j][1] = matriz[j][1] + valor;
+                        tbl.setModel(model);
+                    }
+                }
+            }
+            for (int i = 1; i <= y; i++) {
+                model.removeRow(0);
+            }
+            txtCantidad.setText(null);
+            txtPrecio.setText(null);
+            txtTotal.setText(null);
+        }
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-        txtCodigo.setEnabled(false);
-        lblTitulo23.setVisible(false);
-        txtNombre.setText("");
-        txtTransaccion.setText("");
-        txtCedula2.setEnabled(true);
-        btnBuscar.setEnabled(true);
+        this.Borrar1(1);
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-       SimpleDateFormat formateador2 = new SimpleDateFormat("dd/MM/yyyy");
-       iva = getIva();
+        iva = getIva();
         if (txtCodigo.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo codigo", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
+            if (Integer.parseInt(txtCodigo.getText())==1) {
+                JOptionPane.showMessageDialog(null, "Pedido No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            } else {
             String codigo = txtCodigo.getText();
             boolean resultado = false;
             float iva = getIva();
@@ -975,7 +982,7 @@ this.AñadirVentas();
                 ResultSet rs = acciones.Consultar(sql);
                 while (rs.next()) {
                     resultado = true;
-                    txtNombre.setText(rs.getString("nomcli")+" "+rs.getString("apecli"));
+                    txtNombre.setText(rs.getString("nomcli") + " " + rs.getString("apecli"));
                     txtCedula2.setText(rs.getString("cedcli"));
                     row1[0] = rs.getString("desped");
                     txtTotal.setText(String.valueOf(rs.getInt("preped")));
@@ -996,6 +1003,7 @@ this.AñadirVentas();
                 JOptionPane.showMessageDialog(null, "Error al consultar Pedidos\ncodigo error:" + e.getMessage(),
                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
             }
+            }
         }
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
@@ -1003,13 +1011,186 @@ this.AñadirVentas();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnBuscar1KeyTyped
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        this.Borrar(1);
-        this.Habilitar(1);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
+        if (verificacion2()) {
+            if (jRadioButton2.isSelected()) {
+// <editor-fold desc="CODIGO PARA VENTAS DIRECTAS">
+            if (!txtCedula2.getText().equals("")) {
+                if (tbl.getRowCount() > 0) {
+                    System.out.println("inicio de añadir a descripcion");
+                    //añadir en descripcion
+                    boolean añadir = false;
+                    for (int i = 0; i < tbl.getRowCount(); i++) {
+                        float total = Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString());
+                        codorden = Integer.parseInt(NumeroAleatorio2());
+                        try {
+                            String sql = "insert into orden(codord ,canord, preord, codven, codprod)"
+                                    + "values(?,?,?,?,?)";
+                            PreparedStatement ps = acciones.Ingresar(sql);
+                            ps.setLong(1, codorden);
+                            ps.setLong(2, Long.parseLong(tbl.getValueAt(i, 4).toString()));
+                            ps.setFloat(3, total);
+                            ps.setInt(4, Integer.parseInt(txtCodigoV.getText()));
+                            ps.setInt(5, Integer.parseInt(tbl.getValueAt(i, 0).toString()));
+                            int n = ps.executeUpdate();
+                            if (n > 0) {
+                                añadir = true;
+                            }else  {
+                                añadir = false;
+                            }
+                            acciones.conn.close();
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
+                            añadir = false;
+                        }
+                    }
+
+// se almacena la venta en la bd
+                    System.out.println("inicio de añadir a ventas");
+                    if (añadir) {
+                        try {
+                        String sql = "insert into ventas(codven, fecven, canven, totven"
+                                + ", codusu, codcli, codped, codord, codvar)"
+                                + "values(?,?,?,?,?,?,?,?,?)";
+
+                        PreparedStatement ps = acciones.Ingresar(sql);
+                        ps.setString(1, txtCodigoV.getText());
+                        ps.setString(2, txtFecha.getText());
+                        ps.setInt(3, Integer.parseInt(txtCantidad.getText()));
+                        ps.setFloat(4, Float.parseFloat(txtTotal.getText()));
+                        ps.setInt(5, getCodUsu());
+                        ps.setString(6, txtCedula2.getText());
+                        ps.setInt(7, 1);
+                        ps.setInt(8, codorden);
+                        ps.setInt(9, 1);
+                        int n = ps.executeUpdate();
+                        if (n > 0) {
+                            añadir = true;
+                        } else {
+                            añadir = false;
+                        }
+                        acciones.conn.close();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
+                        añadir = false;
+                    }
+                    }
+                    if (añadir) {
+                         //se actualiza la BD con los datos de la matriz
+                    System.out.println("inicio de añadir a actualizar inventario");
+                    for (int i = 0; i < matriz.length; i++) {
+                        String codigo = String.valueOf(matriz[i][0]);
+                        try {
+                            String sql = "update inventario set canprod=? where codprod = " + codigo;
+                            PreparedStatement ps = acciones.Actualizar(sql);
+                            ps.setInt(1, matriz[i][1]);
+                            int n = ps.executeUpdate();
+                        if (n > 0) {
+                            JOptionPane.showMessageDialog(null, "Venta Exitosa","",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
+                            txtCodigoV.setText(this.NumeroAleatorio());
+                            this.Borrar1(2);
+                            break;
+                        }
+                            acciones.conn.close();
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
+                        }
+                    }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+// </editor-fold>
+            } else {
+// <editor-fold desc="CODIGO PARA VENTAS PEDIDOS">
+            if (!txtCodigo.getText().equals("")) {
+                if (tbl.getRowCount() > 0) {
+                    System.out.println("inicio de añadir a descripcion");
+                    //añadir en descripcion
+                    String codigoDes = "";
+                    codorden = Integer.parseInt(NumeroAleatorio2());
+                    boolean añadir = false;
+                        try {
+                            String sql = "insert into orden(codord ,canord, preord, codven, codprod)"
+                                    + "values(?,?,?,?,?)";
+                            PreparedStatement ps = acciones.Ingresar(sql);
+                            ps.setLong(1, codorden);
+                            ps.setLong(2, Long.parseLong(txtCantidad.getText()));
+                            ps.setFloat(3, Float.parseFloat(txtTotal.getText()));
+                            ps.setInt(4, Integer.parseInt(txtCodigoV.getText()));
+                            ps.setInt(5, 1);
+                            int n = ps.executeUpdate();
+                            if (n > 0) {
+                                añadir = true;
+                            }else  {
+                                añadir = false;
+                            }
+                            acciones.conn.close();
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
+                            añadir = false;
+                        }
+// se almacena la venta en la bd
+                    System.out.println("inicio de añadir a ventas");
+                    if (añadir) {
+                        try {
+                        String sql = "insert into ventas(codven, fecven, canven, totven"
+                                + ", codusu, codcli, codped, codord, codvar)"
+                                + "values(?,?,?,?,?,?,?,?,?)";
+
+                        PreparedStatement ps = acciones.Ingresar(sql);
+                        ps.setString(1, txtCodigoV.getText());
+                        ps.setString(2, txtFecha.getText());
+                        ps.setInt(3, Integer.parseInt(txtCantidad.getText()));
+                        ps.setFloat(4, Float.parseFloat(txtTotal.getText()));
+                        ps.setInt(5, getCodUsu());
+                        ps.setString(6, txtCedula2.getText());
+                        ps.setInt(7, Integer.parseInt(txtCodigo.getText()));
+                        ps.setInt(8, codorden);
+                        ps.setInt(9, 1);
+                        int n = ps.executeUpdate();
+                        if (n > 0) {
+                            añadir = true;
+                        } else {
+                            añadir = false;
+                        }
+                        acciones.conn.close();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
+                        añadir = false;
+                    }
+                    }
+                    if (añadir) {
+                         //se actualiza la BD con los datos de la matriz
+                    System.out.println("inicio de añadir a actualizar inventario");
+                    for (int i = 0; i < matriz.length; i++) {
+                        String codigo = String.valueOf(matriz[i][0]);
+                        try {
+                            String sql = "update inventario set canprod=? where codprod=" + codigo;
+                            PreparedStatement ps = acciones.Actualizar(sql);
+                            ps.setInt(1, matriz[i][1]);
+                            int n = ps.executeUpdate();
+                        if (n > 0) {
+                            JOptionPane.showMessageDialog(null, "Venta Exitosa");
+                            txtCodigoV.setText(this.NumeroAleatorio());
+                            this.Borrar1(2);
+                            break;
+                        }
+                            acciones.conn.close();
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
+                            añadir = false;
+                        }
+                    }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+// </editor-fold>
+            }
+        }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void txtBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBMouseClicked
@@ -1017,94 +1198,223 @@ this.AñadirVentas();
     }//GEN-LAST:event_txtBMouseClicked
 
     private void txtBCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtBCaretPositionChanged
-        
+
     }//GEN-LAST:event_txtBCaretPositionChanged
 
     private void txtBInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtBInputMethodTextChanged
-       // TODO add your handling code here:
+        // TODO add your handling code here:
     }//GEN-LAST:event_txtBInputMethodTextChanged
 
     private void txtBCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtBCaretUpdate
-    boolean resultado = false;
+        boolean resultado = false;
         if (!txtB.getText().equals("")) {
-        if (cbxFiltro.getSelectedIndex() == 0) {
-            try {
-                String sql = "select * from inventario "
-                        + "inner join tipoproducto on tippro=codtip "
-                        + "inner join proveedores on inventario.codpro = proveedores.rifpro "
-                        + "where codprod = '" + txtB.getText() + "'";
-                ResultSet rs = acciones.Consultar(sql);
-                while (rs.next()) {
-                    if (rs.getInt("canprod")-rs.getInt("minprod")>=0) {
-                        lblDisponible.setText(String.valueOf(rs.getInt("canprod")-rs.getInt("minprod")));
-                    }else{
-                        lblDisponible.setText("0");
+            if (cbxFiltro.getSelectedIndex() == 0) {
+                try {
+                    String sql = "select * from inventario "
+                            + "inner join tipoproducto on tippro=codtip "
+                            + "inner join proveedores on inventario.codpro = proveedores.rifpro "
+                            + "where codprod = '" + txtB.getText() + "'";
+                    ResultSet rs = acciones.Consultar(sql);
+                    while (rs.next()) {
+                        if (rs.getInt("canprod") - rs.getInt("minprod") >= 0) {
+                            lblDisponible.setText(String.valueOf(rs.getInt("canprod") - rs.getInt("minprod")));
+                        } else {
+                            lblDisponible.setText("0");
+                        }
+                        resultado = true;
                     }
-                    resultado = true;
-                }
-                acciones.conn.close();
-                if (!resultado) {
-                    resultado = false;
-                    lblDisponible.setText(" ");
-                }
-            } catch (SQLException e) {
-                resultado = false;
-                JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-            }
-        } else if (cbxFiltro.getSelectedIndex() == 1) {
-            try {
-                String sql = "select * from inventario "
-                        + "inner join tipoproducto on tippro=codtip "
-                        + "inner join proveedores on inventario.codpro = proveedores.rifpro "
-                        + "where desprod = '" + txtB.getText() + "'";
-                ResultSet rs = acciones.Consultar(sql);
-                while (rs.next()) {
-                    if (rs.getInt("canprod")-rs.getInt("minprod")>=0) {
-                        lblDisponible.setText(String.valueOf(rs.getInt("canprod")-rs.getInt("minprod")));
-                    }else{
-                        lblDisponible.setText("0");
+                    acciones.conn.close();
+                    if (!resultado) {
+                        resultado = false;
+                        lblDisponible.setText(" ");
                     }
-                    resultado = true;
-                }
-                acciones.conn.close();
-                if (!resultado) {
-                    lblDisponible.setText(" ");
+                } catch (SQLException e) {
                     resultado = false;
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 }
-            } catch (SQLException e) {
-                resultado = false;
-                JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            } else if (cbxFiltro.getSelectedIndex() == 1) {
+                try {
+                    String sql = "select * from inventario "
+                            + "inner join tipoproducto on tippro=codtip "
+                            + "inner join proveedores on inventario.codpro = proveedores.rifpro "
+                            + "where desprod = '" + txtB.getText() + "'";
+                    ResultSet rs = acciones.Consultar(sql);
+                    while (rs.next()) {
+                        if (rs.getInt("canprod") - rs.getInt("minprod") >= 0) {
+                            lblDisponible.setText(String.valueOf(rs.getInt("canprod") - rs.getInt("minprod")));
+                        } else {
+                            lblDisponible.setText("0");
+                        }
+                        resultado = true;
+                    }
+                    acciones.conn.close();
+                    if (!resultado) {
+                        lblDisponible.setText(" ");
+                        resultado = false;
+                    }
+                } catch (SQLException e) {
+                    resultado = false;
+                    JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
             }
-        }
-        }else{
+        } else {
             lblDisponible.setText(" ");
         }
     }//GEN-LAST:event_txtBCaretUpdate
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-this.dispose();        // TODO add your handling code here:
+        this.dispose();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-    int y = model.getRowCount();
-        //busco donde devolvere la cantidad que estoy eliminando
-        for (int i = 0; i < y; i++) {
-            int codigo = Integer.parseInt(model.getValueAt(i, 0).toString());
-            int valor = Integer.parseInt(model.getValueAt(i, 4).toString());
-            for (int j = 0; j < matriz.length; j++) {
-                if (matriz[j][0]==codigo) {
-                    matriz[j][1]=matriz[j][1] + valor;
-                    tbl.setModel(model);
+        txtCantidad.setText(null);
+        txtCedula2.setText(null);
+        txtNombre.setText(null);
+        txtPrecio.setText(null);
+        txtTransaccion.setText(null);
+        txtTransaccion.setEnabled(false);
+        cbxPago.setSelectedIndex(0);
+        txtTotal.setText(null);
+        txtB.setText(null);
+        txtB.setEnabled(false);
+        cbxFiltro.setEnabled(false);
+        bntAñadir.setEnabled(false);
+        txtCedula2.setEnabled(true);
+        btnBuscar.setEnabled(true);
+        cbxPago.setEnabled(false);
+
+        int y = model.getRowCount();
+        if (y > 0) {
+            //busco donde devolvere la cantidad que estoy eliminando
+            for (int i = 0; i < y; i++) {
+                int codigo = Integer.parseInt(model.getValueAt(i, 0).toString());
+                int valor = Integer.parseInt(model.getValueAt(i, 4).toString());
+                for (int j = 0; j < matriz.length; j++) {
+                    if (matriz[j][0] == codigo) {
+                        matriz[j][1] = matriz[j][1] + valor;
+                        tbl.setModel(model);
+                    }
                 }
             }
+            for (int i = 1; i <= y; i++) {
+                model.removeRow(0);
+            }
         }
-        for (int i = 1; i <= y; i++) {
-            model.removeRow(0);
-        }
-        txtCantidad.setText(null);
-        txtPrecio.setText(null);
-        txtTotal.setText(null);
+
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void cbxFiltro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltro1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxFiltro1ActionPerformed
+
+    private void txtB1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtB1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtB1ActionPerformed
+
+    private void txtB1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtB1KeyReleased
+        int c = evt.getKeyChar();
+        if (!txtB1.getText().equals("")) {
+            int var = cbxFiltro1.getSelectedIndex();
+            if (var==0) {
+                if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+                    try {
+            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
+            String sql = "select * from ventas inner join clientes"
+                    + " on clientes.cedcli = ventas.codcli"
+                    + " where ventas.codven like '"+txtB1.getText()+"%'";
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codven");
+                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                fila[2] = rs.getString("fecven");
+                fila[3] = rs.getString("canven");
+                fila[4] = format.format(rs.getFloat("totven"));
+                modelo.addRow(fila);
+            }
+            tbl1.setModel(modelo);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo Numeros o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB1.setText("");
+                }
+            }
+            //compuebo el cbx opcion 2
+            if (var==1) {
+                if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+                     try {
+            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
+            String sql = "select * from ventas inner join clientes"
+                    + " on clientes.cedcli = ventas.codcli"
+                    + " where clientes.nomcli like '"+txtB1.getText()+"%'";
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codven");
+                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                fila[2] = rs.getString("fecven");
+                fila[3] = rs.getString("canven");
+                fila[4] = format.format(rs.getFloat("totven"));
+                modelo.addRow(fila);
+            }
+            tbl1.setModel(modelo);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB1.setText("");
+                }
+            }
+            //compuebo el cbx opcion 3
+            if (var==2) {
+                 if (c >= 47 && c <= 57 || c == WCKeyEvent.VK_BACK)  {
+                    try {
+            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
+            String sql = "select * from ventas inner join clientes"
+                    + " on clientes.cedcli = ventas.codcli"
+                    + " where ventas.fecven like '"+txtB1.getText()+"%'";
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codven");
+                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                fila[2] = rs.getString("fecven");
+                fila[3] = rs.getString("canven");
+                fila[4] = format.format(rs.getFloat("totven"));
+                modelo.addRow(fila);
+            }
+            tbl1.setModel(modelo);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Ingrese fecha en formato dd/mm/yyy Ej. 24/04/2017", "Advertencia",
+                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                    this.txtB1.setText("");
+                }
+            }
+        } else {
+            this.Llenar();
+        }
+    }//GEN-LAST:event_txtB1KeyReleased
+
+    private void txtB1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtB1KeyTyped
+
+    }//GEN-LAST:event_txtB1KeyTyped
 
     public void LlenarLista(int x) {
         txtAuto.removeAllItems();
@@ -1141,7 +1451,8 @@ this.dispose();        // TODO add your handling code here:
     }
 
     public void Calculos() {
-        float total = 0, cantidad = 0, iva = getIva();
+        float total = 0, iva = getIva();
+        int cantidad = 0;
         for (int i = 0; i < model.getRowCount(); i++) {
             total += Float.parseFloat(model.getValueAt(i, 5).toString());
             cantidad += Integer.parseInt(model.getValueAt(i, 4).toString());
@@ -1150,6 +1461,58 @@ this.dispose();        // TODO add your handling code here:
         txtTotal.setText(String.valueOf(total));
         float subtotal = (total / (1 + (iva / 100)));
         txtPrecio.setText(String.valueOf(subtotal));
+    }
+
+    public void Borrar1(int x) {
+        String[] titulos = {"Codigo", "Tipo", "Descripcion", "Precio", "Cantidad", "Total"};
+        model = new DefaultTableModel(null, titulos);
+        tbl.setModel(model);
+        txtCodigo.setEnabled(false);
+        lblTitulo23.setVisible(false);
+        txtNombre.setText("");
+        txtCantidad.setText(null);
+        txtCedula2.setText(null);
+        txtNombre.setText(null);
+        txtPrecio.setText(null);
+        txtTotal.setText(null);
+        txtB.setText(null);
+        txtTransaccion.setText(null);
+        cbxPago.setSelectedIndex(0);
+        txtCodigo.setText(null);
+
+        txtTransaccion.setEnabled(false);
+
+        btnBuscar1.setEnabled(false);
+        txtB.setEnabled(false);
+        cbxFiltro.setEnabled(false);
+        bntAñadir.setEnabled(false);
+        txtCedula2.setEnabled(true);
+        btnBuscar.setEnabled(true);
+        cbxPago.setEnabled(false);
+
+        int y = model.getRowCount();
+        if (x != 2) {
+            if (y > 0) {
+                //busco donde devolvere la cantidad que estoy eliminando
+                for (int i = 0; i < y; i++) {
+                    int codigo = Integer.parseInt(model.getValueAt(i, 0).toString());
+                    int valor = Integer.parseInt(model.getValueAt(i, 4).toString());
+                    for (int j = 0; j < matriz.length; j++) {
+                        if (matriz[j][0] == codigo) {
+                            matriz[j][1] = matriz[j][1] + valor;
+                            tbl.setModel(model);
+                        }
+                    }
+                }
+            }
+
+            for (int i = 1; i <= y; i++) {
+                model.removeRow(0);
+            }
+            txtCantidad.setText(null);
+            txtPrecio.setText(null);
+            txtTotal.setText(null);
+        }
     }
 
     /**
@@ -1173,20 +1536,20 @@ this.dispose();        // TODO add your handling code here:
     private javax.swing.ButtonGroup buttonGroup;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxFiltro;
+    private javax.swing.JComboBox<String> cbxFiltro1;
     private javax.swing.JComboBox<String> cbxPago;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1196,40 +1559,26 @@ this.dispose();        // TODO add your handling code here:
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField21;
-    private javax.swing.JTextField jTextField22;
-    private javax.swing.JTextField jTextField23;
-    private javax.swing.JTextField jTextField24;
-    private javax.swing.JTextField jTextField25;
-    private javax.swing.JTextField jTextField27;
-    private javax.swing.JTextField jTextField28;
-    private javax.swing.JTextField jTextField29;
     private javax.swing.JLabel lblDisponible;
+    public javax.swing.JLabel lblResponsable;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JLabel lblTitulo11;
     private javax.swing.JLabel lblTitulo12;
     private javax.swing.JLabel lblTitulo13;
-    private javax.swing.JLabel lblTitulo16;
-    private javax.swing.JLabel lblTitulo17;
     private javax.swing.JLabel lblTitulo21;
     private javax.swing.JLabel lblTitulo22;
     private javax.swing.JLabel lblTitulo23;
     private javax.swing.JLabel lblTitulo24;
     private javax.swing.JLabel lblTitulo25;
     private javax.swing.JLabel lblTitulo26;
-    private javax.swing.JLabel lblTitulo27;
     private javax.swing.JLabel lblTitulo28;
-    private javax.swing.JLabel lblTitulo29;
-    private javax.swing.JLabel lblTitulo30;
-    private javax.swing.JLabel lblTitulo31;
     private javax.swing.JLabel lblTitulo32;
-    private javax.swing.JLabel lblTitulo33;
-    private javax.swing.JLabel lblTitulo34;
     private javax.swing.JLabel lblTitulo35;
     private javax.swing.JLabel lblTitulo36;
     private javax.swing.JTable tbl;
     private javax.swing.JTable tbl1;
     private javax.swing.JTextField txtB;
+    private javax.swing.JTextField txtB1;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCedula2;
     private javax.swing.JTextField txtCodigo;
@@ -1293,7 +1642,7 @@ this.dispose();        // TODO add your handling code here:
                 acciones.conn.close();
                 if (!resultado) {
                     JOptionPane.showMessageDialog(null, "No Existe el Codigo o la Descripcion Ingresada", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                resultado = false;
+                    resultado = false;
                 }
             } catch (SQLException e) {
                 resultado = false;
@@ -1304,82 +1653,64 @@ this.dispose();        // TODO add your handling code here:
     }
 
     private void AñadirVentas() {
-           // <editor-fold desc="codigo para realizar venta"> 
-                    /*inicio verifcacion de la cantidad*/
+        // <editor-fold desc="codigo para realizar venta"> 
+        /*inicio verifcacion de la cantidad*/
         String cantidad = "";
         boolean entrada = true;
-        int cantidadventa=0;
+        int cantidadventa = 0;
         //obtengo el modelo de la tabla 1 para escribir sobre el
         model = (DefaultTableModel) tbl.getModel();
         //hago la verificacion para ver si existe lo que esta en text de busqueda
         if (verificacion()) {
-        do {
-            if (entrada) {
-                cantidad = JOptionPane.showInputDialog(null, "Seleccione la Cantidad a vender del Producto", "", JOptionPane.QUESTION_MESSAGE);
-                entrada = cantidad.matches("\\d{1,6}");
-            } else {
-                cantidad = JOptionPane.showInputDialog(null, "Seleccione la Cantidad a vender del producto\nEj: 1 Entre el rango de 1 y 999.999", "Validacion", JOptionPane.WARNING_MESSAGE);
-                entrada = cantidad.matches("\\d{1,6}");
-            }
-            if (entrada) {
-                if (Integer.parseInt(cantidad) <= 0) {
-                    JOptionPane.showMessageDialog(null, "Ingrese una cantidad Mayor a 0", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    entrada = false;
+            do {
+                if (entrada) {
+                    cantidad = JOptionPane.showInputDialog(null, "Seleccione la Cantidad a vender del Producto", "", JOptionPane.QUESTION_MESSAGE);
+                    entrada = cantidad.matches("\\d{1,6}");
                 } else {
-                    entrada = true;
+                    cantidad = JOptionPane.showInputDialog(null, "Seleccione la Cantidad a vender del producto\nEj: 1 Entre el rango de 1 y 999.999", "Validacion", JOptionPane.WARNING_MESSAGE);
+                    entrada = cantidad.matches("\\d{1,6}");
                 }
-            }
-        } while (!entrada);
-        
-        /*fin verifcacion de la cantidad ingresada*/
-        boolean productoAñadido = false;
-        //compruebo la entrada
-        if (entrada) {
+                if (entrada) {
+                    if (Integer.parseInt(cantidad) <= 0) {
+                        JOptionPane.showMessageDialog(null, "Ingrese una cantidad Mayor a 0", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                        entrada = false;
+                    } else {
+                        entrada = true;
+                    }
+                }
+            } while (!entrada);
+
+            /*fin verifcacion de la cantidad ingresada*/
+            boolean productoAñadido = false;
+            //compruebo la entrada
+            if (entrada) {
                 //busco la cantidad basado en el codigo en la matriz
-            for (int i = 0; i < matriz.length; i++) {
+                for (int i = 0; i < matriz.length; i++) {
                     if (matriz[i][0] == codigo) {
-                            aux =matriz[i][1];
-                            cantidadventa  = matriz[i][1]-cantidadMinimo;
+                        aux = matriz[i][1];
+                        cantidadventa = matriz[i][1] - cantidadMinimo;
                         break;
                     }
-            }
+                }
                 //compruebo si ya se vendio todo los disponible para preguntar si quiere vender bajo el minimo
                 if (cantidadventa <= 0) {
-                    if (aux!=0) {
-                     int seleccion = JOptionPane.showOptionDialog(
-                            null,
-                            "El Producto ha llegado al inventario minimo.\n"+"Cantidad en inventario: "+aux+"\n"
-                            + "¿Desea continuar? Tenga en cuenta que puede afectar ventas futuras.",
-                            "Selector de opciones",
-                            JOptionPane.YES_NO_OPTION,
-                            JOptionPane.PLAIN_MESSAGE,
-                            iconAd, // null para icono por defecto.
-                            new Object[]{"Si, Estoy consciente", "No"}, // null para YES, NO y CANCEL
-                            "No");
-                    if (seleccion == 0) {
-                        //si asume el riesgo
-                        if (Integer.parseInt(cantidad) <= aux && aux > 0) {
-                             aux = aux - Integer.parseInt(cantidad);
-                            //ingreso si esta vacio
-                            if (tbl.getRowCount() == 0) {
-                                row1[0] = String.valueOf(codigo);
-                                row1[1] = String.valueOf(tipoProducto);
-                                row1[2] = descripcion;
-                                row1[3] = String.valueOf(precioProducto);
-                                row1[4] = cantidad;
-                                row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
-                                model.addRow(row1);
-                            } else {
-                                //recorro la tabla en busca de registros iguales basado en el codigo
-                                for (int i = 0; i < tbl.getRowCount(); i++) {
-                                    if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
-                                        tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
-                                        tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
-                                        productoAñadido = true;
-                                    }
-                                }
-                                //añado nuevo producto a la tabla
-                                if (productoAñadido == false) {
+                    if (aux != 0) {
+                        int seleccion = JOptionPane.showOptionDialog(
+                                null,
+                                "El Producto ha llegado al inventario minimo.\n" + "Cantidad en inventario: " + aux + "\n"
+                                + "¿Desea continuar? Tenga en cuenta que puede afectar ventas futuras.",
+                                "Selector de opciones",
+                                JOptionPane.YES_NO_OPTION,
+                                JOptionPane.PLAIN_MESSAGE,
+                                iconAd, // null para icono por defecto.
+                                new Object[]{"Si, Estoy consciente", "No"}, // null para YES, NO y CANCEL
+                                "No");
+                        if (seleccion == 0) {
+                            //si asume el riesgo
+                            if (Integer.parseInt(cantidad) <= aux && aux > 0) {
+                                aux = aux - Integer.parseInt(cantidad);
+                                //ingreso si esta vacio
+                                if (tbl.getRowCount() == 0) {
                                     row1[0] = String.valueOf(codigo);
                                     row1[1] = String.valueOf(tipoProducto);
                                     row1[2] = descripcion;
@@ -1387,49 +1718,49 @@ this.dispose();        // TODO add your handling code here:
                                     row1[4] = cantidad;
                                     row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
                                     model.addRow(row1);
+                                } else {
+                                    //recorro la tabla en busca de registros iguales basado en el codigo
+                                    for (int i = 0; i < tbl.getRowCount(); i++) {
+                                        if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
+                                            tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
+                                            tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
+                                            productoAñadido = true;
+                                        }
+                                    }
+                                    //añado nuevo producto a la tabla
+                                    if (productoAñadido == false) {
+                                        row1[0] = String.valueOf(codigo);
+                                        row1[1] = String.valueOf(tipoProducto);
+                                        row1[2] = descripcion;
+                                        row1[3] = String.valueOf(precioProducto);
+                                        row1[4] = cantidad;
+                                        row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                                        model.addRow(row1);
+                                    }
                                 }
-                            }
-                            //reinicio la variable
-                            productoAñadido = false;
-                            //hacemos la resta de la cantidad
-                            for (int i = 0; i < matriz.length; i++) {
-                                if (matriz[i][0] == codigo) {
-                                    matriz[i][1] = aux ;
-                                    break;
+                                //reinicio la variable
+                                productoAñadido = false;
+                                //hacemos la resta de la cantidad
+                                for (int i = 0; i < matriz.length; i++) {
+                                    if (matriz[i][0] == codigo) {
+                                        matriz[i][1] = aux;
+                                        break;
+                                    }
                                 }
+                            } else {
+                                JOptionPane.showMessageDialog(null, "La cantidad seleccionada excede la cantidad disponible para la venta", null, JOptionPane.ERROR_MESSAGE);
                             }
-                        }else {
-                            JOptionPane.showMessageDialog(null, "La cantidad seleccionada excede la cantidad disponible para la venta", null, JOptionPane.ERROR_MESSAGE);
+                            this.Calculos();
                         }
-                        this.Calculos();
-                        } 
-                    }else{
-                      JOptionPane.showMessageDialog(null, "Producto Agotado", null, JOptionPane.ERROR_MESSAGE);
-                    }
-                }else{
-                    //compruebo si la cantidad que ingreso en el joption es menor a la disponible para la venta
-            if (Integer.parseInt(cantidad) <= cantidadventa) {
-                cantidadventa=cantidadventa - Integer.parseInt(cantidad);
-                //compruebo que diferencia de la cantidad existente y la ingresada en joption sea mayor al inventario minimo
-                if (tbl.getRowCount() == 0) {
-                        row1[0] = String.valueOf(codigo);
-                        row1[1] = String.valueOf(tipoProducto);
-                        row1[2] = descripcion;
-                        row1[3] = String.valueOf(precioProducto);
-                        row1[4] = cantidad;
-                        row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
-                        model.addRow(row1);
                     } else {
-                        //recorro la tabla en busca de registros iguales basado en el codigo
-                        for (int i = 0; i < tbl.getRowCount(); i++) {
-                            if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
-                                tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
-                                tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
-                                productoAñadido = true;
-                            }
-                        }
-                        //añado nuevo producto a la tabla si no encontro uno ya insertado
-                        if (productoAñadido == false) {
+                        JOptionPane.showMessageDialog(null, "Producto Agotado", null, JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    //compruebo si la cantidad que ingreso en el joption es menor a la disponible para la venta
+                    if (Integer.parseInt(cantidad) <= cantidadventa) {
+                        cantidadventa = cantidadventa - Integer.parseInt(cantidad);
+                        //compruebo que diferencia de la cantidad existente y la ingresada en joption sea mayor al inventario minimo
+                        if (tbl.getRowCount() == 0) {
                             row1[0] = String.valueOf(codigo);
                             row1[1] = String.valueOf(tipoProducto);
                             row1[2] = descripcion;
@@ -1437,43 +1768,88 @@ this.dispose();        // TODO add your handling code here:
                             row1[4] = cantidad;
                             row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
                             model.addRow(row1);
+                        } else {
+                            //recorro la tabla en busca de registros iguales basado en el codigo
+                            for (int i = 0; i < tbl.getRowCount(); i++) {
+                                if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
+                                    tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
+                                    tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
+                                    productoAñadido = true;
+                                }
+                            }
+                            //añado nuevo producto a la tabla si no encontro uno ya insertado
+                            if (productoAñadido == false) {
+                                row1[0] = String.valueOf(codigo);
+                                row1[1] = String.valueOf(tipoProducto);
+                                row1[2] = descripcion;
+                                row1[3] = String.valueOf(precioProducto);
+                                row1[4] = cantidad;
+                                row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                                model.addRow(row1);
+                            }
                         }
-                    }
-                    //reinicio la variable
-                    productoAñadido = false;
-                    //hacemos la resta de la cantidad
-                    for (int i = 0; i < matriz.length; i++) {
-                        if (matriz[i][0] == codigo) {
-                            matriz[i][1] = cantidadventa + cantidadMinimo ;
-                            aux = matriz[i][1];
-                            break;
+                        //reinicio la variable
+                        productoAñadido = false;
+                        //hacemos la resta de la cantidad
+                        for (int i = 0; i < matriz.length; i++) {
+                            if (matriz[i][0] == codigo) {
+                                matriz[i][1] = cantidadventa + cantidadMinimo;
+                                aux = matriz[i][1];
+                                break;
+                            }
                         }
+                        this.Calculos();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "La cantidad seleccionada excede la cantidad disponible para la venta", null, JOptionPane.ERROR_MESSAGE);
                     }
-                    this.Calculos();
-            }else {
-            JOptionPane.showMessageDialog(null, "La cantidad seleccionada excede la cantidad disponible para la venta", null, JOptionPane.ERROR_MESSAGE);
-        }
                 }
-            //fin de producto bajo inventario
-        }
+                //fin de producto bajo inventario
+            }
         }
         // </editor-fold>
         System.out.println(tbl.getRowCount());
     }
 
-    private void Borrar(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void Habilitar(int i) {
-        switch (i) {
-            case 1:
-                txtCodigo.setEnabled(false);
-                txtCedula2.setEnabled(true);
-                btnBuscar.setEnabled(true);
-                break;
-            default:
-                throw new AssertionError();
+    private boolean verificacion2() {
+        if (jRadioButton2.isSelected()) {
+        if (!txtCedula2.getText().equals("")&&tbl.getRowCount()>0) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese Cedula del Cliente", "Advertencia", JOptionPane.PLAIN_MESSAGE,iconAd);
+            return false;
+        }   
+        } else {
+        if (!txtCodigo.getText().equals("")&&tbl.getRowCount()>0) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "Ingrese el Codigo de Pedido", "Advertencia", JOptionPane.PLAIN_MESSAGE,iconAd);
+            return false;
+        }   
         }
     }
+
+    private void Llenar() {
+        try {
+            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
+            String sql = "select * from ventas inner join clientes"
+                    + " on clientes.cedcli = ventas.codcli";
+            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+            ResultSet rs = acciones.Consultar(sql);
+            String[] fila = new String[5];
+            while (rs.next()) {
+                fila[0] = rs.getString("codven");
+                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                fila[2] = rs.getString("fecven");
+                fila[3] = rs.getString("canven");
+                fila[4] = format.format(rs.getFloat("totven"));
+                modelo.addRow(fila);
+            }
+            tbl1.setModel(modelo);
+            acciones.conn.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
+                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+        }
+    }
+
 }

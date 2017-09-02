@@ -192,7 +192,7 @@ public class FProveedores extends javax.swing.JFrame {
 
     private boolean Verificacion1() {
         if (txtNombre1.getText().equals("")
-                || txtCedula1.getText().equals("") || txtTelefono11.getText().equals("")
+                || txtCedula1.getText().equals("")|| txtCedula1.getText().length()>=5 || txtTelefono11.getText().equals("")
                 || txtDireccion1.getText().equals("") || txtTelefono11.getBackground().equals(Color.RED) || txtCedula1.getBackground().equals(Color.RED)
                 || txtTelefono12.getBackground().equals(Color.RED)) {
             JOptionPane.showMessageDialog(null, "Verifique:\n"
@@ -991,43 +991,16 @@ public class FProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBActionPerformed
 
     private void txtBKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyReleased
-
-    }//GEN-LAST:event_txtBKeyReleased
-
-    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbxFiltroActionPerformed
-
-    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
-    if (evt.getClickCount() == 2) {
-        this.LlenarTabla();
-        this.txtB.setText("");
-    }
-    }//GEN-LAST:event_tblMouseClicked
-
-    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
-
-    }//GEN-LAST:event_tblKeyPressed
-
-    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
-
-    }//GEN-LAST:event_tblKeyReleased
-
-    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
-        this.dispose();    // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalir5ActionPerformed
-
-    private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
-        int c = evt.getKeyChar();
+     int c = evt.getKeyChar();
         int var = cbxFiltro.getSelectedIndex();
-        if (var >= 1) {
+        if (var == 1) {
             if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
                 switch (var) {
                     case 1:
                         try {
                             String[] titulos = {"Rif", "Nombre", "Telefono", "Telefono",
                                 "Direccion", "Pagina Web", "Horario", "Comentario"};
-                            String sql = "select * from proveedores where rifpro like '" + txtB.getText() + "'";
+                            String sql = "select * from proveedores where rifpro like '" + txtB.getText() + "%'";
                             model = new DefaultTableModel(null, titulos);
                             ResultSet rs = acciones.Consultar(sql);
                             String[] fila = new String[8];
@@ -1050,7 +1023,7 @@ public class FProveedores extends javax.swing.JFrame {
                         break;
                 }
             } else {
-                evt.consume();
+                txtB.setText("");
                 JOptionPane.showMessageDialog(null, "Ingrese solo numeros o seleccione otro filtro", "Advertencia",
                         JOptionPane.PLAIN_MESSAGE, iconAd);
             }
@@ -1085,11 +1058,38 @@ public class FProveedores extends javax.swing.JFrame {
                     default:
                 }
             } else {
-                evt.consume();
+                txtB.setText("");
                 JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
                         JOptionPane.PLAIN_MESSAGE, iconAd);
             }
         }
+    }//GEN-LAST:event_txtBKeyReleased
+
+    private void cbxFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxFiltroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxFiltroActionPerformed
+
+    private void tblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMouseClicked
+    if (evt.getClickCount() == 2) {
+        this.LlenarTabla();
+        this.txtB.setText("");
+    }
+    }//GEN-LAST:event_tblMouseClicked
+
+    private void tblKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyPressed
+
+    }//GEN-LAST:event_tblKeyPressed
+
+    private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
+
+    }//GEN-LAST:event_tblKeyReleased
+
+    private void btnSalir5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalir5ActionPerformed
+        this.dispose();    // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalir5ActionPerformed
+
+    private void txtBKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBKeyTyped
+   
     }//GEN-LAST:event_txtBKeyTyped
 
     private void txtNombre1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre1KeyTyped

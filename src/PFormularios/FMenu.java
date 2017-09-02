@@ -340,7 +340,9 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new PFormularios.FVentas().setVisible(true);
+    PFormularios.FVentas ventana = new PFormularios.FVentas();
+    ventana.setVisible(true);
+    ventana.lblResponsable.setText(usuario);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
