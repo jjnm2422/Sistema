@@ -51,7 +51,7 @@ public class FVentas extends javax.swing.JFrame {
     private int codigo = 0;
     private String descripcion = "";
     private int cantidadProducto = 0;
-    private long precioProducto = 0;
+    private float precioProducto = 0;
     private int cantidadMinimo = 0;
     private int cantidadMaximo = 0;
     private int cantidadVenta = 0;
@@ -735,7 +735,10 @@ public class FVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl1KeyPressed
 
     private void tbl1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl1MouseClicked
-        // TODO add your handling code here:
+if (evt.getClickCount() == 2) {
+        this.Llenar();
+        this.txtB1.setText("");
+    }
     }//GEN-LAST:event_tbl1MouseClicked
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
@@ -806,7 +809,7 @@ this.dispose();
 
     private void txtCedula2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyTyped
         char c = evt.getKeyChar();
-        /*if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
             //establesco limite
             int lim = txtCedula2.getText().length();
             //cambie este numero que es el limite
@@ -817,7 +820,7 @@ this.dispose();
         } else {
             getToolkit().beep();
             evt.consume();
-        }*/
+        }
     }//GEN-LAST:event_txtCedula2KeyTyped
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
@@ -1050,8 +1053,8 @@ this.dispose();
                     if (añadir) {
                         try {
                         String sql = "insert into ventas(codven, fecven, canven, totven"
-                                + ", codusu, codcli, codped, codord, codvar)"
-                                + "values(?,?,?,?,?,?,?,?,?)";
+                                + ", codusu, codcli, codped, codord, codvar, tippago, numtrans)"
+                                + "values(?,?,?,?,?,?,?,?,?,?,?)";
 
                         PreparedStatement ps = acciones.Ingresar(sql);
                         ps.setString(1, txtCodigoV.getText());
@@ -1063,6 +1066,8 @@ this.dispose();
                         ps.setInt(7, 1);
                         ps.setInt(8, codorden);
                         ps.setInt(9, 1);
+                        ps.setString(10, cbxPago.getSelectedItem().toString());
+                        ps.setString(11, txtTransaccion.getText());
                         int n = ps.executeUpdate();
                         if (n > 0) {
                             añadir = true;
@@ -1085,17 +1090,22 @@ this.dispose();
                             PreparedStatement ps = acciones.Actualizar(sql);
                             ps.setInt(1, matriz[i][1]);
                             int n = ps.executeUpdate();
-                        if (n > 0) {
-                            JOptionPane.showMessageDialog(null, "Venta Exitosa","",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
-                            txtCodigoV.setText(this.NumeroAleatorio());
-                            this.Borrar1(2);
-                            break;
+                            if (n > 0) {
+                            añadir = true;
+                        } else {
+                            añadir = false;
                         }
                             acciones.conn.close();
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
                         }
                     }
+                     if (añadir) {
+                            JOptionPane.showMessageDialog(null, "Venta Exitosa","",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
+                            txtCodigoV.setText(this.NumeroAleatorio());
+                            this.inicializar();
+                            this.Borrar1(2);
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
@@ -1135,9 +1145,9 @@ this.dispose();
                     System.out.println("inicio de añadir a ventas");
                     if (añadir) {
                         try {
-                        String sql = "insert into ventas(codven, fecven, canven, totven"
-                                + ", codusu, codcli, codped, codord, codvar)"
-                                + "values(?,?,?,?,?,?,?,?,?)";
+                       String sql = "insert into ventas(codven, fecven, canven, totven"
+                                + ", codusu, codcli, codped, codord, codvar, tippago, numtrans)"
+                                + "values(?,?,?,?,?,?,?,?,?,?,?)";
 
                         PreparedStatement ps = acciones.Ingresar(sql);
                         ps.setString(1, txtCodigoV.getText());
@@ -1149,6 +1159,8 @@ this.dispose();
                         ps.setInt(7, Integer.parseInt(txtCodigo.getText()));
                         ps.setInt(8, codorden);
                         ps.setInt(9, 1);
+                        ps.setString(10, cbxPago.getSelectedItem().toString());
+                        ps.setString(11, txtTransaccion.getText());
                         int n = ps.executeUpdate();
                         if (n > 0) {
                             añadir = true;
@@ -1171,18 +1183,18 @@ this.dispose();
                             PreparedStatement ps = acciones.Actualizar(sql);
                             ps.setInt(1, matriz[i][1]);
                             int n = ps.executeUpdate();
-                        if (n > 0) {
-                            JOptionPane.showMessageDialog(null, "Venta Exitosa");
-                            txtCodigoV.setText(this.NumeroAleatorio());
-                            this.Borrar1(2);
-                            break;
-                        }
                             acciones.conn.close();
                         } catch (Exception e) {
                             JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
                             añadir = false;
                         }
                     }
+                    if (añadir) {
+                            JOptionPane.showMessageDialog(null, "Venta Exitosa","",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
+                            txtCodigoV.setText(this.NumeroAleatorio());
+                            this.inicializar();
+                            this.Borrar1(2);
+                        }
                     }
                 } else {
                     JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
@@ -1458,9 +1470,9 @@ this.dispose();
             cantidad += Integer.parseInt(model.getValueAt(i, 4).toString());
         }
         txtCantidad.setText(String.valueOf(cantidad));
-        txtTotal.setText(String.valueOf(total));
+        txtTotal.setText(format.format(total));
         float subtotal = (total / (1 + (iva / 100)));
-        txtPrecio.setText(String.valueOf(subtotal));
+        txtPrecio.setText(format.format(subtotal));
     }
 
     public void Borrar1(int x) {
@@ -1605,7 +1617,7 @@ this.dispose();
                     descripcion = rs.getString("desprod");
                     tipoProducto = rs.getString("tipprod");
                     cantidadProducto = rs.getInt("canprod");
-                    precioProducto = rs.getLong("preprod");
+                    precioProducto = rs.getFloat("preprod");
                     cantidadMaximo = rs.getInt("maxprod");
                     cantidadMinimo = rs.getInt("minprod");
                     codigoProveedor = rs.getString("codpro");
@@ -1633,7 +1645,7 @@ this.dispose();
                     descripcion = rs.getString("desprod");
                     tipoProducto = rs.getString("tipprod");
                     cantidadProducto = rs.getInt("canprod");
-                    precioProducto = rs.getLong("preprod");
+                    precioProducto = rs.getFloat("preprod");
                     cantidadMaximo = rs.getInt("maxprod");
                     cantidadMinimo = rs.getInt("minprod");
                     codigoProveedor = rs.getString("codpro");
@@ -1714,16 +1726,16 @@ this.dispose();
                                     row1[0] = String.valueOf(codigo);
                                     row1[1] = String.valueOf(tipoProducto);
                                     row1[2] = descripcion;
-                                    row1[3] = String.valueOf(precioProducto);
+                                    row1[3] = format.format(precioProducto);
                                     row1[4] = cantidad;
-                                    row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                                    row1[5] = format.format(precioProducto * Float.parseFloat(cantidad));
                                     model.addRow(row1);
                                 } else {
                                     //recorro la tabla en busca de registros iguales basado en el codigo
                                     for (int i = 0; i < tbl.getRowCount(); i++) {
                                         if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
                                             tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
-                                            tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
+                                            tbl.setValueAt(format.format(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString())), i, 5);
                                             productoAñadido = true;
                                         }
                                     }
@@ -1732,9 +1744,9 @@ this.dispose();
                                         row1[0] = String.valueOf(codigo);
                                         row1[1] = String.valueOf(tipoProducto);
                                         row1[2] = descripcion;
-                                        row1[3] = String.valueOf(precioProducto);
+                                        row1[3] = format.format(precioProducto);
                                         row1[4] = cantidad;
-                                        row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                                        row1[5] = format.format(precioProducto * Integer.parseInt(cantidad));
                                         model.addRow(row1);
                                     }
                                 }
@@ -1764,16 +1776,16 @@ this.dispose();
                             row1[0] = String.valueOf(codigo);
                             row1[1] = String.valueOf(tipoProducto);
                             row1[2] = descripcion;
-                            row1[3] = String.valueOf(precioProducto);
+                            row1[3] = format.format(precioProducto);
                             row1[4] = cantidad;
-                            row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                            row1[5] = format.format(precioProducto * Integer.parseInt(cantidad));
                             model.addRow(row1);
                         } else {
                             //recorro la tabla en busca de registros iguales basado en el codigo
                             for (int i = 0; i < tbl.getRowCount(); i++) {
                                 if (tbl.getValueAt(i, 0).toString().equals(String.valueOf(codigo))) {
                                     tbl.setValueAt(String.valueOf(Integer.parseInt(tbl.getValueAt(i, 4).toString()) + Integer.parseInt(cantidad)), i, 4);
-                                    tbl.setValueAt(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString()), i, 5);
+                                    tbl.setValueAt(format.format(Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString())), i, 5);
                                     productoAñadido = true;
                                 }
                             }
@@ -1782,9 +1794,9 @@ this.dispose();
                                 row1[0] = String.valueOf(codigo);
                                 row1[1] = String.valueOf(tipoProducto);
                                 row1[2] = descripcion;
-                                row1[3] = String.valueOf(precioProducto);
+                                row1[3] = format.format(precioProducto);
                                 row1[4] = cantidad;
-                                row1[5] = String.valueOf(precioProducto * Integer.parseInt(cantidad));
+                                row1[5] = format.format(precioProducto * Integer.parseInt(cantidad));
                                 model.addRow(row1);
                             }
                         }
@@ -1813,7 +1825,15 @@ this.dispose();
     private boolean verificacion2() {
         if (jRadioButton2.isSelected()) {
         if (!txtCedula2.getText().equals("")&&tbl.getRowCount()>0) {
-            return true;
+            if (cbxPago.getSelectedIndex()==0) {
+                return true;
+            }else{
+                if (txtTransaccion.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "Ingrese el numero de transaccion", "Advertencia", JOptionPane.PLAIN_MESSAGE,iconAd);
+                    return false;
+                }else
+                    return true;
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Ingrese Cedula del Cliente", "Advertencia", JOptionPane.PLAIN_MESSAGE,iconAd);
             return false;
@@ -1851,5 +1871,12 @@ this.dispose();
                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }
-
+private boolean EventoKeyType(int valor, int limitacion){
+            //pido el valor del text y pido el valor limitante
+            if (valor >= limitacion) {
+                return true;
+            }else{
+                return false;
+            }
+    }
 }

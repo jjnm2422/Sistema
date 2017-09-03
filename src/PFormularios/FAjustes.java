@@ -10,6 +10,7 @@ import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -465,7 +466,7 @@ public class FAjustes extends javax.swing.JFrame {
     private void btnEliminar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar3ActionPerformed
         int fila = tbl.getSelectedRow();
    
-        if (fila!=-1) {
+        if (fila!=-1 && !"1".equals(tbl.getValueAt(fila, 0).toString())) {
                  int seleccion = JOptionPane.showOptionDialog(
                 null,
                 "¿Esta seguro que dese Borrar el registro selecionado?", 
@@ -474,7 +475,7 @@ public class FAjustes extends javax.swing.JFrame {
                 JOptionPane.QUESTION_MESSAGE,
                 null,    // null para icono por defecto.
                 new Object[] { "Si", "No" },   // null para YES, NO y CANCEL
-                "Nuevo");
+                "No");
                  if (seleccion == 0) {
                 try {
                 String sql = "delete from tipoproducto where codtip='" + tbl.getValueAt(fila, 0) + "'";
@@ -504,7 +505,7 @@ public class FAjustes extends javax.swing.JFrame {
             }
             }
         }else{
-        JOptionPane.showMessageDialog(null, "Debe seleccionar una fila en la tabla",
+        JOptionPane.showMessageDialog(null, "Debe seleccionar una fila en la tabla o un registro que no sea el de codigo 1",
                         "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
     }
     }//GEN-LAST:event_btnEliminar3ActionPerformed
@@ -639,7 +640,7 @@ public class FAjustes extends javax.swing.JFrame {
     char c = evt.getKeyChar();
         int lim = txtIva.getText().length();
         if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
-            if (this.EventoKeyType(lim, 11)) {
+            if (this.EventoKeyType(lim, 2)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -653,7 +654,7 @@ public class FAjustes extends javax.swing.JFrame {
     char c = evt.getKeyChar();
         /*verifico que el caracter sea una letra mayuscula o minuscula o sea la tecla de borrar
          si no emito un sonido e ignoro lo que teclee*/
-        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+        if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK|| c == KeyEvent.VK_SPACE) {
             //establesco limite
             int lim = txtNombre3.getText().length();
             //cambie este numero que es el limite

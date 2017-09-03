@@ -743,10 +743,16 @@ int seleccion = JOptionPane.showOptionDialog(
                 this.Habilitar(3);
             }
             acciones.conn.close();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al eliminar cliente\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
+        }catch (SQLException e) {
+                // error clave dependiente y muestro mensaje 
+                if (e.getSQLState().equals("23503")) {
+                    JOptionPane.showMessageDialog(null, "El cliente esta relacionado a una venta por tanto no puede ser Eliminado",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al guardar cliente\nCodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
+            }
     }
     }//GEN-LAST:event_btnEliminar2ActionPerformed
 
@@ -756,7 +762,7 @@ int seleccion = JOptionPane.showOptionDialog(
             JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo cedula", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
             if (Integer.parseInt(txtCedula2.getText())==1) {
-                JOptionPane.showMessageDialog(null, "Pedido No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                JOptionPane.showMessageDialog(null, "Cliente No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
             } else {
             this.txtCedula2.setEnabled(false);
             boolean resultado = false;
@@ -1237,7 +1243,7 @@ int c = evt.getKeyChar();
 
     private void txtCedula1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula1KeyReleased
         int lim = txtCedula1.getText().length();
-        if (lim >= 1) {
+        if (lim >= 5) {
             txtCedula1.setBackground(Color.GREEN);
         }
         if (lim == 0) {

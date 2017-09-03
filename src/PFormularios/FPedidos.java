@@ -709,7 +709,7 @@ public class FPedidos extends javax.swing.JFrame {
                 PreparedStatement ps = acciones.Actualizar(sql);
                 ps.setString(1, this.txtDescripcion2.getText());
                 ps.setString(2, formateador2.format(date4.getDate()));
-                ps.setInt(3, Integer.parseInt(txtTotal1.getText()));
+                ps.setFloat(3, Float.parseFloat(txtTotal1.getText()));
                 ps.setInt(4, Integer.parseInt(txtCantidad1.getText()));
                 ps.setString(5, cbxEstado1.getSelectedItem().toString());
                 int n = ps.executeUpdate();
@@ -759,9 +759,14 @@ public class FPedidos extends javax.swing.JFrame {
                         }
                         acciones.conn.close();
                     } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Error al eliminar pedido\ncodigo error:" + e.getMessage(),
-                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                    }
+                if (e.getSQLState().equals("23503")) {
+                    JOptionPane.showMessageDialog(null, "No se puede eliminar el pedido por que esta asociado a una venta",
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error al guardar cliente\nCodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
+            }
                 }
             }
         }
@@ -786,7 +791,7 @@ public class FPedidos extends javax.swing.JFrame {
                 ps.setString(4, cbxEstado.getSelectedItem().toString());
                 ps.setString(5, this.cedula);
                 ps.setInt(6, Integer.parseInt(txtCantidad.getText()));
-                ps.setInt(7, Integer.parseInt(txtTotal.getText()));
+                ps.setFloat(7, Float.parseFloat(txtTotal.getText()));
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Pedido ingresado con exito",
@@ -832,11 +837,6 @@ public class FPedidos extends javax.swing.JFrame {
                     txtNombre1.setText(rs.getString("nomcli"));
                     txtApellido1.setText(rs.getString("apecli"));
                     this.cedula = rs.getString("cedcli");
-//                    txtCedula2.setText(rs.getString("cedcli"));
-//                    txtTelefono21.setText(rs.getString("telcli"));
-//                    txtTelefono22.setText(rs.getString("tel2cli"));
-//                    txtDireccion2.setText(rs.getString("dircli"));
-//                    txtComentario2.setText(rs.getString("comcli"));
                     this.Habilitar(3);
                     LlenarCodigo();
                 }
@@ -875,7 +875,7 @@ public class FPedidos extends javax.swing.JFrame {
 
     private void txtTotalKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotalKeyTyped
         char c = evt.getKeyChar();
-        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK || c == 46) {
             //establesco limite
             int lim = txtTotal.getText().length();
             //cambie este numero que es el limite
@@ -895,7 +895,7 @@ public class FPedidos extends javax.swing.JFrame {
             //establesco limite
             int lim = txtCantidad.getText().length();
             //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 4)) {
+            if (this.EventoKeyType(lim, 3)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -967,7 +967,7 @@ public class FPedidos extends javax.swing.JFrame {
 
     private void txtTotal1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotal1KeyTyped
         char c = evt.getKeyChar();
-        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK || c == 46) {
             //establesco limite
             int lim = txtTotal1.getText().length();
             //cambie este numero que es el limite
@@ -987,7 +987,7 @@ public class FPedidos extends javax.swing.JFrame {
             //establesco limite
             int lim = txtCantidad1.getText().length();
             //cambie este numero que es el limite
-            if (this.EventoKeyType(lim, 4)) {
+            if (this.EventoKeyType(lim, 3)) {
                 evt.consume();
                 getToolkit().beep();
             }
@@ -1451,7 +1451,7 @@ public class FPedidos extends javax.swing.JFrame {
                 txtDescripcion2.setEnabled(false);
                 break;
             case 3:
-                cbxEstado.setEnabled(true);
+                cbxEstado.setEnabled(false);
                 date1.setEnabled(true);
                 date2.setEnabled(true);
                 lblCodigo.setEnabled(true);

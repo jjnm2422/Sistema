@@ -21,7 +21,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Formatter;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Icon;
@@ -47,7 +49,8 @@ public class FInventario extends javax.swing.JFrame {
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
     public DefaultTableModel model;
     private int iva = 0;
-    private DecimalFormat format = new DecimalFormat("#.00");
+    DecimalFormatSymbols simbolos = DecimalFormatSymbols.getInstance(Locale.ENGLISH);
+    private DecimalFormat format = new DecimalFormat("#0.00",simbolos);
     private DefaultTableModel model2;
 
     public FInventario() {
@@ -2082,7 +2085,7 @@ this.dispose();        // TODO add your handling code here:
                             JOptionPane.showMessageDialog(null, "Atencion...\nEl minimo de inventario supera la cantidad disponible, debera añadir mas productos", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
                             return true;
                         } else {
-                            return false;
+                            return true;
                         }
                     }
                 } else {

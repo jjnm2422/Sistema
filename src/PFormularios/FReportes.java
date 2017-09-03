@@ -58,6 +58,7 @@ public class FReportes extends javax.swing.JFrame{
     private String segundos;
     private String usuario;
     private long i = 0;
+    private String ruta;
     PBD.Conexion_DB conexion = new PBD.Conexion_DB();
     
         
@@ -68,7 +69,18 @@ public class FReportes extends javax.swing.JFrame{
         i=0;
     }
     
-
+public String getRuta() {
+        try {
+            String sql = "select ruta from variables";
+            ResultSet rs= acciones.Consultar(sql);
+            while(rs.next()){
+            ruta = rs.getString("ruta"); 
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return ruta;
+    }
     
     public void setTitle(String title) {
         super.setTitle(title);
@@ -288,10 +300,10 @@ setExtendedState(JFrame.ICONIFIED);
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
     try {
             Connection conn = PBD.Conexion_DB.geConnection();
-            String dir = "C:\\juniorReport\\reporteC.jrxml";
+            String dir = getRuta() + "\\reporteC.jrxml";
             Map<String, Object> p2 = new HashMap<>();
             p2.put("usuario", usuario);
-//            p2.put("ruta", ruta.getRuta());
+            p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
             JasperViewer visor = new JasperViewer(mostrarReporte, false);
@@ -308,10 +320,10 @@ setExtendedState(JFrame.ICONIFIED);
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
      try {
             Connection conn = PBD.Conexion_DB.geConnection();
-            String dir = "C:\\juniorReport\\reportePE.jrxml";
+            String dir = getRuta() + "\\reportePE.jrxml";
             Map<String, Object> p2 = new HashMap<>();
             p2.put("usuario", usuario);
-//            p2.put("ruta", ruta.getRuta());
+            p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
             JasperViewer visor = new JasperViewer(mostrarReporte, false);
@@ -324,10 +336,10 @@ setExtendedState(JFrame.ICONIFIED);
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
     try {
             Connection conn = PBD.Conexion_DB.geConnection();
-            String dir = "C:\\juniorReport\\reporteP.jrxml";
+            String dir = getRuta() +"\\reporteP.jrxml";
             Map<String, Object> p2 = new HashMap<>();
             p2.put("usuario", usuario);
-//            p2.put("ruta", ruta.getRuta());
+            p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
             JasperViewer visor = new JasperViewer(mostrarReporte, false);
@@ -340,10 +352,10 @@ setExtendedState(JFrame.ICONIFIED);
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
     try {
             Connection conn = PBD.Conexion_DB.geConnection();
-            String dir = "C:\\juniorReport\\reporteI.jrxml";
+            String dir = getRuta() +"\\reporteI.jrxml";
             Map<String, Object> p2 = new HashMap<>();
             p2.put("usuario", usuario);
-//            p2.put("ruta", ruta.getRuta());
+            p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
             JasperViewer visor = new JasperViewer(mostrarReporte, false);

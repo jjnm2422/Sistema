@@ -185,7 +185,6 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtUsuario.setText("jjnm");
         jPanel3.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 140, 30));
 
         btnIngresar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
@@ -208,7 +207,6 @@ public class FLogin extends javax.swing.JFrame implements Runnable{
 
         txtClave.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtClave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        txtClave.setText("2422");
         txtClave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtClaveActionPerformed(evt);
