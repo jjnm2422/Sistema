@@ -95,18 +95,6 @@ public String getRuta() {
         }
     }
     
-        public void ActualizarUsuario() {
-        try {
-            String sql1 = "update usuarios set fecult=?, horult=? where nomusu= '"+usuario+"'";
-            PreparedStatement ps = acciones.Actualizar(sql1);
-            ps.setString(1, fecha.getFecha());  
-            ps.setString(2, lblHora.getText());
-            int n = ps.executeUpdate();
-            acciones.conn.close();
-        } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR ULTIMO ACCESO" + e.getMessage()); 
-        }
-    }
     
     private void restaurarVentana() {
         if(getExtendedState() == JFrame.MAXIMIZED_BOTH){//1
@@ -142,6 +130,7 @@ public String getRuta() {
         jButton5 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        lblResponsable = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reportes");
@@ -265,6 +254,9 @@ public String getRuta() {
         });
         jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 210, 130));
 
+        lblResponsable.setText("acmk");
+        jPanel3.add(lblResponsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 120, 20));
+
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 410));
 
         pack();
@@ -281,7 +273,7 @@ public String getRuta() {
     }//GEN-LAST:event_jPanel3MouseDragged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.exit(0);
+    this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -302,7 +294,7 @@ setExtendedState(JFrame.ICONIFIED);
             Connection conn = PBD.Conexion_DB.geConnection();
             String dir = getRuta() + "\\reporteC.jrxml";
             Map<String, Object> p2 = new HashMap<>();
-            p2.put("usuario", usuario);
+            p2.put("usuario", lblResponsable.getText());
             p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
@@ -314,7 +306,7 @@ setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        new PFormularios.FVentas().setVisible(true);
+JOptionPane.showMessageDialog(null, "No disponible diseño en proceso", "ERROR", JOptionPane.ERROR_MESSAGE);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -322,7 +314,7 @@ setExtendedState(JFrame.ICONIFIED);
             Connection conn = PBD.Conexion_DB.geConnection();
             String dir = getRuta() + "\\reportePE.jrxml";
             Map<String, Object> p2 = new HashMap<>();
-            p2.put("usuario", usuario);
+            p2.put("usuario", lblResponsable.getText());
             p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
@@ -338,7 +330,7 @@ setExtendedState(JFrame.ICONIFIED);
             Connection conn = PBD.Conexion_DB.geConnection();
             String dir = getRuta() +"\\reporteP.jrxml";
             Map<String, Object> p2 = new HashMap<>();
-            p2.put("usuario", usuario);
+            p2.put("usuario", lblResponsable.getText());
             p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
@@ -354,7 +346,7 @@ setExtendedState(JFrame.ICONIFIED);
             Connection conn = PBD.Conexion_DB.geConnection();
             String dir = getRuta() +"\\reporteI.jrxml";
             Map<String, Object> p2 = new HashMap<>();
-            p2.put("usuario", usuario);
+            p2.put("usuario", lblResponsable.getText());
             p2.put("ruta", getRuta());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
@@ -391,6 +383,7 @@ setExtendedState(JFrame.ICONIFIED);
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblHora;
+    public javax.swing.JLabel lblResponsable;
     private javax.swing.JLabel lblTitulo;
     // End of variables declaration//GEN-END:variables
 }

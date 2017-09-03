@@ -125,6 +125,7 @@ public class FAjustes extends javax.swing.JFrame {
         lblTitulo4 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         btnBuscar1 = new javax.swing.JButton();
+        btnBuscar2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         lblTitulo16 = new javax.swing.JLabel();
         txtNombre3 = new javax.swing.JTextField();
@@ -275,6 +276,16 @@ public class FAjustes extends javax.swing.JFrame {
             }
         });
         jPanel1.add(btnBuscar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 30, 20));
+
+        btnBuscar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_family.png"))); // NOI18N
+        btnBuscar2.setContentAreaFilled(false);
+        btnBuscar2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscar2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 140, 30, 20));
 
         jTabbedPane1.addTab("Variables", jPanel1);
 
@@ -676,6 +687,10 @@ public class FAjustes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
+    private void btnBuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar2ActionPerformed
+   new PFormularios.FUsuarios().setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscar2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -696,6 +711,7 @@ public class FAjustes extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrar3;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscar1;
+    private javax.swing.JButton btnBuscar2;
     private javax.swing.JButton btnEliminar3;
     private javax.swing.JButton btnSalir2;
     private javax.swing.JButton btnSalir3;

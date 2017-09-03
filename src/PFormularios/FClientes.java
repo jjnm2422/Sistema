@@ -723,7 +723,12 @@ public class FClientes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void btnEliminar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar2ActionPerformed
-int seleccion = JOptionPane.showOptionDialog(
+        if (txtCedula2.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Campo Cedula Vacio",
+                        "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+        } else {
+        
+        int seleccion = JOptionPane.showOptionDialog(
    null,
    "¿Esta seguro que dese Borrar los datos del cliente "+txtNombre2.getText()+" "+txtApellido2.getText() +"?", 
    "Advertencia",
@@ -731,7 +736,7 @@ int seleccion = JOptionPane.showOptionDialog(
    JOptionPane.QUESTION_MESSAGE,
    null,    // null para icono por defecto.
    new Object[] { "Si", "No" },   // null para YES, NO y CANCEL
-   "Nuevo");
+   "No");
     if (seleccion == 0) {
         try {
             String sql = "delete from clientes where cedcli='" + txtCedula2.getText() + "'";
@@ -753,6 +758,7 @@ int seleccion = JOptionPane.showOptionDialog(
                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 }
             }
+    }
     }
     }//GEN-LAST:event_btnEliminar2ActionPerformed
 
