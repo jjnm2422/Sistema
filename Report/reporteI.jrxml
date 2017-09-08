@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jjnmreport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="49b6ab68-da6f-4907-84bd-cd340cc6ed56">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="ruta" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     inventario."codprod" AS inventario_codprod,
+     inventario."desprod" AS inventario_desprod,
+     inventario."canprod" AS inventario_canprod,
+     inventario."preprod" AS inventario_preprod,
+     inventario."minprod" AS inventario_minprod,
+     inventario."maxprod" AS inventario_maxprod,
+     inventario."codpro" AS inventario_codpro,
+     inventario."tippro" AS inventario_tippro,
+     proveedores."codpro" AS proveedores_codpro,
+     proveedores."nompro" AS proveedores_nompro,
+     proveedores."rifpro" AS proveedores_rifpro,
+     tipoproducto."codtip" AS tipoproducto_codtip,
+     tipoproducto."tipprod" AS tipoproducto_tipprod
+FROM
+     "public"."proveedores" proveedores INNER JOIN "public"."inventario" inventario ON proveedores."rifpro" = inventario."codpro"
+     INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"]]>
+	</queryString>
+	<field name="inventario_codprod" class="java.lang.Integer"/>
+	<field name="inventario_desprod" class="java.lang.String"/>
+	<field name="inventario_canprod" class="java.math.BigDecimal"/>
+	<field name="inventario_preprod" class="java.lang.Float"/>
+	<field name="inventario_minprod" class="java.math.BigDecimal"/>
+	<field name="inventario_maxprod" class="java.math.BigDecimal"/>
+	<field name="inventario_codpro" class="java.lang.String"/>
+	<field name="inventario_tippro" class="java.lang.Integer"/>
+	<field name="proveedores_codpro" class="java.lang.Integer"/>
+	<field name="proveedores_nompro" class="java.lang.String"/>
+	<field name="proveedores_rifpro" class="java.lang.String"/>
+	<field name="tipoproducto_codtip" class="java.lang.Integer"/>
+	<field name="tipoproducto_tipprod" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="408" y="0" width="147" height="20" uuid="a7d0281e-4491-4813-9d20-964f2c904a65"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="434" y="20" width="80" height="20" uuid="52bcffa5-694f-4500-877d-6b46d2c94b96"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="514" y="20" width="41" height="20" uuid="03ebdd4b-79ac-41d0-9c7b-a266233fe76e"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="408" y="40" width="147" height="20" uuid="ab825c59-0def-48d9-8ec7-755c59173ca6"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Generado por:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="493" y="40" width="62" height="20" uuid="d7b0e2fc-0a37-4152-96dc-e6e60854eb78"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="0" width="256" height="79" uuid="6e449cfb-8752-43fe-b382-3900d74c4cf0"/>
+				<imageExpression><![CDATA[$P{ruta}+"\\suniaga.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="179" y="0" width="254" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Inventario]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="20" width="555" height="1" forecolor="#CCCCCC" uuid="44fa3579-d193-4e7a-ad86-54aca93647f0"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="297" y="1" width="120" height="20" uuid="72d83fec-537c-484d-a998-076db54e70c4"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de  Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="219" y="1" width="80" height="20" uuid="080ae209-192e-474a-93d2-517e8988bfa8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cantidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="54" height="20" uuid="981a911b-ada3-469c-b188-b9d76c796029"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="1" width="165" height="20" uuid="e7ef5fdd-38b9-495b-8e95-711a21672e48"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="0" width="58" height="22" uuid="c1652cc7-d269-49c9-8b8c-e02e9a78734e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="474" y="0" width="81" height="20" uuid="4b2be6cf-9208-4fc4-9a10-ef10a8b32e53"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Proveedor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="38" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="37" width="555" height="1" forecolor="#000000" uuid="0f4327ac-02fc-4f59-a885-dd8c7004ffb6"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="0" y="7" width="54" height="20" uuid="c1a8d391-cd1f-443f-99f3-119f58efc46f"/>
+				<textFieldExpression><![CDATA[$F{inventario_codprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="0" width="165" height="37" uuid="2efba5ce-3f45-490b-9453-969c7ca2aa9e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{inventario_desprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="8" width="80" height="20" uuid="8aa72d00-69f0-40a2-8242-1bfff39d56aa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{inventario_canprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="416" y="8" width="58" height="20" uuid="33d0d3c1-26a8-4308-9096-e6e818682c1d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{inventario_preprod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="474" y="8" width="81" height="20" uuid="f52681ba-e9e5-4667-8022-a7fb03037e7d"/>
+				<textFieldExpression><![CDATA[$F{proveedores_nompro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="299" y="9" width="118" height="20" uuid="380444cb-8058-4c94-9dc1-acb41d255123"/>
+				<textFieldExpression><![CDATA[$F{tipoproducto_tipprod}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField evaluationTime="Report">
+				<reportElement x="219" y="0" width="131" height="20" uuid="a62cd08d-ff15-41a9-996c-6ab056244434"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
