@@ -306,7 +306,20 @@ setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-JOptionPane.showMessageDialog(null, "No disponible diseño en proceso", "ERROR", JOptionPane.ERROR_MESSAGE);
+ try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteV.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
