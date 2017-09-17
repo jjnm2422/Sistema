@@ -119,6 +119,39 @@ public String getRuta() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFrame1 = new javax.swing.JFrame();
+        jPanel1 = new javax.swing.JPanel();
+        jButton11 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jMonthChooser1 = new com.toedter.calendar.JMonthChooser();
+        jYearChooser1 = new com.toedter.calendar.JYearChooser();
+        jButton9 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jLabel12 = new javax.swing.JLabel();
+        jMonthChooser2 = new com.toedter.calendar.JMonthChooser();
+        jYearChooser2 = new com.toedter.calendar.JYearChooser();
+        jLabel13 = new javax.swing.JLabel();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
+        txtCedula2 = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        jButton17 = new javax.swing.JButton();
+        jLabel15 = new javax.swing.JLabel();
+        jButton18 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
@@ -131,6 +164,226 @@ public String getRuta() {
         jButton8 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         lblResponsable = new javax.swing.JLabel();
+
+        jFrame1.setUndecorated(true);
+        jFrame1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jPanel1MouseDragged(evt);
+            }
+        });
+        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jPanel1MousePressed(evt);
+            }
+        });
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/minimizar.png"))); // NOI18N
+        jButton11.setBorderPainted(false);
+        jButton11.setContentAreaFilled(false);
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 30, 30));
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/cerrar.png"))); // NOI18N
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 30, 30));
+
+        jLabel2.setBackground(new java.awt.Color(0, 255, 255));
+        jLabel2.setOpaque(true);
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 30));
+
+        jLabel3.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel3.setText("Por Año");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 100, 20));
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setText("Reportes Graficos de Ventas");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 420, 30));
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel6.setText("Por Fecha");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 150, 100, 20));
+
+        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel7.setText("Por Mes");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 100, 20));
+
+        jLabel8.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel8.setText("Por Ventas a Clientes");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 160, 20));
+
+        jLabel9.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel9.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel9.setText("Todas las Ventas");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 120, 20));
+
+        jButton3.setText("Generar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 180, -1, -1));
+        jPanel1.add(jDateChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 150, 140, -1));
+        jPanel1.add(jMonthChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 140, -1));
+        jPanel1.add(jYearChooser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, 140, -1));
+
+        jButton9.setText("Generar");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, -1, -1));
+
+        jButton12.setText("Generar");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 210, -1, -1));
+
+        jButton13.setText("Generar");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton13, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 150, -1, -1));
+
+        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel10.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel10.setText("Reportes de Ventas");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(4, 40, 420, 30));
+
+        jLabel11.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel11.setText("Por Fecha");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 100, 20));
+        jPanel1.add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 140, -1));
+
+        jLabel12.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel12.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel12.setText("Por Mes");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 100, 20));
+        jPanel1.add(jMonthChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 140, -1));
+        jPanel1.add(jYearChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 140, -1));
+
+        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel13.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel13.setText("Por Año");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 100, 20));
+
+        jButton14.setText("Generar");
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton14ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, -1, -1));
+
+        jButton15.setText("Generar");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, -1, -1));
+
+        jButton16.setText("Generar");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, -1, -1));
+
+        txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCedula2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedula2ActionPerformed(evt);
+            }
+        });
+        txtCedula2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedula2KeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtCedula2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 140, 20));
+
+        jLabel14.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel14.setFont(new java.awt.Font("Verdana", 1, 10)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel14.setText("Cedula del Cliente");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 140, 10));
+
+        jButton17.setText("Generar");
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton17ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton17, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, -1, -1));
+
+        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel15.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setText("Por Cliente especifico");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 160, 20));
+
+        jButton18.setText("Generar");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 120, -1, -1));
+
+        jFrame1.getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 400));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Reportes");
@@ -188,7 +441,7 @@ public String getRuta() {
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 610, 50));
 
-        jLabel1.setBackground(new java.awt.Color(255, 102, 0));
+        jLabel1.setBackground(new java.awt.Color(0, 255, 255));
         jLabel1.setOpaque(true);
         jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 30));
 
@@ -219,7 +472,7 @@ public String getRuta() {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 200, 170));
+        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 200, 170));
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Pedidos.png"))); // NOI18N
         jButton5.setContentAreaFilled(false);
@@ -306,20 +559,9 @@ setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
- try {
-            Connection conn = PBD.Conexion_DB.geConnection();
-            String dir = getRuta() + "\\reporteV.jrxml";
-            Map<String, Object> p2 = new HashMap<>();
-            p2.put("usuario", lblResponsable.getText());
-            p2.put("ruta", getRuta());
-            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
-            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
-            JasperViewer visor = new JasperViewer(mostrarReporte, false);
-            visor.setVisible(true);
-        } catch (JRException ex) {
-            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
-
+jFrame1.setSize(430,400);
+jFrame1.setLocationRelativeTo(null);
+jFrame1.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -371,6 +613,323 @@ setExtendedState(JFrame.ICONIFIED);
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+restaurarVentana();
+        setExtendedState(JFrame.ICONIFIED);        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+jFrame1.dispose();
+// TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtCedula2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedula2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula2ActionPerformed
+
+    private void txtCedula2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula2KeyReleased
+
+    private void txtCedula2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula2KeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula2KeyTyped
+
+    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
+try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteV.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+    }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+    if (txtCedula2.getText().equals("")) {
+    JOptionPane.showMessageDialog(null, "Campo de cedula vacio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVporcliente.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("cedula", txtCedula2.getText());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+}
+    }//GEN-LAST:event_jButton18ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+    if (jDateChooser1.getDate()==null) {
+    JOptionPane.showMessageDialog(null, "Campo de fecha vacio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVpordia.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("fecha", jDateChooser1.getDate());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+}
+    }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    if (jMonthChooser1.getMonth()<0) {
+    JOptionPane.showMessageDialog(null, "Campo de mes invalido", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        String mes = "";
+        String fecha = "";
+        switch (jMonthChooser1.getMonth()) {
+            case 0:
+                mes = "Enero";
+                fecha = "01";
+                break;
+            case 1:
+                mes = "Febrero";
+                fecha = "02";
+                break;
+            case 2:
+                mes = "Marzo";
+                fecha = "03";
+                break;
+            case 3:
+                mes = "Abril";
+                fecha = "04";
+                break;
+            case 4:
+                mes = "Mayo";
+                fecha = "05";
+                break;
+            case 5:
+                mes = "Junio";
+                fecha = "06";
+                break;
+            case 6:
+                mes = "Julio";
+                fecha = "07";
+                break;
+            case 7:
+                mes = "Agosto";
+                fecha = "08";
+                break;
+            case 8:
+                mes = "Septiembre";
+                fecha = "09";
+                break;
+            case 9:
+                mes = "Octubre";
+                fecha = "10";
+                break;
+            case 10:
+                mes = "Noviembre";
+                fecha = "11";
+                break;
+            case 11:
+                mes = "Diciembre";
+                fecha = "12";
+                break;
+        }
+        try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVpormes.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("fecha", fecha);
+            p2.put("mes", mes);
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+}
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MousePressed
+x = evt.getX();
+        y = evt.getY();        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel1MousePressed
+
+    private void jPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseDragged
+    Point ubicacion = MouseInfo.getPointerInfo().getLocation();//1
+    jFrame1.setLocation(ubicacion.x - x, ubicacion.y - y);//3        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel1MouseDragged
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+  if (jYearChooser1.getYear()<2000) {
+    JOptionPane.showMessageDialog(null,"Fecha Incorrecta o menor al año 2000", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVporano.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("fecha", jYearChooser1.getYear());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
+    if (jDateChooser2.getDate()==null) {
+    JOptionPane.showMessageDialog(null, "Campo de fecha vacio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVgraficadiarias.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("fecha", jDateChooser2.getDate());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton14ActionPerformed
+
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+ if (jMonthChooser2.getMonth()<0) {
+    JOptionPane.showMessageDialog(null, "Campo de mes invalido", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        String mes = "";
+        String fecha = "";
+        switch (jMonthChooser2.getMonth()) {
+            case 0:
+                mes = "Enero";
+                fecha = "01";
+                break;
+            case 1:
+                mes = "Febrero";
+                fecha = "02";
+                break;
+            case 2:
+                mes = "Marzo";
+                fecha = "03";
+                break;
+            case 3:
+                mes = "Abril";
+                fecha = "04";
+                break;
+            case 4:
+                mes = "Mayo";
+                fecha = "05";
+                break;
+            case 5:
+                mes = "Junio";
+                fecha = "06";
+                break;
+            case 6:
+                mes = "Julio";
+                fecha = "07";
+                break;
+            case 7:
+                mes = "Agosto";
+                fecha = "08";
+                break;
+            case 8:
+                mes = "Septiembre";
+                fecha = "09";
+                break;
+            case 9:
+                mes = "Octubre";
+                fecha = "10";
+                break;
+            case 10:
+                mes = "Noviembre";
+                fecha = "11";
+                break;
+            case 11:
+                mes = "Diciembre";
+                fecha = "12";
+                break;
+        }
+        try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVgraficames.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("fecha", fecha);
+            p2.put("mes", mes);
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+ if (jYearChooser2.getYear()<2000) {
+    JOptionPane.showMessageDialog(null,"Fecha Incorrecta o menor al año 2000", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+        try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVgraficaano.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("fecha", jYearChooser2.getYear());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}
+}          // TODO add your handling code here:
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+try {
+            Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteVgraficaclientes.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+}      // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -388,15 +947,48 @@ setExtendedState(JFrame.ICONIFIED);
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
+    private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDateChooser2;
+    private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private com.toedter.calendar.JMonthChooser jMonthChooser1;
+    private com.toedter.calendar.JMonthChooser jMonthChooser2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
+    private com.toedter.calendar.JYearChooser jYearChooser1;
+    private com.toedter.calendar.JYearChooser jYearChooser2;
     private javax.swing.JLabel lblHora;
     public javax.swing.JLabel lblResponsable;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JTextField txtCedula2;
     // End of variables declaration//GEN-END:variables
 }

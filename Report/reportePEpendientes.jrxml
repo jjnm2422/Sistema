@@ -22,7 +22,9 @@
      clientes."apecli" AS clientes_apecli,
      clientes."cedcli" AS clientes_cedcli
 FROM
-     "public"."clientes" clientes INNER JOIN "public"."pedidos" pedidos ON clientes."cedcli" = pedidos."cedcli"]]>
+     "public"."clientes" clientes INNER JOIN "public"."pedidos" pedidos ON clientes."cedcli" = pedidos."cedcli"
+WHERE
+pedidos."estped" = 'pendiente']]>
 	</queryString>
 	<field name="pedidos_codped" class="java.lang.Integer"/>
 	<field name="pedidos_desped" class="java.lang.String"/>
@@ -70,7 +72,7 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Pedidos Registrados]]></text>
+				<text><![CDATA[Pedidos Registrados Pendientes]]></text>
 			</staticText>
 		</band>
 	</pageHeader>

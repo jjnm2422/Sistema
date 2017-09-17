@@ -44,6 +44,7 @@ public class FInventario extends javax.swing.JFrame {
     private int y;
     private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/oie_canvas.png"));
     private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
+    private PClases.CFecha cFecha = new PClases.CFecha();
     private final ImageIcon iconError = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png"));
     private final ImageIcon iconCorrecto = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/correcto.png"));
     private final ImageIcon iconAd = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/escudoA.png"));
@@ -1334,9 +1335,10 @@ public class FInventario extends javax.swing.JFrame {
     private void btnIngresar3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresar3ActionPerformed
         if (Verificacion3()) {
             try {
-                String sql = "update inventario set canprod=? where codprod= '" + txtCodigo4.getText() + "'";
+                String sql = "update inventario set canprod=?, fecprod=? where codprod= '" + txtCodigo4.getText() + "'";
                 PreparedStatement ps = acciones.Actualizar(sql);
                 ps.setInt(1, Integer.parseInt(txtIngreso.getText()) + Integer.parseInt(txtCantidad4.getText()));
+                ps.setString(2, cFecha.getFecha());
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Cantidad Actualizada con exito",
@@ -1803,7 +1805,7 @@ this.dispose();        // TODO add your handling code here:
             float total = 0;
             try {
                 String sql = "insert into inventario(tippro, desprod, canprod,"
-                + "preprod, minprod, maxprod, codpro) values(?,?,?,?,?,?,?)";
+                + "preprod, minprod, maxprod, codpro, fecprod) values(?,?,?,?,?,?,?,?)";
                 PreparedStatement ps = acciones.Ingresar(sql);
                 total = Integer.parseInt(txtPrecio1.getText()) + (Integer.parseInt(txtPrecio1.getText()) * (getIva() / 100));
                 ps.setInt(1, getCodTipoProducto(cbxTipo1.getSelectedItem().toString()));
@@ -1813,6 +1815,7 @@ this.dispose();        // TODO add your handling code here:
                 ps.setInt(5, Integer.parseInt(txtMinimo1.getText()));
                 ps.setInt(6, Integer.parseInt(txtMaximo1.getText()));
                 ps.setInt(7, getCodProveedores(cbxProveedor1.getSelectedItem().toString()));
+                ps.setString(8, cFecha.getFecha());
                 int n = ps.executeUpdate();
                 if (n > 0) {
                     JOptionPane.showMessageDialog(null, "Producto ingresado con exito al inventario",

@@ -587,6 +587,11 @@ public class FVentas extends javax.swing.JFrame {
 
         txtTransaccion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTransaccion.setEnabled(false);
+        txtTransaccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtTransaccionKeyTyped(evt);
+            }
+        });
         jPanel2.add(txtTransaccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 180, 20));
 
         btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
@@ -1427,6 +1432,22 @@ this.dispose();
     private void txtB1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtB1KeyTyped
 
     }//GEN-LAST:event_txtB1KeyTyped
+
+    private void txtTransaccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTransaccionKeyTyped
+     char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtTransaccion.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 15)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtTransaccionKeyTyped
 
     public void LlenarLista(int x) {
         txtAuto.removeAllItems();

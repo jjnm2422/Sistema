@@ -86,7 +86,7 @@ FROM
 	<pageHeader>
 		<band height="35" splitType="Stretch">
 			<staticText>
-				<reportElement x="179" y="0" width="254" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
+				<reportElement x="0" y="0" width="555" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
 				</textElement>
@@ -114,7 +114,7 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Cantidad]]></text>
+				<text><![CDATA[Disponible]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="0" width="54" height="20" uuid="981a911b-ada3-469c-b188-b9d76c796029"/>
@@ -156,6 +156,7 @@ FROM
 			</line>
 			<textField>
 				<reportElement x="0" y="7" width="54" height="20" uuid="c1a8d391-cd1f-443f-99f3-119f58efc46f"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{inventario_codprod}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -170,15 +171,17 @@ FROM
 			</textField>
 			<textField>
 				<reportElement x="416" y="8" width="58" height="20" uuid="33d0d3c1-26a8-4308-9096-e6e818682c1d"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{inventario_preprod}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="474" y="8" width="81" height="20" uuid="f52681ba-e9e5-4667-8022-a7fb03037e7d"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{proveedores_nompro}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="299" y="9" width="118" height="20" uuid="380444cb-8058-4c94-9dc1-acb41d255123"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{tipoproducto_tipprod}]]></textFieldExpression>
 			</textField>
 		</band>

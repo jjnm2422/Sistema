@@ -319,10 +319,11 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_jPanel3MouseDragged
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //h1.stop();
-        //para salir System.exit(0);
-        this.dispose();
-        new PFormularios.FLogin().setVisible(true);
+        h1.stop();
+        System.exit(0);
+//        if(PFormularios.FAjustes.is)
+//        this.dispose();
+//        new PFormularios.FLogin().setVisible(true);
        // this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
