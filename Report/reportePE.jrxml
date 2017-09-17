@@ -22,7 +22,9 @@
      clientes."apecli" AS clientes_apecli,
      clientes."cedcli" AS clientes_cedcli
 FROM
-     "public"."clientes" clientes INNER JOIN "public"."pedidos" pedidos ON clientes."cedcli" = pedidos."cedcli"]]>
+     "public"."clientes" clientes INNER JOIN "public"."pedidos" pedidos ON clientes."cedcli" = pedidos."cedcli"
+WHERE
+NOT pedidos."cedcli" = '1']]>
 	</queryString>
 	<field name="pedidos_codped" class="java.lang.Integer"/>
 	<field name="pedidos_desped" class="java.lang.String"/>

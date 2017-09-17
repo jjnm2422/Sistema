@@ -36,39 +36,18 @@ FROM
 	<title>
 		<band height="79" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="398" y="0" width="147" height="20" uuid="a7d0281e-4491-4813-9d20-964f2c904a65"/>
-				<textElement>
+				<reportElement x="378" y="0" width="177" height="20" uuid="a7d0281e-4491-4813-9d20-964f2c904a65"/>
+				<textElement textAlignment="Right">
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="434" y="20" width="80" height="20" uuid="52bcffa5-694f-4500-877d-6b46d2c94b96"/>
+				<reportElement x="378" y="20" width="177" height="20" uuid="d7b0e2fc-0a37-4152-96dc-e6e60854eb78"/>
 				<textElement textAlignment="Right">
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="514" y="20" width="41" height="20" uuid="03ebdd4b-79ac-41d0-9c7b-a266233fe76e"/>
-				<textElement>
-					<font fontName="Verdana" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="408" y="40" width="147" height="20" uuid="ab825c59-0def-48d9-8ec7-755c59173ca6"/>
-				<textElement>
-					<font fontName="Verdana" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Generado por:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="493" y="40" width="62" height="20" uuid="d7b0e2fc-0a37-4152-96dc-e6e60854eb78"/>
-				<textElement>
-					<font fontName="Verdana" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{usuario}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Generado por: "+$P{usuario}]]></textFieldExpression>
 			</textField>
 			<image>
 				<reportElement x="0" y="0" width="256" height="79" uuid="6e449cfb-8752-43fe-b382-3900d74c4cf0"/>
@@ -79,11 +58,11 @@ FROM
 	<pageHeader>
 		<band height="35" splitType="Stretch">
 			<staticText>
-				<reportElement x="179" y="0" width="254" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
+				<reportElement x="0" y="0" width="555" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Registro de Usuarios]]></text>
+				<text><![CDATA[Usuarios Registrados]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
@@ -133,11 +112,11 @@ FROM
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="38" splitType="Stretch">
+		<band height="22" splitType="Stretch">
 			<line>
-				<reportElement x="0" y="37" width="555" height="1" forecolor="#000000" uuid="0f4327ac-02fc-4f59-a885-dd8c7004ffb6"/>
+				<reportElement x="0" y="21" width="555" height="1" forecolor="#000000" uuid="0f4327ac-02fc-4f59-a885-dd8c7004ffb6"/>
 				<graphicElement>
-					<pen lineWidth="2.0" lineStyle="Dashed"/>
+					<pen lineWidth="2.0" lineStyle="Dashed" lineColor="#666666"/>
 				</graphicElement>
 			</line>
 			<textField>
@@ -168,16 +147,23 @@ FROM
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="15" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch">
-			<textField evaluationTime="Report">
-				<reportElement x="219" y="0" width="131" height="20" uuid="a62cd08d-ff15-41a9-996c-6ab056244434"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+			<textField>
+				<reportElement x="209" y="0" width="80" height="20" uuid="52bcffa5-694f-4500-877d-6b46d2c94b96"/>
+				<textElement textAlignment="Right">
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="289" y="0" width="41" height="20" uuid="03ebdd4b-79ac-41d0-9c7b-a266233fe76e"/>
+				<textElement>
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>

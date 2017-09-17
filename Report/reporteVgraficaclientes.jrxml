@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jjnmreport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="49b6ab68-da6f-4907-84bd-cd340cc6ed56">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="51"/>
+	<property name="ireport.y" value="59"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -31,11 +31,13 @@
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="ruta" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select count(*) as count, substring(fecven from 4 for 2) as mes from ventas
-group by substring(fecven from 4 for 2) order by mes asc;]]>
+		<![CDATA[select count(*), nomcli , apecli from ventas
+inner join clientes on clientes.cedcli = ventas.codcli
+group by nomcli, apecli]]>
 	</queryString>
 	<field name="count" class="java.lang.Long"/>
-	<field name="mes" class="java.lang.String"/>
+	<field name="nomcli" class="java.lang.String"/>
+	<field name="apecli" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -78,7 +80,7 @@ group by substring(fecven from 4 for 2) order by mes asc;]]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Grafica Ventas Mensuales]]></text>
+				<text><![CDATA[Grafica Ventas por Clientes]]></text>
 			</staticText>
 		</band>
 	</title>
@@ -101,85 +103,24 @@ group by substring(fecven from 4 for 2) order by mes asc;]]>
 		<band/>
 	</lastPageFooter>
 	<summary>
-		<band height="282" splitType="Stretch">
-			<barChart>
+		<band height="261" splitType="Stretch">
+			<pie3DChart>
 				<chart>
-					<reportElement x="0" y="0" width="555" height="221" uuid="37d0e7d0-22a0-417b-87e1-6b897b2176c5"/>
+					<reportElement x="0" y="0" width="555" height="261" uuid="e0ede862-756f-4436-a825-a21405ed1155"/>
 					<chartTitle/>
 					<chartSubtitle/>
 					<chartLegend/>
 				</chart>
-				<categoryDataset>
-					<categorySeries>
-						<seriesExpression><![CDATA[$F{count}]]></seriesExpression>
-						<categoryExpression><![CDATA["Mes: "+$F{mes}]]></categoryExpression>
-						<valueExpression><![CDATA[$F{count}]]></valueExpression>
-						<labelExpression><![CDATA["Mes: "+$F{mes}+"-"+$F{count}]]></labelExpression>
-					</categorySeries>
-				</categoryDataset>
-				<barPlot>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{nomcli}+" "+$F{apecli}]]></keyExpression>
+					<valueExpression><![CDATA[$F{count}]]></valueExpression>
+					<labelExpression><![CDATA[""+$F{count}]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
 					<plot/>
 					<itemLabel/>
-					<categoryAxisFormat>
-						<axisFormat/>
-					</categoryAxisFormat>
-					<valueAxisFormat>
-						<axisFormat/>
-					</valueAxisFormat>
-				</barPlot>
-			</barChart>
-			<staticText>
-				<reportElement x="429" y="269" width="113" height="13" forecolor="#666666" uuid="8cc00a07-7a21-465d-9e61-352357b04255"/>
-				<text><![CDATA[MES 12 = DICIEMBRE ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="137" y="256" width="86" height="13" forecolor="#666666" uuid="b67274ef-34e9-4e38-9356-01f04aa908f2"/>
-				<text><![CDATA[MES 05 = MAYO ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="269" width="99" height="13" forecolor="#666666" uuid="6fe1316f-cb32-41ee-9ce3-8b7852b77125"/>
-				<text><![CDATA[MES 03 = MARZO ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="256" width="99" height="13" forecolor="#666666" uuid="7999adc3-74d9-412d-997d-a5e9ca4351f9"/>
-				<text><![CDATA[MES 02 = FEBRERO ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="277" y="269" width="123" height="13" forecolor="#666666" uuid="969d5290-6a76-4449-927d-8f85dc81360e"/>
-				<text><![CDATA[MES 09 = SEPTIEMBRE ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="243" width="86" height="13" forecolor="#666666" uuid="718cdef4-edd7-471c-8480-b8b47022f037"/>
-				<text><![CDATA[MES 01 = ENERO ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="137" y="243" width="86" height="13" forecolor="#666666" uuid="ad59b3c1-e1df-48e9-853c-04dea546c901"/>
-				<text><![CDATA[MES 04 = ABRIL ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="429" y="256" width="113" height="13" forecolor="#666666" uuid="7af7dd83-01aa-4fce-947a-6bafe3c56a4a"/>
-				<text><![CDATA[MES 11 = NOVIEMBRE ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="222" width="55" height="20" forecolor="#666666" uuid="008152ff-80c5-4318-baf4-db2c3ac9730d"/>
-				<text><![CDATA[LEYENDA:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="277" y="256" width="101" height="13" forecolor="#666666" uuid="0bb1f186-4964-4fee-b8fa-ed1e18b885c1"/>
-				<text><![CDATA[MES 08 = AGOSTO ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="429" y="243" width="113" height="13" forecolor="#666666" uuid="dfdddddd-48da-4f8a-ba7d-a1bf94577924"/>
-				<text><![CDATA[MES 10 = OCTUBRE ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="137" y="269" width="86" height="13" forecolor="#666666" uuid="c8b1cc0a-220c-48a4-92ba-aae59e1800a2"/>
-				<text><![CDATA[MES 06 = JUNIO ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="277" y="243" width="86" height="13" forecolor="#666666" uuid="a212081d-a7c8-4c76-ba6b-cbf54012f200"/>
-				<text><![CDATA[MES 07 = JULIO ]]></text>
-			</staticText>
+				</pie3DPlot>
+			</pie3DChart>
 		</band>
 	</summary>
 </jasperReport>

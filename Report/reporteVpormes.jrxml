@@ -8,6 +8,9 @@
 	<parameter name="fecha" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="mes" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      ventas."codven" AS ventas_codven,
@@ -19,7 +22,7 @@
 FROM
      "public"."ventas" ventas
 WHERE
-ventas."fecven" like '%/$P!{fecha}']]>
+ventas."fecven" like '%/$P!{fecha}/%']]>
 	</queryString>
 	<field name="ventas_codven" class="java.lang.String"/>
 	<field name="ventas_fecven" class="java.lang.String"/>
@@ -68,7 +71,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Ventas Realizadas Año "+$P{fecha}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Ventas Realizadas Mes de "+$P{mes}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

@@ -5,7 +5,7 @@
 	<property name="ireport.y" value="0"/>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="ruta" class="java.lang.String"/>
-	<parameter name="fecha" class="java.lang.String">
+	<parameter name="cedula" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -15,11 +15,13 @@
      ventas."canven" AS ventas_canven,
      ventas."totven" AS ventas_totven,
      ventas."tippago" AS ventas_tippago,
-     ventas."numtrans" AS ventas_numtrans
+     ventas."numtrans" AS ventas_numtrans,
+     clientes."nomcli" AS clientes_nomcli,
+     clientes."apecli" AS clientes_apecli,
+     clientes."cedcli" AS clientes_cedcli
 FROM
-     "public"."ventas" ventas
-WHERE
-ventas."fecven" like '%/$P!{fecha}']]>
+     "public"."clientes" clientes INNER JOIN "public"."ventas" ventas ON clientes."cedcli" = ventas."codcli"
+WHERE ventas."codcli" = '$P!{cedula}']]>
 	</queryString>
 	<field name="ventas_codven" class="java.lang.String"/>
 	<field name="ventas_fecven" class="java.lang.String"/>
@@ -27,6 +29,9 @@ ventas."fecven" like '%/$P!{fecha}']]>
 	<field name="ventas_totven" class="java.lang.Float"/>
 	<field name="ventas_tippago" class="java.lang.String"/>
 	<field name="ventas_numtrans" class="java.lang.String"/>
+	<field name="clientes_nomcli" class="java.lang.String"/>
+	<field name="clientes_apecli" class="java.lang.String"/>
+	<field name="clientes_cedcli" class="java.lang.String"/>
 	<variable name="ventas_canven_1" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
 		<variableExpression><![CDATA[$F{ventas_canven}]]></variableExpression>
 	</variable>
@@ -42,14 +47,14 @@ ventas."fecven" like '%/$P!{fecha}']]>
 	<title>
 		<band height="79" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy h:mm a">
-				<reportElement x="378" y="0" width="177" height="20" uuid="a7d0281e-4491-4813-9d20-964f2c904a65"/>
+				<reportElement x="398" y="0" width="157" height="20" uuid="a7d0281e-4491-4813-9d20-964f2c904a65"/>
 				<textElement textAlignment="Right">
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="378" y="20" width="177" height="20" uuid="d7b0e2fc-0a37-4152-96dc-e6e60854eb78"/>
+				<reportElement x="398" y="20" width="157" height="20" uuid="d7b0e2fc-0a37-4152-96dc-e6e60854eb78"/>
 				<textElement textAlignment="Right">
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
@@ -64,11 +69,11 @@ ventas."fecven" like '%/$P!{fecha}']]>
 	<pageHeader>
 		<band height="35" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="555" height="35" uuid="ac0b552b-e773-4e32-9ef3-6ed2013ab1a3"/>
+				<reportElement x="2" y="0" width="553" height="35" uuid="f798aa04-db4c-48ab-ae97-bd0a25ad0961"/>
 				<textElement textAlignment="Center">
-					<font fontName="Verdana" size="20" isBold="true" isItalic="true"/>
+					<font fontName="Verdana" size="16" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Ventas Realizadas Año "+$P{fecha}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Ventas Realizadas al Cliente "+$F{clientes_nomcli}+" "+$F{clientes_apecli}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -116,7 +121,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 				<text><![CDATA[Tipo de Pago]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="461" y="2" width="94" height="20" uuid="81af0358-738b-4282-80d2-8c075edbd481"/>
+				<reportElement x="461" y="2" width="100" height="20" uuid="81af0358-738b-4282-80d2-8c075edbd481"/>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
@@ -129,7 +134,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 			<line>
 				<reportElement x="0" y="26" width="555" height="1" forecolor="#000000" uuid="0f4327ac-02fc-4f59-a885-dd8c7004ffb6"/>
 				<graphicElement>
-					<pen lineWidth="2.0" lineStyle="Dashed" lineColor="#666666"/>
+					<pen lineWidth="2.0" lineStyle="Dashed" lineColor="#CCCCCC"/>
 				</graphicElement>
 			</line>
 			<textField>
@@ -148,7 +153,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 				<textFieldExpression><![CDATA[$F{ventas_canven}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="271" y="4" width="101" height="20" uuid="21d98033-ef23-423c-af55-8d0e7b3ec88c"/>
+				<reportElement x="271" y="4" width="100" height="20" uuid="21d98033-ef23-423c-af55-8d0e7b3ec88c"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{ventas_totven}]]></textFieldExpression>
 			</textField>
@@ -158,7 +163,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 				<textFieldExpression><![CDATA[$F{ventas_tippago}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="461" y="4" width="94" height="20" uuid="ae9c21c0-af4e-460b-8929-951320028794"/>
+				<reportElement x="461" y="4" width="100" height="20" uuid="ae9c21c0-af4e-460b-8929-951320028794"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{ventas_numtrans}]]></textFieldExpression>
 			</textField>
@@ -170,14 +175,14 @@ ventas."fecven" like '%/$P!{fecha}']]>
 	<pageFooter>
 		<band height="40" splitType="Stretch">
 			<textField>
-				<reportElement x="181" y="0" width="116" height="20" uuid="52bcffa5-694f-4500-877d-6b46d2c94b96"/>
+				<reportElement x="175" y="0" width="116" height="20" uuid="52bcffa5-694f-4500-877d-6b46d2c94b96"/>
 				<textElement textAlignment="Right">
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="297" y="0" width="41" height="20" uuid="03ebdd4b-79ac-41d0-9c7b-a266233fe76e"/>
+				<reportElement x="291" y="0" width="41" height="20" uuid="03ebdd4b-79ac-41d0-9c7b-a266233fe76e"/>
 				<textElement>
 					<font fontName="Verdana" isBold="true"/>
 				</textElement>
@@ -186,7 +191,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 		</band>
 	</pageFooter>
 	<summary>
-		<band height="74" splitType="Stretch">
+		<band height="60" splitType="Stretch">
 			<textField>
 				<reportElement x="155" y="2" width="95" height="20" uuid="4d4aa401-efad-4494-9a89-5ad1c773cbaf"/>
 				<textFieldExpression><![CDATA[$V{ventas_canven_1}]]></textFieldExpression>

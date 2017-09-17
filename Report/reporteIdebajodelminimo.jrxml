@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jjnmreport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="49b6ab68-da6f-4907-84bd-cd340cc6ed56">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="7"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="ruta" class="java.lang.String"/>
 	<queryString>
@@ -19,10 +19,13 @@
      proveedores."nompro" AS proveedores_nompro,
      proveedores."rifpro" AS proveedores_rifpro,
      tipoproducto."codtip" AS tipoproducto_codtip,
-     tipoproducto."tipprod" AS tipoproducto_tipprod
+     tipoproducto."tipprod" AS tipoproducto_tipprod,
+     inventario."fecprod" AS inventario_fecprod
 FROM
      "public"."proveedores" proveedores INNER JOIN "public"."inventario" inventario ON proveedores."rifpro" = inventario."codpro"
-     INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"]]>
+     INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"
+WHERE
+     inventario."canprod" < inventario."minprod"]]>
 	</queryString>
 	<field name="inventario_codprod" class="java.lang.Integer"/>
 	<field name="inventario_desprod" class="java.lang.String"/>
@@ -37,6 +40,7 @@ FROM
 	<field name="proveedores_rifpro" class="java.lang.String"/>
 	<field name="tipoproducto_codtip" class="java.lang.Integer"/>
 	<field name="tipoproducto_tipprod" class="java.lang.String"/>
+	<field name="inventario_fecprod" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -64,13 +68,13 @@ FROM
 	</title>
 	<pageHeader>
 		<band height="44" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="555" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
+			<textField>
+				<reportElement x="0" y="0" width="555" height="44" uuid="10c248b1-14a6-495e-b1a1-604d1afb81e3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+					<font fontName="Verdana" size="20"/>
 				</textElement>
-				<text><![CDATA[Inventario]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["Productos por debajo del minimo"]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -82,11 +86,11 @@ FROM
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="289" y="1" width="85" height="20" uuid="72d83fec-537c-484d-a998-076db54e70c4"/>
+				<reportElement x="300" y="0" width="85" height="20" uuid="72d83fec-537c-484d-a998-076db54e70c4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Tipo]]></text>
+				<text><![CDATA[Minimo]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="207" y="1" width="83" height="20" uuid="080ae209-192e-474a-93d2-517e8988bfa8"/>
@@ -110,7 +114,7 @@ FROM
 				<text><![CDATA[Descripcion]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="385" y="0" width="69" height="22" uuid="c1652cc7-d269-49c9-8b8c-e02e9a78734e"/>
+				<reportElement x="397" y="0" width="64" height="22" uuid="c1652cc7-d269-49c9-8b8c-e02e9a78734e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="11" isBold="true"/>
 				</textElement>
@@ -149,7 +153,7 @@ FROM
 				<textFieldExpression><![CDATA[$F{inventario_canprod}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="385" y="7" width="72" height="20" uuid="33d0d3c1-26a8-4308-9096-e6e818682c1d"/>
+				<reportElement x="397" y="7" width="64" height="20" uuid="33d0d3c1-26a8-4308-9096-e6e818682c1d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{inventario_preprod}]]></textFieldExpression>
 			</textField>
@@ -159,9 +163,9 @@ FROM
 				<textFieldExpression><![CDATA[$F{proveedores_nompro}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="290" y="8" width="84" height="20" uuid="380444cb-8058-4c94-9dc1-acb41d255123"/>
+				<reportElement x="304" y="7" width="81" height="20" uuid="856468a9-8eb4-4fe2-874e-51d61eee9078"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{tipoproducto_tipprod}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{inventario_minprod}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

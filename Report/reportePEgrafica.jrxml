@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jjnmreport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="49b6ab68-da6f-4907-84bd-cd340cc6ed56">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="usuario" class="java.lang.String"/>
+	<parameter name="ruta" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select estped,count(*)
+from pedidos
+group by estped]]>
+	</queryString>
+	<field name="estped" class="java.lang.String"/>
+	<field name="count" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image scaleImage="FillFrame">
+				<reportElement x="0" y="0" width="256" height="79" uuid="5fd848a2-ea88-4ff7-b20b-4561f24eefdc"/>
+				<imageExpression><![CDATA[$P{ruta}+"\\suniaga.jpg"]]></imageExpression>
+			</image>
+			<textField pattern="dd/MM/yyyy h:mm a">
+				<reportElement x="398" y="0" width="157" height="20" uuid="a7d0281e-4491-4813-9d20-964f2c904a65"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="398" y="20" width="157" height="20" uuid="d7b0e2fc-0a37-4152-96dc-e6e60854eb78"/>
+				<textElement textAlignment="Right">
+					<font fontName="Verdana" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Generado por: "+$P{usuario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Pedidos Completados y Pendientes]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="1" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="555" height="1" forecolor="#000099" uuid="44fa3579-d193-4e7a-ad86-54aca93647f0"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="223" splitType="Stretch">
+			<pie3DChart>
+				<chart>
+					<reportElement x="0" y="0" width="555" height="223" uuid="2752888f-a8b5-49c8-a059-925617ad70f6"/>
+					<chartTitle/>
+					<chartSubtitle/>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<keyExpression><![CDATA[$F{estped}]]></keyExpression>
+					<valueExpression><![CDATA[$F{count}]]></valueExpression>
+					<labelExpression><![CDATA[$F{estped}+" - "+$F{count}]]></labelExpression>
+				</pieDataset>
+				<pie3DPlot>
+					<plot>
+						<seriesColor seriesOrder="0" color="#EACF2E"/>
+						<seriesColor seriesOrder="1" color="#2DDD76"/>
+						<seriesColor seriesOrder="2" color="#71D52C"/>
+					</plot>
+					<itemLabel/>
+				</pie3DPlot>
+			</pie3DChart>
+		</band>
+	</summary>
+</jasperReport>

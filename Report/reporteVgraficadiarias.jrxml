@@ -79,7 +79,7 @@ group by fecven order by mes asc;]]>
 			</image>
 			<textField>
 				<reportElement x="0" y="79" width="555" height="35" uuid="e3c9cbbb-0ffd-48f1-be4c-c924ce6d3ae0"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Grafica Ventas Diarias año "+$P{año}]]></textFieldExpression>

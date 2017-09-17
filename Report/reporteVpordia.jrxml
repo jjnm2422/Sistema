@@ -19,7 +19,7 @@
 FROM
      "public"."ventas" ventas
 WHERE
-ventas."fecven" like '%/$P!{fecha}']]>
+ventas."fecven" = '$P!{fecha}']]>
 	</queryString>
 	<field name="ventas_codven" class="java.lang.String"/>
 	<field name="ventas_fecven" class="java.lang.String"/>
@@ -68,7 +68,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 				<textElement textAlignment="Center">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Ventas Realizadas Año "+$P{fecha}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Ventas Realizadas en la fecha "+$P{fecha}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -148,7 +148,7 @@ ventas."fecven" like '%/$P!{fecha}']]>
 				<textFieldExpression><![CDATA[$F{ventas_canven}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00;-#,##0.00">
-				<reportElement x="271" y="4" width="101" height="20" uuid="21d98033-ef23-423c-af55-8d0e7b3ec88c"/>
+				<reportElement x="271" y="4" width="100" height="20" uuid="21d98033-ef23-423c-af55-8d0e7b3ec88c"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{ventas_totven}]]></textFieldExpression>
 			</textField>

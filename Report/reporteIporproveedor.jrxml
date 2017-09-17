@@ -2,9 +2,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jjnmreport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="49b6ab68-da6f-4907-84bd-cd340cc6ed56">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="7"/>
+	<property name="ireport.y" value="8"/>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="ruta" class="java.lang.String"/>
+	<parameter name="rif" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      inventario."codprod" AS inventario_codprod,
@@ -22,7 +25,9 @@
      tipoproducto."tipprod" AS tipoproducto_tipprod
 FROM
      "public"."proveedores" proveedores INNER JOIN "public"."inventario" inventario ON proveedores."rifpro" = inventario."codpro"
-     INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"]]>
+INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"
+WHERE
+proveedores."rifpro" = '$P!{rif}']]>
 	</queryString>
 	<field name="inventario_codprod" class="java.lang.Integer"/>
 	<field name="inventario_desprod" class="java.lang.String"/>
@@ -64,13 +69,13 @@ FROM
 	</title>
 	<pageHeader>
 		<band height="44" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="555" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+			<textField>
+				<reportElement x="0" y="0" width="555" height="44" uuid="10c248b1-14a6-495e-b1a1-604d1afb81e3"/>
+				<textElement textAlignment="Center">
+					<font fontName="Verdana" size="14"/>
 				</textElement>
-				<text><![CDATA[Inventario]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["Productos suministrados por "+$F{proveedores_nompro}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -139,7 +144,7 @@ FROM
 				<textFieldExpression><![CDATA[$F{inventario_codprod}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="54" y="0" width="153" height="37" uuid="2efba5ce-3f45-490b-9453-969c7ca2aa9e"/>
+				<reportElement x="54" y="0" width="165" height="37" uuid="2efba5ce-3f45-490b-9453-969c7ca2aa9e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{inventario_desprod}]]></textFieldExpression>
 			</textField>

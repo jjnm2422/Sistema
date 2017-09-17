@@ -7,6 +7,7 @@ package PFormularios;
 
 import com.sun.awt.AWTUtilities;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
@@ -18,9 +19,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -60,7 +63,7 @@ public class FReportes extends javax.swing.JFrame{
     private long i = 0;
     private String ruta;
     PBD.Conexion_DB conexion = new PBD.Conexion_DB();
-    
+    SimpleDateFormat formateador = new SimpleDateFormat("dd/MM/yyyy");
         
     public FReportes() {
         this.setlook();
@@ -139,7 +142,6 @@ public String getRuta() {
         jButton13 = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
         jMonthChooser2 = new com.toedter.calendar.JMonthChooser();
         jYearChooser2 = new com.toedter.calendar.JYearChooser();
@@ -293,9 +295,8 @@ public String getRuta() {
         jLabel11.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel11.setText("Por Fecha");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 100, 20));
-        jPanel1.add(jDateChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 140, -1));
+        jLabel11.setText("Por Diarias por Año");
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 140, 20));
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -304,13 +305,13 @@ public String getRuta() {
         jLabel12.setText("Por Mes");
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 100, 20));
         jPanel1.add(jMonthChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 140, -1));
-        jPanel1.add(jYearChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 140, -1));
+        jPanel1.add(jYearChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 140, -1));
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel13.setText("Por Año");
+        jLabel13.setText("Por Anuales");
         jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 100, 20));
 
         jButton14.setText("Generar");
@@ -335,7 +336,7 @@ public String getRuta() {
                 jButton16ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 330, -1, -1));
+        jPanel1.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
 
         txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCedula2.addActionListener(new java.awt.event.ActionListener() {
@@ -682,7 +683,7 @@ try {
             Map<String, Object> p2 = new HashMap<>();
             p2.put("usuario", lblResponsable.getText());
             p2.put("ruta", getRuta());
-            p2.put("fecha", jDateChooser1.getDate());
+            p2.put("fecha", formateador.format(jDateChooser1.getDate()));
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
             JasperViewer visor = new JasperViewer(mostrarReporte, false);
@@ -799,8 +800,8 @@ x = evt.getX();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-    if (jDateChooser2.getDate()==null) {
-    JOptionPane.showMessageDialog(null, "Campo de fecha vacio", "ERROR", JOptionPane.ERROR_MESSAGE);
+  if (jYearChooser2.getYear()<2000) {
+    JOptionPane.showMessageDialog(null,"Fecha Incorrecta o menor al año 2000", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
         try {
             Connection conn = PBD.Conexion_DB.geConnection();
@@ -808,7 +809,7 @@ x = evt.getX();
             Map<String, Object> p2 = new HashMap<>();
             p2.put("usuario", lblResponsable.getText());
             p2.put("ruta", getRuta());
-            p2.put("fecha", jDateChooser2.getDate());
+            p2.put("año", jYearChooser2.getYear());
             JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
             JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
             JasperViewer visor = new JasperViewer(mostrarReporte, false);
@@ -894,9 +895,6 @@ x = evt.getX();
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
- if (jYearChooser2.getYear()<2000) {
-    JOptionPane.showMessageDialog(null,"Fecha Incorrecta o menor al año 2000", "ERROR", JOptionPane.ERROR_MESSAGE);
-        } else {
         try {
             Connection conn = PBD.Conexion_DB.geConnection();
             String dir = getRuta() + "\\reporteVgraficaano.jrxml";
@@ -910,7 +908,6 @@ x = evt.getX();
             visor.setVisible(true);
         } catch (JRException ex) {
             JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
-}
 }          // TODO add your handling code here:
     }//GEN-LAST:event_jButton16ActionPerformed
 
@@ -964,7 +961,6 @@ try {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

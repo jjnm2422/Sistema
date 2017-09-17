@@ -2,9 +2,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="jjnmreport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="49b6ab68-da6f-4907-84bd-cd340cc6ed56">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="7"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="ruta" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT
      inventario."codprod" AS inventario_codprod,
@@ -19,10 +22,13 @@
      proveedores."nompro" AS proveedores_nompro,
      proveedores."rifpro" AS proveedores_rifpro,
      tipoproducto."codtip" AS tipoproducto_codtip,
-     tipoproducto."tipprod" AS tipoproducto_tipprod
+     tipoproducto."tipprod" AS tipoproducto_tipprod,
+     inventario."fecprod" AS inventario_fecprod
 FROM
      "public"."proveedores" proveedores INNER JOIN "public"."inventario" inventario ON proveedores."rifpro" = inventario."codpro"
-     INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"]]>
+     INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"
+WHERE
+     inventario."fecprod" = '$P!{fecha}']]>
 	</queryString>
 	<field name="inventario_codprod" class="java.lang.Integer"/>
 	<field name="inventario_desprod" class="java.lang.String"/>
@@ -37,6 +43,7 @@ FROM
 	<field name="proveedores_rifpro" class="java.lang.String"/>
 	<field name="tipoproducto_codtip" class="java.lang.Integer"/>
 	<field name="tipoproducto_tipprod" class="java.lang.String"/>
+	<field name="inventario_fecprod" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -64,13 +71,13 @@ FROM
 	</title>
 	<pageHeader>
 		<band height="44" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="0" width="555" height="35" uuid="f23be3dc-7505-4f18-88f9-3cc0f5d37598"/>
+			<textField>
+				<reportElement x="0" y="0" width="555" height="44" uuid="10c248b1-14a6-495e-b1a1-604d1afb81e3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="true" isStrikeThrough="false"/>
+					<font fontName="Verdana" size="16"/>
 				</textElement>
-				<text><![CDATA[Inventario]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA["Productos por fecha de ultimo ingreso: "+$P{fecha}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -139,7 +146,7 @@ FROM
 				<textFieldExpression><![CDATA[$F{inventario_codprod}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="54" y="0" width="153" height="37" uuid="2efba5ce-3f45-490b-9453-969c7ca2aa9e"/>
+				<reportElement x="54" y="0" width="165" height="37" uuid="2efba5ce-3f45-490b-9453-969c7ca2aa9e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$F{inventario_desprod}]]></textFieldExpression>
 			</textField>
