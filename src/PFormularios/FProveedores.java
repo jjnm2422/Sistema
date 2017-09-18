@@ -84,7 +84,7 @@ public class FProveedores extends javax.swing.JFrame {
         try {
             String[] titulos = {"Rif", "Nombre", "Telefono", "Telefono",
                 "Direccion", "Pagina Web", "Horario", "Comentario"};
-            String sql = "select * from proveedores";
+            String sql = "select * from proveedores where not rifpro = '1'";
             model = new DefaultTableModel(null, titulos);
             ResultSet rs = acciones.Consultar(sql);
             String[] fila = new String[8];
@@ -955,6 +955,11 @@ public class FProveedores extends javax.swing.JFrame {
         this.Borrar(3);
         int codigo = 0;
         String cedula = this.txtCedula2.getText();
+         if (Integer.parseInt(txtCedula2.getText())==1) {
+                JOptionPane.showMessageDialog(null, "Proveedor No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            this.Habilitar(3);
+                resultado = false;
+         } else {
         try {
             String sql = "select * from proveedores  where rifpro = '" + cedula + "'";
             ResultSet rs = acciones.Consultar(sql);
@@ -988,6 +993,7 @@ public class FProveedores extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(FProveedores.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnBorrar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrar2ActionPerformed
@@ -1011,7 +1017,7 @@ public class FProveedores extends javax.swing.JFrame {
                         try {
                             String[] titulos = {"Rif", "Nombre", "Telefono", "Telefono",
                                 "Direccion", "Pagina Web", "Horario", "Comentario"};
-                            String sql = "select * from proveedores where rifpro like '" + txtB.getText() + "%'";
+                            String sql = "select * from proveedores where rifpro like '" + txtB.getText() + "%' and not rifpro = '1'";
                             model = new DefaultTableModel(null, titulos);
                             ResultSet rs = acciones.Consultar(sql);
                             String[] fila = new String[8];
@@ -1039,7 +1045,7 @@ public class FProveedores extends javax.swing.JFrame {
                         JOptionPane.PLAIN_MESSAGE, iconAd);
             }
         } else {
-            if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+            if (c >= 48 && c <= 57 || c >= 65 && c <= 90 || c >= 97 && c <= 122 || c==evt.VK_SPACE || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK || c >= 46) {
                 switch (var) {
                     case 0:
                         try {
@@ -1110,7 +1116,7 @@ public class FProveedores extends javax.swing.JFrame {
     private void txtNombre2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombre2KeyTyped
         char c = evt.getKeyChar();
         int lim = txtNombre2.getText().length();
-        if (c >= 48 && c <= 57 || c >= 65 && c <= 90 || c >= 97 && c <= 122 || c==evt.VK_SPACE || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
+        if (c >= 48 && c <= 57 || c >= 65 && c <= 90 || c >= 97 && c <= 122 || c==evt.VK_SPACE || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK || c >= 46) {
             if (this.EventoKeyType(lim, 30)) {
                 evt.consume();
                 getToolkit().beep();

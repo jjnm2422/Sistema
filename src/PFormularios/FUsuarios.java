@@ -1013,15 +1013,14 @@ this.dispose();        // TODO add your handling code here:
 
                 //Cambie Exception por SQLException para poder controlar el error
             } catch (SQLException e) {
-                /*
-                con esto se el codigo unico del error para poder controlarlo
+                
                 System.out.println("Código de Error: " + e.getErrorCode() + "\n" +
                 "SLQState: " + e.getSQLState() + "\n" +
                 "Mensaje: " + e.getMessage() + "\n");
-                 */
+                
                 // error clave primaria duplicada y muestro mensaje 
                 if (e.getSQLState().equals("23505")) {
-                    JOptionPane.showMessageDialog(null, "Ya existe un cliente vinculado a el numero de cedula ingresado",
+                    JOptionPane.showMessageDialog(null, "Ya existe un cliente vinculado a el numero de cedula o nombre de usuario ingresado",
                             "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 } else {
                     JOptionPane.showMessageDialog(null, "Error al guardar cliente\nCodigo error:" + e.getMessage(),
@@ -1180,7 +1179,7 @@ txtCedula2.setText("");// TODO add your handling code here:
     private boolean Verificacion1() {
         //verifico que no esten vacios
         if (txtNombre.getText().equals("") || txtApellido.getText().equals("")
-                || txtCedula.getText().equals("") || txtCedula.getText().length() <= 4|| txtUsuario2.getText().equals("")) {
+                || txtCedula.getText().equals("") || txtCedula.getText().length() <= 4|| txtUsuario.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Verifique que los campos no esten vacios y que la cedula tenga mas de 5 carecteres", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
             return false;
         } else {
@@ -1312,6 +1311,7 @@ txtNombre2.setText("");
      txtClave21.setText("");
      txtClave22.setText("");
      txtPin2.setText("");
+     txtFecha2.setText("");
     }
 
     private void Habilitar2() {

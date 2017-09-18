@@ -130,7 +130,7 @@ public class FInventario extends javax.swing.JFrame {
 
     public void getTipoProducto() {
         try {
-            String sql = "select * from tipoproducto";
+            String sql = "select * from tipoproducto where not codtip = 1";
             ResultSet rs = acciones.Consultar(sql);
             while (rs.next()) {
                 cbxTipo1.addItem(rs.getString("tipprod"));
@@ -1130,7 +1130,7 @@ public class FInventario extends javax.swing.JFrame {
                             "Precio"};
                         String sql = "select * from inventario inner join tipoproducto"
                         + " on tipoproducto.codtip = inventario.tippro "
-                        + "where codprod = '" + txtB1.getText() + "'";
+                        + "where codprod = '" + txtB1.getText() + "' and not codprod = '1'";
                         model = new DefaultTableModel(null, titulos);
                         ResultSet rs = acciones.Consultar(sql);
                         String[] fila = new String[5];
@@ -1410,7 +1410,7 @@ public class FInventario extends javax.swing.JFrame {
                             "Precio"};
                         String sql = "select * from inventario inner join tipoproducto"
                         + " on tipoproducto.codtip = inventario.tippro "
-                        + "where codprod = '" + txtB.getText() + "'";
+                        + "where codprod = '" + txtB.getText() + "' and not codprod = '1'";
                         model = new DefaultTableModel(null, titulos);
                         ResultSet rs = acciones.Consultar(sql);
                         String[] fila = new String[5];
@@ -1646,6 +1646,7 @@ public class FInventario extends javax.swing.JFrame {
             if(Integer.parseInt(txtConsultar2.getText())==1){
                 JOptionPane.showMessageDialog(null, "No se Puede Modificar Este Producto",
                         "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                Habilitar(2);
             }else{
              String cedula = this.txtConsultar2.getText();
             if (!cedula.equals("")) {

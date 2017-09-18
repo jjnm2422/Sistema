@@ -1068,6 +1068,9 @@ public class FPedidos extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCantidadKeyReleased
 
     private void txtTotalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTotalKeyReleased
+if (txtTotal.getText().equals("0") || txtTotal.getText().equals(".")) {
+            txtTotal.setText("");
+    }
         if (txtTotal.getText().equals("")) {
             txtTotal.setBackground(Color.RED);
         } else {
@@ -1099,7 +1102,7 @@ public class FPedidos extends javax.swing.JFrame {
                     try {
                         String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
                         String sql = "select * from pedidos inner join clientes on pedidos.cedcli = clientes.cedcli"
-                                + " where codped = '"+txtB.getText()+"'";
+                                + " where codped = '"+txtB.getText()+"' and not codped = 1";
                         model = new DefaultTableModel(null, titulos);
                         ResultSet rs = acciones.Consultar(sql);
                         String[] fila = new String[8];
@@ -1493,7 +1496,7 @@ public class FPedidos extends javax.swing.JFrame {
                     try {
                         String[] titulos = {"Codigo Pedido", "Fecha Inicio", "Fecha Entrega", "Estado", "Cantidad Productos", "Precio", "Cliente"};
                         String sql = "select * from pedidos inner join clientes on "
-                                + "pedidos.cedcli = clientes.cedcli";
+                                + "pedidos.cedcli = clientes.cedcli where not pedidos.codped = 1";
                         model = new DefaultTableModel(null, titulos);
                         ResultSet rs = acciones.Consultar(sql);
                         String[] fila = new String[8];

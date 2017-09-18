@@ -88,7 +88,7 @@ public class FClientes extends javax.swing.JFrame {
         try {
             String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
                 "Direccion", "Telefono", "Telefono"};
-            String sql = "select * from clientes";
+            String sql = "select * from clientes where not cedcli = '1'";
             model = new DefaultTableModel(null, titulos);
             ResultSet rs = acciones.Consultar(sql);
             String[] fila = new String[7];
@@ -119,7 +119,7 @@ public class FClientes extends javax.swing.JFrame {
     private boolean Verificacion1() {
         //verifico que no esten vacios
         if (txtNombre1.getText().equals("") || txtApellido1.getText().equals("")
-                || txtCedula1.getText().equals("") || txtCedula1.getText().length()>=5 || txtTelefono11.getText().equals("")
+                || txtCedula1.getText().equals("") || txtCedula1.getText().length()<=5 || txtTelefono11.getText().equals("")
                 || txtDireccion1.getText().equals("") || txtTelefono11.getBackground().equals(Color.RED) || txtCedula1.getBackground().equals(Color.RED)
                 || txtTelefono12.getBackground().equals(Color.RED)) {
             JOptionPane.showMessageDialog(null, "Verifique:\n"
@@ -921,7 +921,7 @@ int c = evt.getKeyChar();
                     try {
                         String[] titulos = {"Codigo", "Nombre", "Apellido", "Cedula",
                             "Direccion", "Telefono", "Telefono"};
-                        String sql = "select * from clientes where cedcli like '" + txtB.getText() + "%'";
+                        String sql = "select * from clientes where cedcli like '" + txtB.getText() + "%'  and not cedcli = '1'";
                         model = new DefaultTableModel(null, titulos);
                         ResultSet rs = acciones.Consultar(sql);
                         String[] fila = new String[7];
@@ -1251,6 +1251,8 @@ int c = evt.getKeyChar();
         int lim = txtCedula1.getText().length();
         if (lim >= 5) {
             txtCedula1.setBackground(Color.GREEN);
+        }else{
+             txtCedula1.setBackground(Color.RED);
         }
         if (lim == 0) {
             txtCedula1.setBackground(Color.RED);
