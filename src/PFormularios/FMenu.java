@@ -38,9 +38,9 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     private final ImageIcon icon1 = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/oie_canvas.png"));
     private final ImageIcon iconError = new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png"));
     private String ampm;
-    private String hora;
-    private String minutos;
-    private String segundos;
+    public  String hora;
+    public  String minutos;
+    public  String segundos;
     private boolean terminar = true;
     private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
     private PClases.CFecha fecha = new PClases.CFecha();
@@ -57,22 +57,6 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         lblFecha.setText(fecha.getFecha());
         this.LlenarPendiente();
     }
-    
-    public String Hora() throws SQLException {
-        try {
-            String sql = "select * from variables";
-            ResultSet rs = acciones.Consultar(sql);
-            while (rs.next()) {
-                hora = rs.getString("hora");
-            }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        }
-        acciones.conn.close();
-        return hora;
-    }
-    
-
 
     public void setlook() {
         try {
@@ -300,16 +284,23 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        new PFormularios.FPedidos().setVisible(true);
+    PFormularios.FPedidos fpedidos = new PFormularios.FPedidos();
+    fpedidos.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-    this.dispose();
-    new PFormularios.FLogin().setVisible(true);
+        if (rootPaneCheckingEnabled) {
+            
+        } else {
+        }
+        this.dispose();
+    PFormularios.FLogin flogin = new PFormularios.FLogin();
+    flogin.setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        new PFormularios.FProveedores().setVisible(true);
+    PFormularios.FProveedores fproveedores = new PFormularios.FProveedores();
+    fproveedores.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jPanel3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MousePressed
@@ -337,7 +328,8 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-    new PFormularios.FInventario().setVisible(true);        // TODO add your handling code here:
+    PFormularios.FInventario finventario = new PFormularios.FInventario(); 
+    finventario.setVisible(true);// TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -354,7 +346,8 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        new PFormularios.FClientes().setVisible(true);
+    PFormularios.FClientes fclientes  = new PFormularios.FClientes();
+    fclientes.setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -402,21 +395,6 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 lblHora.setText(hora + ":" + minutos + ":" + segundos);
                 i++;
                 if (i%5==0) {
-                //Actualizara la hora en variables de la bb
-                try {
-                    String sql = "update variables set hora=?";
-                    PreparedStatement ps = acciones.Actualizar(sql);
-                    ps.setString(1, lblHora.getText());
-                    int n = ps.executeUpdate();
-                    if (n>0) {
-                        acciones.conn.close();
-                        ps.close();
-                        acciones.st.close();
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(),
-                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                }
                 LlenarPendiente();
                 }
                 try {

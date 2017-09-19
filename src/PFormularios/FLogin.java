@@ -294,9 +294,7 @@ setExtendedState(JFrame.ICONIFIED);
                                     "Error", JOptionPane.PLAIN_MESSAGE, new javax.swing.ImageIcon(getClass().getResource("/PImagenes/error.png")));
             }
             }
-//            acciones.conn.close();
-//            rs.close();
-//            acciones.st.close();
+            acciones.conn.close();
             if(nombre==false){
                    JOptionPane.showMessageDialog(null, "Usuario no encontrado", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         
@@ -345,23 +343,6 @@ setExtendedState(JFrame.ICONIFIED);
                     Logger.getLogger(FMenu.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 lblHora.setText(hora + ":" + minutos + ":" + segundos);
-                i++;
-                if (i%5==0) {
-                    //Actualizara la hora en variables de la bd
-                try {
-                    String sql = "update variables set hora=?";
-                    PreparedStatement ps = acciones.Actualizar(sql);
-                    ps.setString(1, lblHora.getText());
-                    int n = ps.executeUpdate();
-                    if (n > 0) {
-                        acciones.conn.close();
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Error al guardar Hora\ncodigo error:" + e.getMessage(),
-                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-                }
-                //Actualizara la hora en variables de la bd fin
-                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {

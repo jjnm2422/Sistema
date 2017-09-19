@@ -684,11 +684,9 @@ public class FAjustes extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNombre3KeyTyped
 
     private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
-        try {
-            txtHora.setText(fMenu.Hora());
-        } catch (SQLException ex) {
-            Logger.getLogger(FAjustes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+            txtHora.setText(fMenu.hora+":"+fMenu.minutos+":"+fMenu.segundos);
+        
     }//GEN-LAST:event_btnBuscar1ActionPerformed
 
     private void btnBuscar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar2ActionPerformed
