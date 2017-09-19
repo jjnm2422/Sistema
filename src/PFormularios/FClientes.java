@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -103,6 +104,7 @@ public class FClientes extends javax.swing.JFrame {
                 model.addRow(fila);
             }
             tbl.setModel(model);
+            Ajustar();
             acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -219,6 +221,7 @@ public class FClientes extends javax.swing.JFrame {
         };
         btnSalir5 = new javax.swing.JButton();
         lblTitulo27 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Clientes");
@@ -246,7 +249,7 @@ public class FClientes extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 30, 30));
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 0, 30, 30));
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/minimizar.png"))); // NOI18N
         jButton10.setBorderPainted(false);
@@ -256,14 +259,14 @@ public class FClientes extends javax.swing.JFrame {
                 jButton10ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 30, 30));
+        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 0, 30, 30));
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 20));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 0));
         jLabel1.setOpaque(true);
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 30));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 740, 30));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 0), 4));
@@ -271,7 +274,7 @@ public class FClientes extends javax.swing.JFrame {
 
         lblTitulo5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo5.setText("Telefono 2");
-        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 70, 20));
+        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, 70, 20));
 
         lblTitulo9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo9.setText("Nombre");
@@ -279,7 +282,7 @@ public class FClientes extends javax.swing.JFrame {
 
         lblTitulo10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo10.setText("Apellido");
-        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 70, 20));
+        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 70, 20));
 
         lblTitulo11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo11.setText("Cedula");
@@ -305,11 +308,11 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(txtComentario1);
 
-        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 50));
+        jPanel2.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 130, 240, 50));
 
         lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo14.setText("Comentarios");
-        jPanel2.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 80, 20));
+        jPanel2.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 130, 80, 20));
 
         txtDireccion1.setColumns(1);
         txtDireccion1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -323,7 +326,7 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(txtDireccion1);
 
-        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 180, 60));
+        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 240, 60));
 
         txtNombre1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -350,7 +353,7 @@ public class FClientes extends javax.swing.JFrame {
                 txtTelefono12KeyTyped(evt);
             }
         });
-        jPanel2.add(txtTelefono12, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 180, -1));
+        jPanel2.add(txtTelefono12, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 90, 180, -1));
 
         txtCedula1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCedula1.addActionListener(new java.awt.event.ActionListener() {
@@ -374,7 +377,7 @@ public class FClientes extends javax.swing.JFrame {
                 txtApellido1KeyReleased(evt);
             }
         });
-        jPanel2.add(txtApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 180, -1));
+        jPanel2.add(txtApellido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 50, 180, -1));
 
         txtTelefono11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono11.addActionListener(new java.awt.event.ActionListener() {
@@ -399,7 +402,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnBorrar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 200, 100, 30));
+        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 200, 100, 30));
 
         btnSalir1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir1.setText("Salir");
@@ -408,7 +411,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnSalir1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, 100, 30));
+        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 100, 30));
 
         btnIngresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
         btnIngresar1.setText("Ingresar");
@@ -417,15 +420,15 @@ public class FClientes extends javax.swing.JFrame {
                 btnIngresar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 200, 100, 30));
+        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 100, 30));
 
         lblTitulo23.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo23.setText("No obligatorio");
-        jPanel2.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 170, -1));
+        jPanel2.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, 170, -1));
 
         lblTitulo24.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo24.setText("No obligatorio");
-        jPanel2.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 170, -1));
+        jPanel2.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, 170, -1));
 
         jTabbedPane1.addTab("Nuevo", jPanel2);
 
@@ -435,7 +438,7 @@ public class FClientes extends javax.swing.JFrame {
 
         lblTitulo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo1.setText("Telefono 2");
-        jPanel1.add(lblTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 70, 20));
+        jPanel1.add(lblTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 70, 20));
 
         lblTitulo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo2.setText("Nombre");
@@ -443,7 +446,7 @@ public class FClientes extends javax.swing.JFrame {
 
         lblTitulo3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo3.setText("Apellido");
-        jPanel1.add(lblTitulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 50, 70, 20));
+        jPanel1.add(lblTitulo3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 70, 20));
 
         lblTitulo4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo4.setText("Cedula");
@@ -470,11 +473,11 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(txtComentario2);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 180, 50));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 130, 220, 50));
 
         lblTitulo8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo8.setText("Comentarios");
-        jPanel1.add(lblTitulo8, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 80, 20));
+        jPanel1.add(lblTitulo8, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 80, 20));
 
         txtDireccion2.setColumns(1);
         txtDireccion2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -489,7 +492,7 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(txtDireccion2);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 180, 60));
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 130, 230, 60));
 
         txtNombre2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtNombre2.setEnabled(false);
@@ -513,7 +516,7 @@ public class FClientes extends javax.swing.JFrame {
                 txtTelefono22KeyTyped(evt);
             }
         });
-        jPanel1.add(txtTelefono22, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 180, -1));
+        jPanel1.add(txtTelefono22, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 90, 180, -1));
 
         txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCedula2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -536,7 +539,7 @@ public class FClientes extends javax.swing.JFrame {
                 txtApellido2KeyTyped(evt);
             }
         });
-        jPanel1.add(txtApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 50, 180, -1));
+        jPanel1.add(txtApellido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, 180, -1));
 
         txtTelefono21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTelefono21.setEnabled(false);
@@ -562,7 +565,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnSalir2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 200, 100, 30));
+        jPanel1.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 200, 100, 30));
 
         btnEliminar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497313212_trash.png"))); // NOI18N
         btnEliminar2.setText("Eliminar");
@@ -571,7 +574,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnEliminar2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEliminar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 200, 100, 30));
+        jPanel1.add(btnEliminar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, 100, 30));
 
         btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497642935_search_magnifying_glass_find.png"))); // NOI18N
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -593,7 +596,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnBorrar2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 200, 100, 30));
+        jPanel1.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 200, 100, 30));
 
         btnEditar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497631492_edit.png"))); // NOI18N
         btnEditar2.setText("Editar");
@@ -602,15 +605,15 @@ public class FClientes extends javax.swing.JFrame {
                 btnEditar2ActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 200, 100, 30));
+        jPanel1.add(btnEditar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 100, 30));
 
         lblTitulo25.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo25.setText("No obligatorio");
-        jPanel1.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 110, 170, -1));
+        jPanel1.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 170, -1));
 
         lblTitulo26.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo26.setText("No obligatorio");
-        jPanel1.add(lblTitulo26, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 180, 170, -1));
+        jPanel1.add(lblTitulo26, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, 170, -1));
 
         jTabbedPane1.addTab("Modificar", jPanel1);
 
@@ -620,7 +623,7 @@ public class FClientes extends javax.swing.JFrame {
 
         jLabel25.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         jLabel25.setText("FILTROS:");
-        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, 60, 20));
+        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 30, 60, 20));
 
         txtB.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         txtB.addActionListener(new java.awt.event.ActionListener() {
@@ -636,7 +639,7 @@ public class FClientes extends javax.swing.JFrame {
                 txtBKeyTyped(evt);
             }
         });
-        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 160, 20));
+        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 260, 20));
 
         jLabel26.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         jLabel26.setText("BUSQUEDA");
@@ -648,7 +651,7 @@ public class FClientes extends javax.swing.JFrame {
                 cbxFiltroActionPerformed(evt);
             }
         });
-        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 150, 20));
+        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 30, 150, 20));
 
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -677,7 +680,7 @@ public class FClientes extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tbl);
 
-        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 130));
+        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 660, 130));
 
         btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir5.setText("Salir");
@@ -686,7 +689,7 @@ public class FClientes extends javax.swing.JFrame {
                 btnSalir5ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 110, 30));
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 200, 110, 30));
 
         lblTitulo27.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo27.setForeground(new java.awt.Color(255, 51, 51));
@@ -696,9 +699,12 @@ public class FClientes extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Listado", jPanel6);
 
-        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 570, 270));
+        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 700, 270));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 340));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/suniaga.png"))); // NOI18N
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 200, 84));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -785,8 +791,16 @@ public class FClientes extends javax.swing.JFrame {
                     txtNombre2.setText(rs.getString("nomcli"));
                     txtApellido2.setText(rs.getString("apecli"));
                     txtCedula2.setText(rs.getString("cedcli"));
-                    txtTelefono21.setText(rs.getString("telcli"));
-                    txtTelefono22.setText(rs.getString("tel2cli"));
+                    if (rs.getString("telcli").length()==10) {
+                        txtTelefono21.setText("0"+rs.getString("telcli"));
+                    } else {
+                        txtTelefono21.setText(rs.getString("telcli"));
+                    }
+                    if (rs.getString("tel2cli").length()==10) {
+                        txtTelefono22.setText("0"+rs.getString("tel2cli"));
+                    } else {
+                        txtTelefono22.setText(rs.getString("tel2cli"));
+                    }
                     txtDireccion2.setText(rs.getString("dircli"));
                     txtComentario2.setText(rs.getString("comcli"));
                 }
@@ -936,6 +950,7 @@ int c = evt.getKeyChar();
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                        Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
@@ -961,6 +976,7 @@ int c = evt.getKeyChar();
                             acciones.conn.close();
                         }
                         tbl.setModel(model);
+                        Ajustar();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
@@ -998,6 +1014,7 @@ int c = evt.getKeyChar();
                                 model.addRow(fila);
                             }
                             tbl.setModel(model);
+                            Ajustar();
                             acciones.conn.close();
                         } catch (SQLException e) {
                             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1307,6 +1324,7 @@ int c = evt.getKeyChar();
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel1;
@@ -1443,5 +1461,16 @@ int c = evt.getKeyChar();
             }else{
                 return false;
             }
+    }
+    
+    private void Ajustar() {
+        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(4).setPreferredWidth(180);
+        tbl.getColumnModel().getColumn(5).setPreferredWidth(85);
+        tbl.getColumnModel().getColumn(6).setPreferredWidth(85);
     }
 }

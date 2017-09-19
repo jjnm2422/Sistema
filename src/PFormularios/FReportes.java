@@ -221,6 +221,7 @@ public String getRuta() {
         jButton8 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         lblResponsable = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
 
         jFrame1.setUndecorated(true);
         jFrame1.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -729,7 +730,7 @@ public String getRuta() {
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblTitulo.setForeground(new java.awt.Color(255, 255, 255));
         lblTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 610, 50));
+        jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 610, 50));
 
         jLabel1.setBackground(new java.awt.Color(0, 255, 255));
         jLabel1.setOpaque(true);
@@ -762,7 +763,7 @@ public String getRuta() {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 200, 170));
+        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 200, 170));
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Pedidos.png"))); // NOI18N
         jButton5.setContentAreaFilled(false);
@@ -799,6 +800,9 @@ public String getRuta() {
 
         lblResponsable.setText("acmk");
         jPanel3.add(lblResponsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 120, 20));
+
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/suniaga.png"))); // NOI18N
+        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 200, 80));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 410));
 
@@ -1465,6 +1469,7 @@ x = evt.getX();
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;

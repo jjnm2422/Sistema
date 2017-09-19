@@ -128,6 +128,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         lblFecha = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         lblPendientes = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Menu");
@@ -185,7 +186,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton8ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 100, 210, 130));
+        jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 210, 130));
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Clientes.png"))); // NOI18N
         jButton7.setContentAreaFilled(false);
@@ -196,7 +197,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton7ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 80, 200, 130));
+        jPanel3.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 200, 130));
 
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/ventas.png"))); // NOI18N
         jButton4.setBorderPainted(false);
@@ -208,7 +209,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton4ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 200, 170));
+        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 200, 170));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Pedidos.png"))); // NOI18N
         jButton2.setContentAreaFilled(false);
@@ -219,7 +220,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 200, 170));
+        jPanel3.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 200, 170));
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Ajustes.png"))); // NOI18N
         jButton3.setContentAreaFilled(false);
@@ -230,7 +231,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 330, 220, 120));
+        jPanel3.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 370, 220, 120));
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Reportes.png"))); // NOI18N
         jButton5.setContentAreaFilled(false);
@@ -241,7 +242,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton5ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 220, 120));
+        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 220, 120));
 
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Inventario.png"))); // NOI18N
         jButton6.setContentAreaFilled(false);
@@ -252,7 +253,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 320, 210, 120));
+        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 210, 120));
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Cerrar Sesion.png"))); // NOI18N
         jButton9.setBorderPainted(false);
@@ -264,7 +265,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton9ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 230, 210, 90));
+        jPanel3.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 210, 90));
 
         lblHora.setBackground(new java.awt.Color(255, 255, 255));
         lblHora.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -288,9 +289,12 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
         lblPendientes.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lblPendientes.setForeground(new java.awt.Color(255, 255, 255));
         lblPendientes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jPanel3.add(lblPendientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 270, 20));
+        jPanel3.add(lblPendientes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 260, 20));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 460));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/suniaga.png"))); // NOI18N
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 200, 84));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 500));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -375,6 +379,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;

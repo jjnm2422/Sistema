@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -100,6 +101,7 @@ public class FProveedores extends javax.swing.JFrame {
                 model.addRow(fila);
             }
             tbl.setModel(model);
+            Ajustar1();
             acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -313,6 +315,7 @@ public class FProveedores extends javax.swing.JFrame {
         };
         btnSalir5 = new javax.swing.JButton();
         lblTitulo28 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Proveedores");
@@ -357,7 +360,7 @@ public class FProveedores extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(204, 0, 204));
         jLabel1.setOpaque(true);
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 30));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 30));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 0, 204), 4));
@@ -808,7 +811,7 @@ public class FProveedores extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(tbl);
 
-        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 590, 130));
+        jPanel6.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 590, 150));
 
         btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir5.setText("Salir");
@@ -823,13 +826,16 @@ public class FProveedores extends javax.swing.JFrame {
         lblTitulo28.setForeground(new java.awt.Color(255, 51, 51));
         lblTitulo28.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblTitulo28.setText("Doble Clic en la tabla para Actualizar");
-        jPanel6.add(lblTitulo28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 220, 20));
+        jPanel6.add(lblTitulo28, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 220, 20));
 
         jTabbedPane1.addTab("Listado", jPanel6);
 
-        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 620, 290));
+        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 620, 290));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 650, 340));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/suniaga.png"))); // NOI18N
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 200, 84));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 420));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1033,6 +1039,7 @@ public class FProveedores extends javax.swing.JFrame {
                                 model.addRow(fila);
                             }
                             tbl.setModel(model);
+                            Ajustar1();
                             acciones.conn.close();
                         } catch (SQLException e) {
                             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1067,6 +1074,7 @@ public class FProveedores extends javax.swing.JFrame {
                                 model.addRow(fila);
                             }
                             tbl.setModel(model);
+                            Ajustar1();
                             acciones.conn.close();
                         } catch (SQLException e) {
                             JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1394,6 +1402,7 @@ public class FProveedores extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel1;
@@ -1450,4 +1459,16 @@ public class FProveedores extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefono21;
     private javax.swing.JTextField txtTelefono22;
     // End of variables declaration//GEN-END:variables
+private void Ajustar1() {
+        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(150);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(85);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(85);
+        tbl.getColumnModel().getColumn(4).setPreferredWidth(150);
+        tbl.getColumnModel().getColumn(5).setPreferredWidth(150);
+        tbl.getColumnModel().getColumn(6).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(7).setPreferredWidth(150);
+    }
+
 }

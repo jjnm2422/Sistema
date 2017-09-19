@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -167,6 +168,7 @@ public class FPedidos extends javax.swing.JFrame {
         };
         btnSalir5 = new javax.swing.JButton();
         lblTitulo32 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Pedidos");
@@ -592,7 +594,7 @@ public class FPedidos extends javax.swing.JFrame {
 
         jLabel25.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         jLabel25.setText("FILTROS:");
-        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 30, 60, 20));
+        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 30, 60, 20));
 
         txtB.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         txtB.addActionListener(new java.awt.event.ActionListener() {
@@ -608,7 +610,7 @@ public class FPedidos extends javax.swing.JFrame {
                 txtBKeyTyped(evt);
             }
         });
-        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 160, 20));
+        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 240, 20));
 
         jLabel26.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         jLabel26.setText("BUSQUEDA");
@@ -620,7 +622,7 @@ public class FPedidos extends javax.swing.JFrame {
                 cbxFiltroActionPerformed(evt);
             }
         });
-        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 30, 150, 20));
+        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 150, 20));
 
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -668,9 +670,12 @@ public class FPedidos extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Listado", jPanel6);
 
-        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 680, 360));
+        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 680, 360));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 430));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/suniaga.png"))); // NOI18N
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 200, 84));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 730, 490));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1117,6 +1122,7 @@ if (txtTotal.getText().equals("0") || txtTotal.getText().equals(".")) {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                        Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1149,6 +1155,7 @@ if (txtTotal.getText().equals("0") || txtTotal.getText().equals(".")) {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                         Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1179,6 +1186,7 @@ if (txtTotal.getText().equals("0") || txtTotal.getText().equals(".")) {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                         Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1211,6 +1219,7 @@ if (txtTotal.getText().equals("0") || txtTotal.getText().equals(".")) {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                         Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
@@ -1287,6 +1296,7 @@ if (txtTotal.getText().equals("0") || txtTotal.getText().equals(".")) {
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JPanel jPanel1;
@@ -1511,9 +1521,21 @@ if (txtTotal.getText().equals("0") || txtTotal.getText().equals(".")) {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                         Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, e.getMessage());
                     }
+    }
+    
+    private void Ajustar() {
+        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(85);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(85);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(85);
+        tbl.getColumnModel().getColumn(4).setPreferredWidth(105);
+        tbl.getColumnModel().getColumn(5).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(6).setPreferredWidth(100);
     }
 }

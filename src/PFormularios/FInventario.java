@@ -6,31 +6,24 @@
 package PFormularios;
 
 import Atxy2k.CustomTextField.RestrictedTextField;
-import com.sun.awt.AWTUtilities;
 import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.event.KeyEvent;
-import java.awt.geom.RoundRectangle2D;
-import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Formatter;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
@@ -182,6 +175,7 @@ public class FInventario extends javax.swing.JFrame {
                 model.addRow(fila);
             }
             tbl.setModel(model);
+            Ajustar();
             acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -207,6 +201,7 @@ public class FInventario extends javax.swing.JFrame {
                 model2.addRow(fila);
             }
             tbl1.setModel(model2);
+            Ajustar1();
             acciones.conn.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -334,7 +329,6 @@ public class FInventario extends javax.swing.JFrame {
         btnIngresar1 = new javax.swing.JButton();
         lblTitulo15 = new javax.swing.JLabel();
         cbxProveedor1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
         lblTitulo16 = new javax.swing.JLabel();
         cbxTipo1 = new javax.swing.JComboBox<>();
         lblTitulo14 = new javax.swing.JLabel();
@@ -402,6 +396,7 @@ public class FInventario extends javax.swing.JFrame {
         txtB1 = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         cbxFiltro1 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Inventario");
@@ -429,7 +424,7 @@ public class FInventario extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 0, 30, 30));
+        jPanel3.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 0, 30, 30));
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/minimizar.png"))); // NOI18N
         jButton10.setBorderPainted(false);
@@ -439,14 +434,14 @@ public class FInventario extends javax.swing.JFrame {
                 jButton10ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 30, 30));
+        jPanel3.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 0, 30, 30));
 
         lblTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jPanel3.add(lblTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 20));
 
         jLabel1.setBackground(new java.awt.Color(0, 255, 255));
         jLabel1.setOpaque(true);
-        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 30));
+        jPanel3.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 30));
 
         jTabbedPane1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -456,20 +451,20 @@ public class FInventario extends javax.swing.JFrame {
 
         lblTitulo5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo5.setText("Cantidad que Ingresa");
-        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 140, 20));
+        jPanel2.add(lblTitulo5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 140, 20));
 
         lblTitulo10.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo10.setText("Maximo Inventario");
-        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
+        jPanel2.add(lblTitulo10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 120, 20));
 
         lblTitulo11.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo11.setText("Minimo Inventario");
-        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
+        jPanel2.add(lblTitulo11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 120, 20));
 
         lblTitulo12.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo12.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo12.setText("Precio + IVA");
-        jPanel2.add(lblTitulo12, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 130, 20));
+        jPanel2.add(lblTitulo12, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 130, 20));
 
         lblTitulo13.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo13.setText("Descripcion");
@@ -487,7 +482,7 @@ public class FInventario extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(txtDescripcion1);
 
-        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
+        jPanel2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 40, 510, 60));
 
         txtCantidad1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCantidad1.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -498,7 +493,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtCantidad1KeyTyped(evt);
             }
         });
-        jPanel2.add(txtCantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 130, -1));
+        jPanel2.add(txtCantidad1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 110, 100, -1));
 
         txtMaximo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMaximo1.setToolTipText("Cantidad máxima de mercancía que se puede almacenar");
@@ -515,7 +510,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtMaximo1KeyTyped(evt);
             }
         });
-        jPanel2.add(txtMaximo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, -1));
+        jPanel2.add(txtMaximo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 150, 100, -1));
 
         txtMinimo1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMinimo1.setToolTipText("Cantidad minima que se dispone para atender a la demanda");
@@ -532,7 +527,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtMinimo1KeyTyped(evt);
             }
         });
-        jPanel2.add(txtMinimo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
+        jPanel2.add(txtMinimo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 190, 100, -1));
 
         txtTotal1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotal1.setEnabled(false);
@@ -546,7 +541,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtTotal1KeyReleased(evt);
             }
         });
-        jPanel2.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 130, -1));
+        jPanel2.add(txtTotal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 130, -1));
 
         btnBorrar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
         btnBorrar1.setText("Borrar");
@@ -555,7 +550,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnBorrar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 100, 30));
+        jPanel2.add(btnBorrar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 100, 30));
 
         btnSalir1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir1.setText("Salir");
@@ -564,7 +559,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnSalir1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 200, 100, 30));
+        jPanel2.add(btnSalir1, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 230, 100, 30));
 
         btnIngresar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
         btnIngresar1.setText("Ingresar");
@@ -573,7 +568,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnIngresar1ActionPerformed(evt);
             }
         });
-        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 100, 30));
+        jPanel2.add(btnIngresar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 100, 30));
 
         lblTitulo15.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo15.setText("Tipo Producto");
@@ -584,22 +579,19 @@ public class FInventario extends javax.swing.JFrame {
                 cbxProveedor1ActionPerformed(evt);
             }
         });
-        jPanel2.add(cbxProveedor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 160, -1));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 160, -1));
+        jPanel2.add(cbxProveedor1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 10, 160, -1));
 
         lblTitulo16.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo16.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo16.setText("Proveedor");
-        jPanel2.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 90, 20));
+        jPanel2.add(lblTitulo16, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 90, 20));
 
-        jPanel2.add(cbxTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 150, -1));
+        jPanel2.add(cbxTipo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 150, -1));
 
         lblTitulo14.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo14.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo14.setText("Precio");
-        jPanel2.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 20));
+        jPanel2.add(lblTitulo14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 150, 130, 20));
 
         txtPrecio1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtPrecio1.addActionListener(new java.awt.event.ActionListener() {
@@ -615,7 +607,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtPrecio1KeyTyped(evt);
             }
         });
-        jPanel2.add(txtPrecio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 130, -1));
+        jPanel2.add(txtPrecio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 150, 130, -1));
 
         jTabbedPane1.addTab("Nuevo", jPanel2);
 
@@ -626,25 +618,25 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo6.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo6.setText("Cantidad Disponible");
-        jPanel4.add(lblTitulo6, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 140, 20));
+        jPanel4.add(lblTitulo6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 140, 20));
 
         lblTitulo17.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo17.setText("Maximo Inventario");
-        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 120, 20));
+        jPanel4.add(lblTitulo17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 130, 120, 20));
 
         lblTitulo19.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo19.setText("Minimo Inventario");
-        jPanel4.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 120, 20));
+        jPanel4.add(lblTitulo19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 120, 20));
 
         lblTitulo20.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo20.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo20.setText("Precio + IVA");
-        jPanel4.add(lblTitulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 160, 130, 20));
+        jPanel4.add(lblTitulo20, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 190, 130, 20));
 
         lblTitulo21.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo21.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo21.setText("Descripcion");
-        jPanel4.add(lblTitulo21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 80, 20));
+        jPanel4.add(lblTitulo21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 80, 20));
 
         txtDescripcion2.setColumns(1);
         txtDescripcion2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -659,7 +651,7 @@ public class FInventario extends javax.swing.JFrame {
         });
         jScrollPane5.setViewportView(txtDescripcion2);
 
-        jPanel4.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 440, 40));
+        jPanel4.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 50, 530, 60));
 
         btnBorrar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
         btnBorrar2.setText("Borrar");
@@ -668,7 +660,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnBorrar2ActionPerformed(evt);
             }
         });
-        jPanel4.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 200, 100, 30));
+        jPanel4.add(btnBorrar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 100, 30));
 
         btnSalir2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir2.setText("Salir");
@@ -677,7 +669,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnSalir2ActionPerformed(evt);
             }
         });
-        jPanel4.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 200, 100, 30));
+        jPanel4.add(btnSalir2, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 230, 100, 30));
 
         btnIngresar2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497631492_edit.png"))); // NOI18N
         btnIngresar2.setText("Editar");
@@ -686,20 +678,21 @@ public class FInventario extends javax.swing.JFrame {
                 btnIngresar2ActionPerformed(evt);
             }
         });
-        jPanel4.add(btnIngresar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 100, 30));
+        jPanel4.add(btnIngresar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 100, 30));
 
         lblTitulo22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo22.setText("Consultar");
         jPanel4.add(lblTitulo22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 20));
 
+        cbxProveedor2.setEditable(true);
         cbxProveedor2.setEnabled(false);
         cbxProveedor2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbxProveedor2ActionPerformed(evt);
             }
         });
-        jPanel4.add(cbxProveedor2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 160, 130, -1));
+        jPanel4.add(cbxProveedor2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 190, 130, -1));
 
         jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jPanel4.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 160, -1));
@@ -707,19 +700,20 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo23.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo23.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo23.setText("Proveedor");
-        jPanel4.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 100, 20));
+        jPanel4.add(lblTitulo23, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 100, 20));
 
+        cbxTipo2.setEditable(true);
         cbxTipo2.setEnabled(false);
-        jPanel4.add(cbxTipo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 140, -1));
+        jPanel4.add(cbxTipo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 10, 140, -1));
 
         lblTitulo24.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo24.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo24.setText("Precio");
-        jPanel4.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 130, 130, 20));
+        jPanel4.add(lblTitulo24, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 160, 130, 20));
 
         lblTitulo25.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo25.setText("Tipo Producto");
-        jPanel4.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 10, 90, 20));
+        jPanel4.add(lblTitulo25, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 90, 20));
 
         txtConsultar2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtConsultar2.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -752,7 +746,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtPrecio2KeyTyped(evt);
             }
         });
-        jPanel4.add(txtPrecio2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 130, 130, -1));
+        jPanel4.add(txtPrecio2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 160, 130, -1));
 
         txtCantidad2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCantidad2.setEnabled(false);
@@ -764,7 +758,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtCantidad2KeyTyped(evt);
             }
         });
-        jPanel4.add(txtCantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 100, 130, -1));
+        jPanel4.add(txtCantidad2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 130, 130, -1));
 
         txtTotal2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtTotal2.setEnabled(false);
@@ -778,7 +772,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtTotal2KeyReleased(evt);
             }
         });
-        jPanel4.add(txtTotal2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 160, 130, -1));
+        jPanel4.add(txtTotal2, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 190, 130, -1));
 
         txtMinimo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMinimo2.setToolTipText("Cantidad minima que se dispone para atender a la demanda");
@@ -796,7 +790,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtMinimo2KeyTyped(evt);
             }
         });
-        jPanel4.add(txtMinimo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 100, -1));
+        jPanel4.add(txtMinimo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 160, 100, -1));
 
         txtMaximo2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMaximo2.setToolTipText("Cantidad máxima de mercancía que se puede almacenar");
@@ -814,7 +808,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtMaximo2KeyTyped(evt);
             }
         });
-        jPanel4.add(txtMaximo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 100, 100, -1));
+        jPanel4.add(txtMaximo2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 100, -1));
 
         jTabbedPane1.addTab("Modificar", jPanel4);
 
@@ -824,7 +818,7 @@ public class FInventario extends javax.swing.JFrame {
 
         jLabel25.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         jLabel25.setText("FILTROS:");
-        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 30, 60, 20));
+        jPanel6.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, 60, 20));
 
         txtB.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         txtB.addActionListener(new java.awt.event.ActionListener() {
@@ -840,7 +834,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtBKeyTyped(evt);
             }
         });
-        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 160, 20));
+        jPanel6.add(txtB, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 250, 20));
 
         jLabel26.setFont(new java.awt.Font("Verdana", 0, 10)); // NOI18N
         jLabel26.setText("BUSQUEDA");
@@ -852,7 +846,7 @@ public class FInventario extends javax.swing.JFrame {
                 cbxFiltroActionPerformed(evt);
             }
         });
-        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 30, 150, 20));
+        jPanel6.add(cbxFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 30, 150, 20));
 
         tbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -881,7 +875,7 @@ public class FInventario extends javax.swing.JFrame {
         });
         jScrollPane6.setViewportView(tbl);
 
-        jPanel6.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 530, 130));
+        jPanel6.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 630, 130));
 
         btnSalir5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir5.setText("Salir");
@@ -890,7 +884,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnSalir5ActionPerformed(evt);
             }
         });
-        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 210, 110, 30));
+        jPanel6.add(btnSalir5, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 220, 110, 30));
 
         lblTitulo18.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo18.setForeground(new java.awt.Color(255, 51, 51));
@@ -907,7 +901,7 @@ public class FInventario extends javax.swing.JFrame {
         lblTitulo7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo7.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo7.setText("Minimo");
-        jPanel5.add(lblTitulo7, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 60, 20));
+        jPanel5.add(lblTitulo7, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 60, 20));
 
         txtMinimo4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMinimo4.setEnabled(false);
@@ -919,7 +913,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtMinimo4KeyTyped(evt);
             }
         });
-        jPanel5.add(txtMinimo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 200, 50, -1));
+        jPanel5.add(txtMinimo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 170, 50, -1));
 
         btnBorrar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497379748_edit-clear.png"))); // NOI18N
         btnBorrar3.setText("Borrar");
@@ -928,7 +922,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnBorrar3ActionPerformed(evt);
             }
         });
-        jPanel5.add(btnBorrar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 230, 100, 30));
+        jPanel5.add(btnBorrar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 230, 100, 30));
 
         btnSalir3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_fail.png"))); // NOI18N
         btnSalir3.setText("Salir");
@@ -937,7 +931,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnSalir3ActionPerformed(evt);
             }
         });
-        jPanel5.add(btnSalir3, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 230, 100, 30));
+        jPanel5.add(btnSalir3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 230, 100, 30));
 
         btnIngresar3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_action_success.png"))); // NOI18N
         btnIngresar3.setText("Añadir");
@@ -946,7 +940,7 @@ public class FInventario extends javax.swing.JFrame {
                 btnIngresar3ActionPerformed(evt);
             }
         });
-        jPanel5.add(btnIngresar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 230, 100, 30));
+        jPanel5.add(btnIngresar3, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 230, 100, 30));
 
         tbl1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -975,12 +969,12 @@ public class FInventario extends javax.swing.JFrame {
         });
         jScrollPane8.setViewportView(tbl1);
 
-        jPanel5.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 530, 110));
+        jPanel5.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 630, 110));
 
         lblTitulo8.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo8.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo8.setText("Codigo del Producto");
-        jPanel5.add(lblTitulo8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 170, 140, 20));
+        jPanel5.add(lblTitulo8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 140, 20));
 
         txtCodigo4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCodigo4.setEnabled(false);
@@ -992,12 +986,12 @@ public class FInventario extends javax.swing.JFrame {
                 txtCodigo4KeyTyped(evt);
             }
         });
-        jPanel5.add(txtCodigo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 90, -1));
+        jPanel5.add(txtCodigo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 170, 90, -1));
 
         lblTitulo9.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo9.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo9.setText("Cantidad que Ingresa");
-        jPanel5.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 140, 20));
+        jPanel5.add(lblTitulo9, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 140, 20));
 
         txtIngreso.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtIngreso.setEnabled(false);
@@ -1009,17 +1003,17 @@ public class FInventario extends javax.swing.JFrame {
                 txtIngresoKeyTyped(evt);
             }
         });
-        jPanel5.add(txtIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 200, 90, -1));
+        jPanel5.add(txtIngreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 200, 90, -1));
 
         lblTitulo32.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo32.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lblTitulo32.setText("Cantidad Disponible");
-        jPanel5.add(lblTitulo32, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, 130, 20));
+        jPanel5.add(lblTitulo32, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 170, 130, 20));
 
         lblTitulo33.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo33.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblTitulo33.setText("Maximo");
-        jPanel5.add(lblTitulo33, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 60, 20));
+        jPanel5.add(lblTitulo33, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 60, 20));
 
         txtCantidad4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCantidad4.setEnabled(false);
@@ -1031,7 +1025,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtCantidad4KeyTyped(evt);
             }
         });
-        jPanel5.add(txtCantidad4, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 170, 80, -1));
+        jPanel5.add(txtCantidad4, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 170, 90, -1));
 
         txtMaximo4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtMaximo4.setEnabled(false);
@@ -1043,7 +1037,7 @@ public class FInventario extends javax.swing.JFrame {
                 txtMaximo4KeyTyped(evt);
             }
         });
-        jPanel5.add(txtMaximo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 200, 50, -1));
+        jPanel5.add(txtMaximo4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 200, 50, -1));
 
         lblTitulo26.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         lblTitulo26.setForeground(new java.awt.Color(255, 51, 51));
@@ -1085,9 +1079,12 @@ public class FInventario extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Añadir", jPanel5);
 
-        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 570, 300));
+        jPanel3.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 120, 670, 300));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 610, 360));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/suniaga.png"))); // NOI18N
+        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 200, 84));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 690, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -1143,6 +1140,7 @@ public class FInventario extends javax.swing.JFrame {
                             model.addRow(fila);
                         }
                         tbl1.setModel(model);
+                        Ajustar1();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -1176,6 +1174,7 @@ public class FInventario extends javax.swing.JFrame {
                             model.addRow(fila);
                         }
                         tbl1.setModel(model);
+                        Ajustar1();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -1209,6 +1208,7 @@ public class FInventario extends javax.swing.JFrame {
                             model.addRow(fila);
                         }
                         tbl1.setModel(model);
+                        Ajustar1();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -1423,6 +1423,7 @@ public class FInventario extends javax.swing.JFrame {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                        Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -1455,6 +1456,7 @@ public class FInventario extends javax.swing.JFrame {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                        Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -1487,6 +1489,7 @@ public class FInventario extends javax.swing.JFrame {
                             model.addRow(fila);
                         }
                         tbl.setModel(model);
+                        Ajustar();
                         acciones.conn.close();
                     } catch (SQLException e) {
                         JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
@@ -1983,9 +1986,9 @@ this.dispose();        // TODO add your handling code here:
     private javax.swing.JComboBox<String> cbxTipo2;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
@@ -2223,5 +2226,22 @@ this.dispose();        // TODO add your handling code here:
                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
             return false;
         }
+    }
+    
+    private void Ajustar1() {
+        tbl1.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbl1.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbl1.getColumnModel().getColumn(1).setPreferredWidth(80);
+        tbl1.getColumnModel().getColumn(2).setPreferredWidth(410);
+        tbl1.getColumnModel().getColumn(3).setPreferredWidth(70);
+    }
+    
+    private void Ajustar() {
+        tbl.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        tbl.getColumnModel().getColumn(0).setPreferredWidth(50);
+        tbl.getColumnModel().getColumn(1).setPreferredWidth(80);
+        tbl.getColumnModel().getColumn(2).setPreferredWidth(330);
+        tbl.getColumnModel().getColumn(3).setPreferredWidth(70);
+        tbl.getColumnModel().getColumn(4).setPreferredWidth(80);
     }
 }
