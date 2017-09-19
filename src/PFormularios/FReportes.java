@@ -177,6 +177,10 @@ public String getRuta() {
         jButton17 = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jButton18 = new javax.swing.JButton();
+        jLabel24 = new javax.swing.JLabel();
+        jButton21 = new javax.swing.JButton();
+        txtCedula4 = new javax.swing.JTextField();
+        jLabel29 = new javax.swing.JLabel();
         jFrame2 = new javax.swing.JFrame();
         jPanel2 = new javax.swing.JPanel();
         jButton20 = new javax.swing.JButton();
@@ -265,7 +269,7 @@ public String getRuta() {
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Reportes Graficos de Ventas");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 420, 30));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 420, 30));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -286,7 +290,7 @@ public String getRuta() {
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel8.setText("Por Ventas a Clientes");
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 160, 20));
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 160, 20));
 
         jLabel9.setBackground(new java.awt.Color(255, 255, 255));
         jLabel9.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -312,7 +316,7 @@ public String getRuta() {
                 jButton9ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, -1, -1));
+        jPanel1.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 400, -1, -1));
 
         jButton12.setText("Generar");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -342,23 +346,23 @@ public String getRuta() {
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel11.setText("Por Diarias por Año");
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 270, 140, 20));
+        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 310, 140, 20));
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel12.setText("Por Mes");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 300, 100, 20));
-        jPanel1.add(jMonthChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 300, 140, -1));
-        jPanel1.add(jYearChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 140, -1));
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 340, 100, 20));
+        jPanel1.add(jMonthChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 340, 140, -1));
+        jPanel1.add(jYearChooser2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 310, 140, -1));
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel13.setText("Anuales");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 100, 20));
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 370, 100, 20));
 
         jButton14.setText("Generar");
         jButton14.addActionListener(new java.awt.event.ActionListener() {
@@ -366,7 +370,7 @@ public String getRuta() {
                 jButton14ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, -1, -1));
+        jPanel1.add(jButton14, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 310, -1, -1));
 
         jButton15.setText("Generar");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
@@ -374,7 +378,7 @@ public String getRuta() {
                 jButton15ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 300, -1, -1));
+        jPanel1.add(jButton15, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 340, -1, -1));
 
         jButton16.setText("Generar");
         jButton16.addActionListener(new java.awt.event.ActionListener() {
@@ -382,7 +386,7 @@ public String getRuta() {
                 jButton16ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, -1, -1));
+        jPanel1.add(jButton16, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 370, -1, -1));
 
         txtCedula2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtCedula2.addActionListener(new java.awt.event.ActionListener() {
@@ -404,8 +408,8 @@ public String getRuta() {
         jLabel14.setFont(new java.awt.Font("Verdana", 1, 10)); // NOI18N
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("Cedula del Cliente");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 140, 10));
+        jLabel14.setText("Codigo de Venta");
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, 120, 10));
 
         jButton17.setText("Generar");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
@@ -430,7 +434,45 @@ public String getRuta() {
         });
         jPanel1.add(jButton18, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 120, -1, -1));
 
-        jFrame1.getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 400));
+        jLabel24.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel24.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel24.setText("Detalle de Venta por Codigo");
+        jPanel1.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 240, 200, 20));
+
+        jButton21.setText("Generar");
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton21ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton21, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 240, -1, -1));
+
+        txtCedula4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        txtCedula4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCedula4ActionPerformed(evt);
+            }
+        });
+        txtCedula4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCedula4KeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCedula4KeyTyped(evt);
+            }
+        });
+        jPanel1.add(txtCedula4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, 120, 20));
+
+        jLabel29.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel29.setFont(new java.awt.Font("Verdana", 1, 10)); // NOI18N
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel29.setText("Cedula del Cliente");
+        jPanel1.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 110, 140, 10));
+
+        jFrame1.getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 430, 430));
 
         jFrame2.setUndecorated(true);
         jFrame2.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -853,7 +895,7 @@ setExtendedState(JFrame.ICONIFIED);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-jFrame1.setSize(430,400);
+jFrame1.setSize(430,430);
 jFrame1.setLocationRelativeTo(null);
 jFrame1.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -1410,6 +1452,54 @@ x = evt.getX();
         // TODO add your handling code here:
     }//GEN-LAST:event_cbxTipo1ActionPerformed
 
+    private void jButton21ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton21ActionPerformed
+        if (txtCedula4.getText().equals("")) {
+            JOptionPane.showMessageDialog(null,"Campo Codigo Vacio", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            
+         try {
+              Connection conn = PBD.Conexion_DB.geConnection();
+            String dir = getRuta() + "\\reporteV2.jrxml";
+            Map<String, Object> p2 = new HashMap<>();
+            p2.put("usuario", lblResponsable.getText());
+            p2.put("ruta", getRuta());
+            p2.put("registro", txtCedula4.getText());
+            JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+            JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+            JasperViewer visor = new JasperViewer(mostrarReporte, false);
+            visor.setVisible(true);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE SIN EMBARGO LA VENTA SE REALIZO CON EXITO.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+        } 
+        
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton21ActionPerformed
+
+    private void txtCedula4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedula4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula4ActionPerformed
+
+    private void txtCedula4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula4KeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula4KeyReleased
+
+    private void txtCedula4KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCedula4KeyTyped
+char c = evt.getKeyChar();
+        if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
+            //establesco limite
+            int lim = txtCedula4.getText().length();
+            //cambie este numero que es el limite
+            if (this.EventoKeyType(lim, 8)) {
+                evt.consume();
+                getToolkit().beep();
+            }
+        } else {
+            getToolkit().beep();
+            evt.consume();
+        }          // TODO add your handling code here:
+    }//GEN-LAST:event_txtCedula4KeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -1440,6 +1530,7 @@ x = evt.getX();
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
+    private javax.swing.JButton jButton21;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton23;
     private javax.swing.JButton jButton27;
@@ -1475,10 +1566,12 @@ x = evt.getX();
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel33;
@@ -1501,6 +1594,7 @@ x = evt.getX();
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JTextField txtCedula2;
     private javax.swing.JTextField txtCedula3;
+    private javax.swing.JTextField txtCedula4;
     // End of variables declaration//GEN-END:variables
 
 private boolean EventoKeyType(int valor, int limitacion){

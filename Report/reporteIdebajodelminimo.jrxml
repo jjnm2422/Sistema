@@ -19,8 +19,7 @@
      proveedores."nompro" AS proveedores_nompro,
      proveedores."rifpro" AS proveedores_rifpro,
      tipoproducto."codtip" AS tipoproducto_codtip,
-     tipoproducto."tipprod" AS tipoproducto_tipprod,
-     inventario."fecprod" AS inventario_fecprod
+     tipoproducto."tipprod" AS tipoproducto_tipprod
 FROM
      "public"."proveedores" proveedores INNER JOIN "public"."inventario" inventario ON proveedores."rifpro" = inventario."codpro"
      INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"
@@ -40,7 +39,6 @@ WHERE
 	<field name="proveedores_rifpro" class="java.lang.String"/>
 	<field name="tipoproducto_codtip" class="java.lang.Integer"/>
 	<field name="tipoproducto_tipprod" class="java.lang.String"/>
-	<field name="inventario_fecprod" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

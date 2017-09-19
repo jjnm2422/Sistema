@@ -24,7 +24,7 @@
 FROM
      "public"."clientes" clientes INNER JOIN "public"."pedidos" pedidos ON clientes."cedcli" = pedidos."cedcli"
 WHERE
-pedidos."estped" = 'pendiente']]>
+pedidos."estped" = 'pendiente' and NOT pedidos."cedcli" = '1']]>
 	</queryString>
 	<field name="pedidos_codped" class="java.lang.Integer"/>
 	<field name="pedidos_desped" class="java.lang.String"/>

@@ -5,7 +5,7 @@
 	<property name="ireport.y" value="8"/>
 	<parameter name="usuario" class="java.lang.String"/>
 	<parameter name="ruta" class="java.lang.String"/>
-	<parameter name="tipo" class="java.lang.Integer">
+	<parameter name="tipo" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -27,7 +27,7 @@ FROM
      "public"."proveedores" proveedores INNER JOIN "public"."inventario" inventario ON proveedores."rifpro" = inventario."codpro"
 INNER JOIN "public"."tipoproducto" tipoproducto ON inventario."tippro" = tipoproducto."codtip"
 WHERE
-tipoproducto."codtip" = $P!{tipo}]]>
+tipoproducto."tipprod" = '$P!{tipo}']]>
 	</queryString>
 	<field name="inventario_codprod" class="java.lang.Integer"/>
 	<field name="inventario_desprod" class="java.lang.String"/>

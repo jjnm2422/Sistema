@@ -24,7 +24,7 @@
 FROM
      "public"."clientes" clientes INNER JOIN "public"."pedidos" pedidos ON clientes."cedcli" = pedidos."cedcli"
 WHERE
-pedidos."estped" = 'completado']]>
+pedidos."estped" = 'completado' and NOT pedidos."cedcli" = '1']]>
 	</queryString>
 	<field name="pedidos_codped" class="java.lang.Integer"/>
 	<field name="pedidos_desped" class="java.lang.String"/>
@@ -72,7 +72,7 @@ pedidos."estped" = 'completado']]>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Verdana" size="20" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
 				</textElement>
-				<text><![CDATA[Pedidos Registrados Pendientes]]></text>
+				<text><![CDATA[Pedidos Registrados Completados]]></text>
 			</staticText>
 		</band>
 	</pageHeader>
