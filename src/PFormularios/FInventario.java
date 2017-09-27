@@ -682,7 +682,7 @@ public class FInventario extends javax.swing.JFrame {
 
         lblTitulo22.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         lblTitulo22.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        lblTitulo22.setText("Consultar");
+        lblTitulo22.setText("Codigo");
         jPanel4.add(lblTitulo22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 80, 20));
 
         cbxProveedor2.setEditable(true);
@@ -1264,6 +1264,9 @@ public class FInventario extends javax.swing.JFrame {
 
     private void txtIngresoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIngresoKeyReleased
         int lim = txtIngreso.getText().length();
+         if (txtIngreso.getText().equals("0")||txtIngreso.getText().equals(".")) {
+            txtIngreso.setText("");
+        }
         if (!txtIngreso.getText().equals("")) {
             if (lim >= 0 && Integer.parseInt(txtIngreso.getText()) > 0) {
                 txtIngreso.setBackground(Color.GREEN);
@@ -1615,7 +1618,7 @@ public class FInventario extends javax.swing.JFrame {
 
     private void txtPrecio2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecio2KeyReleased
         char c = evt.getKeyChar();
-        if (txtPrecio2.getText().equals("0")) {
+        if (txtPrecio2.getText().equals("0")||txtPrecio2.getText().equals(".")) {
             txtPrecio2.setText("");
         }
         if (!txtPrecio2.getText().equals("") && c != 46) {
@@ -1828,9 +1831,14 @@ this.dispose();        // TODO add your handling code here:
                     Pintar(1);
                     this.Llenar();
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Error al guardar cliente\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+            } catch (SQLException e) {
+                if (e.getSQLState().equals("23505")) {
+                    JOptionPane.showMessageDialog(null, "Ya un existe producto con esa descripcion, por favor seleccione otra.",
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error al guarda producto\nCodigo error:" + e.getMessage(),
+                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                }
             }
         }
     }//GEN-LAST:event_btnIngresar1ActionPerformed

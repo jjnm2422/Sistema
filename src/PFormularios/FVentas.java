@@ -11,6 +11,7 @@ import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +19,9 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -27,6 +30,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -67,6 +77,7 @@ public class FVentas extends javax.swing.JFrame {
     private DecimalFormat format = new DecimalFormat("##0.00", simbolos);
     private DecimalFormat formato = new DecimalFormat("##########", simbolos);
     private int codorden;
+    private String ruta;
 
     public int getIva() {
         try {
@@ -129,6 +140,19 @@ public class FVentas extends javax.swing.JFrame {
     public void AddLista(Object x) {
         txtAuto.addItem(x);
     }
+    
+    public String getRuta() {
+        try {
+            String sql = "select ruta from variables";
+            ResultSet rs= acciones.Consultar(sql);
+            while(rs.next()){
+            ruta = rs.getString("ruta"); 
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+        return ruta;
+    }
 
     public void setlook() {
         try {
@@ -168,8 +192,8 @@ public class FVentas extends javax.swing.JFrame {
         }
         return String.valueOf(numero);
     }
-    
-     public String NumeroAleatorio2() {
+
+    public String NumeroAleatorio2() {
         long numero = 0;
         Random rd = new Random();
         numero = rd.nextInt(9999999) + 1;
@@ -745,14 +769,14 @@ public class FVentas extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl1KeyPressed
 
     private void tbl1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl1MouseClicked
-if (evt.getClickCount() == 2) {
-        this.Llenar();
-        this.txtB1.setText("");
-    }
+        if (evt.getClickCount() == 2) {
+            this.Llenar();
+            this.txtB1.setText("");
+        }
     }//GEN-LAST:event_tbl1MouseClicked
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-this.dispose();
+        this.dispose();
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void tblKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblKeyReleased
@@ -838,39 +862,39 @@ this.dispose();
         if (txtCedula2.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo cedula", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
-            if (Integer.parseInt(txtCedula2.getText())==1) {
+            if (Integer.parseInt(txtCedula2.getText()) == 1) {
                 JOptionPane.showMessageDialog(null, "Cliente No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
             } else {
                 this.txtCedula2.setEnabled(false);
-            boolean resultado = false;
-            String cedula = this.txtCedula2.getText();
-            try {
-                String sql = "select * from clientes where cedcli = '" + cedula + "'";
-                ResultSet rs = acciones.Consultar(sql);
-                while (rs.next()) {
-                    resultado = true;
-                    codcli = rs.getInt("codcli");
-                    txtNombre.setText(rs.getString("nomcli") + " " + rs.getString("apecli"));
-                    cbxPago.setEnabled(true);
-                    cbxPago.setSelectedIndex(0);
-                    txtB.setEnabled(true);
-                    tbl.setEnabled(true);
-                    cbxFiltro.setEnabled(true);
-                    bntAñadir.setEnabled(true);
-                    txtCedula2.setEnabled(false);
-                    btnBuscar.setEnabled(false);
+                boolean resultado = false;
+                String cedula = this.txtCedula2.getText();
+                try {
+                    String sql = "select * from clientes where cedcli = '" + cedula + "'";
+                    ResultSet rs = acciones.Consultar(sql);
+                    while (rs.next()) {
+                        resultado = true;
+                        codcli = rs.getInt("codcli");
+                        txtNombre.setText(rs.getString("nomcli") + " " + rs.getString("apecli"));
+                        cbxPago.setEnabled(true);
+                        cbxPago.setSelectedIndex(0);
+                        txtB.setEnabled(true);
+                        tbl.setEnabled(true);
+                        cbxFiltro.setEnabled(true);
+                        bntAñadir.setEnabled(true);
+                        txtCedula2.setEnabled(false);
+                        btnBuscar.setEnabled(false);
+                    }
+                    if (resultado == false) {
+                        JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                                JOptionPane.PLAIN_MESSAGE, iconAd);
+                        this.txtCedula2.setEnabled(true);
+                        resultado = false;
+                    }
+                    acciones.conn.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 }
-                if (resultado == false) {
-                    JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
-                            JOptionPane.PLAIN_MESSAGE, iconAd);
-                    this.txtCedula2.setEnabled(true);
-                    resultado = false;
-                }
-                acciones.conn.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al consultar cliente\ncodigo error:" + e.getMessage(),
-                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-            }
             }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
@@ -981,55 +1005,55 @@ this.dispose();
         if (txtCodigo.getText().equals("")) {
             JOptionPane.showMessageDialog(null, "Verifique que no este vacio el campo codigo", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
         } else {
-            if (Integer.parseInt(txtCodigo.getText())==1) {
+            if (Integer.parseInt(txtCodigo.getText()) == 1) {
                 JOptionPane.showMessageDialog(null, "Pedido No Disponible", "Error", JOptionPane.PLAIN_MESSAGE, iconError);
             } else {
-            String codigo = txtCodigo.getText();
-            boolean resultado = false;
-            float iva = getIva();
-            try {
-                String[] titulos = {"Descripcion"};
-                String sql = "select * from pedidos inner join clientes"
-                        + " on clientes.cedcli = pedidos.cedcli where codped = '" + codigo + "'";
-                model = new DefaultTableModel(null, titulos);
-                ResultSet rs = acciones.Consultar(sql);
-                while (rs.next()) {
-                    if (rs.getBoolean("venped")) {
-                    JOptionPane.showMessageDialog(null, "Pedido ya fue vendido", "Advertencia",
-                            JOptionPane.PLAIN_MESSAGE, iconAd);
-                    resultado = true;
-                    break;
-                    } else {
-                        if (rs.getString("estped").equals("pendiente")) {
-                    JOptionPane.showMessageDialog(null, "Pedido todavia en estado pendiente.\nPor favor marquelo como completado en la ventana de Pedidos", "Advertencia",
-                            JOptionPane.PLAIN_MESSAGE, iconAd);
-                    resultado = true;
-                    break;
-                    } else {
-                    resultado = true;
-                    txtNombre.setText(rs.getString("nomcli") + " " + rs.getString("apecli"));
-                    txtCedula2.setText(rs.getString("cedcli"));
-                    row1[0] = rs.getString("desped");
-                    txtTotal.setText(String.valueOf(rs.getInt("preped")));
-                    float subtotal = (Float.parseFloat(txtTotal.getText()) / (1 + (iva / 100)));
-                    txtPrecio.setText(String.valueOf(subtotal));
-                    txtCantidad.setText(String.valueOf(rs.getInt("canped")));
-                    model.addRow(row1);
+                String codigo = txtCodigo.getText();
+                boolean resultado = false;
+                float iva = getIva();
+                try {
+                    String[] titulos = {"Descripcion"};
+                    String sql = "select * from pedidos inner join clientes"
+                            + " on clientes.cedcli = pedidos.cedcli where codped = '" + codigo + "'";
+                    model = new DefaultTableModel(null, titulos);
+                    ResultSet rs = acciones.Consultar(sql);
+                    while (rs.next()) {
+                        if (rs.getBoolean("venped")) {
+                            JOptionPane.showMessageDialog(null, "Pedido ya fue vendido", "Advertencia",
+                                    JOptionPane.PLAIN_MESSAGE, iconAd);
+                            resultado = true;
+                            break;
+                        } else {
+                            if (rs.getString("estped").equals("pendiente")) {
+                                JOptionPane.showMessageDialog(null, "Pedido todavia en estado pendiente.\nPor favor marquelo como completado en la ventana de Pedidos", "Advertencia",
+                                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                                resultado = true;
+                                break;
+                            } else {
+                                resultado = true;
+                                txtNombre.setText(rs.getString("nomcli") + " " + rs.getString("apecli"));
+                                txtCedula2.setText(rs.getString("cedcli"));
+                                row1[0] = rs.getString("desped");
+                                txtTotal.setText(String.valueOf(rs.getInt("preped")));
+                                float subtotal = (Float.parseFloat(txtTotal.getText()) / (1 + (iva / 100)));
+                                txtPrecio.setText(String.valueOf(subtotal));
+                                txtCantidad.setText(String.valueOf(rs.getInt("canped")));
+                                model.addRow(row1);
+                            }
+                        }
                     }
-                    }
-                }
-                tbl.setModel(model);
-                if (resultado == false) {
-                    JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
-                            JOptionPane.PLAIN_MESSAGE, iconAd);
-                    resultado = false;
+                    tbl.setModel(model);
+                    if (resultado == false) {
+                        JOptionPane.showMessageDialog(null, "Sin Resultados en la Busqueda", "Advertencia",
+                                JOptionPane.PLAIN_MESSAGE, iconAd);
+                        resultado = false;
 //                    this.Habilitar(2);
+                    }
+                    acciones.conn.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "Error al consultar Pedidos\ncodigo error:" + e.getMessage(),
+                            "Error", JOptionPane.PLAIN_MESSAGE, iconError);
                 }
-                acciones.conn.close();
-            } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, "Error al consultar Pedidos\ncodigo error:" + e.getMessage(),
-                        "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-            }
             }
         }
     }//GEN-LAST:event_btnBuscar1ActionPerformed
@@ -1042,105 +1066,145 @@ this.dispose();
         if (verificacion2()) {
             if (jRadioButton2.isSelected()) {
 // <editor-fold desc="CODIGO PARA VENTAS DIRECTAS">
-            if (!txtCedula2.getText().equals("")) {
-                if (tbl.getRowCount() > 0) {
-                    //añadir en descripcion
-                    boolean añadir = false;
-                    for (int i = 0; i < tbl.getRowCount(); i++) {
-                        float total = Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString());
-                        codorden = Integer.parseInt(NumeroAleatorio2());
-                        try {
-                            String sql = "insert into orden(codord ,canord, preord, codven, codprod)"
-                                    + "values(?,?,?,?,?)";
-                            PreparedStatement ps = acciones.Ingresar(sql);
-                            ps.setLong(1, codorden);
-                            ps.setLong(2, Long.parseLong(tbl.getValueAt(i, 4).toString()));
-                            ps.setFloat(3, total);
-                            ps.setInt(4, Integer.parseInt(txtCodigoV.getText()));
-                            ps.setInt(5, Integer.parseInt(tbl.getValueAt(i, 0).toString()));
-                            int n = ps.executeUpdate();
-                            if (n > 0) {
-                                añadir = true;
-                            }else  {
+                if (!txtCedula2.getText().equals("")) {
+                    if (tbl.getRowCount() > 0) {
+                        //añadir en descripcion
+                        boolean añadir = false;
+                        for (int i = 0; i < tbl.getRowCount(); i++) {
+                            float total = Float.parseFloat(tbl.getValueAt(i, 3).toString()) * Float.parseFloat(tbl.getValueAt(i, 4).toString());
+                            codorden = Integer.parseInt(NumeroAleatorio2());
+                            try {
+                                String sql = "insert into orden(codord ,canord, preord, codven, codprod)"
+                                        + "values(?,?,?,?,?)";
+                                PreparedStatement ps = acciones.Ingresar(sql);
+                                ps.setLong(1, codorden);
+                                ps.setLong(2, Long.parseLong(tbl.getValueAt(i, 4).toString()));
+                                ps.setFloat(3, total);
+                                ps.setInt(4, Integer.parseInt(txtCodigoV.getText()));
+                                ps.setInt(5, Integer.parseInt(tbl.getValueAt(i, 0).toString()));
+                                int n = ps.executeUpdate();
+                                if (n > 0) {
+                                    añadir = true;
+                                } else {
+                                    añadir = false;
+                                }
+                                acciones.conn.close();
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
                                 añadir = false;
                             }
-                            acciones.conn.close();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
-                            añadir = false;
                         }
-                    }
 
 // se almacena la venta en la bd
-                    if (añadir) {
-                        try {
-                        String sql = "insert into ventas(codven, fecven, canven, totven"
-                                + ", codusu, codcli, codped, codord, codvar, tippago, numtrans)"
-                                + "values(?,?,?,?,?,?,?,?,?,?,?)";
+                        if (añadir) {
+                            try {
+                                String sql = "insert into ventas(codven, fecven, canven, totven"
+                                        + ", codusu, codcli, codped, codord, codvar, tippago, numtrans)"
+                                        + "values(?,?,?,?,?,?,?,?,?,?,?)";
 
-                        PreparedStatement ps = acciones.Ingresar(sql);
-                        ps.setString(1, txtCodigoV.getText());
-                        ps.setString(2, txtFecha.getText());
-                        ps.setInt(3, Integer.parseInt(txtCantidad.getText()));
-                        ps.setFloat(4, Float.parseFloat(txtTotal.getText()));
-                        ps.setInt(5, getCodUsu());
-                        ps.setString(6, txtCedula2.getText());
-                        ps.setInt(7, 1);
-                        ps.setInt(8, codorden);
-                        ps.setInt(9, 1);
-                        ps.setString(10, cbxPago.getSelectedItem().toString());
-                        ps.setString(11, txtTransaccion.getText());
-                        int n = ps.executeUpdate();
-                        if (n > 0) {
-                            añadir = true;
-                        } else {
-                            añadir = false;
+                                PreparedStatement ps = acciones.Ingresar(sql);
+                                ps.setString(1, txtCodigoV.getText());
+                                ps.setString(2, txtFecha.getText());
+                                ps.setInt(3, Integer.parseInt(txtCantidad.getText()));
+                                ps.setFloat(4, Float.parseFloat(txtTotal.getText()));
+                                ps.setInt(5, getCodUsu());
+                                ps.setString(6, txtCedula2.getText());
+                                ps.setInt(7, 1);
+                                ps.setInt(8, codorden);
+                                ps.setInt(9, 1);
+                                ps.setString(10, cbxPago.getSelectedItem().toString());
+                                ps.setString(11, txtTransaccion.getText());
+                                int n = ps.executeUpdate();
+                                if (n > 0) {
+                                    añadir = true;
+                                } else {
+                                    añadir = false;
+                                }
+                                acciones.conn.close();
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
+                                añadir = false;
+                            }
                         }
-                        acciones.conn.close();
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
-                        añadir = false;
-                    }
-                    }
-                    if (añadir) {
-                         //se actualiza la BD con los datos de la matriz
-                    for (int i = 0; i < matriz.length; i++) {
-                        String codigo = String.valueOf(matriz[i][0]);
-                        try {
-                            String sql = "update inventario set canprod=? where codprod = " + codigo;
-                            PreparedStatement ps = acciones.Actualizar(sql);
-                            ps.setInt(1, matriz[i][1]);
-                            int n = ps.executeUpdate();
-                            if (n > 0) {
-                            añadir = true;
-                        } else {
-                            añadir = false;
+                        if (añadir) {
+                            //se actualiza la BD con los datos de la matriz
+                            for (int i = 0; i < matriz.length; i++) {
+                                String codigo = String.valueOf(matriz[i][0]);
+                                try {
+                                    String sql = "update inventario set canprod=? where codprod = " + codigo;
+                                    PreparedStatement ps = acciones.Actualizar(sql);
+                                    ps.setInt(1, matriz[i][1]);
+                                    int n = ps.executeUpdate();
+                                    if (n > 0) {
+                                        añadir = true;
+                                    } else {
+                                        añadir = false;
+                                    }
+                                    acciones.conn.close();
+                                } catch (Exception e) {
+                                    JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
+                                }
+                            }
+//                            if (añadir) {
+//                                JOptionPane.showMessageDialog(null, "Venta Exitosa", "", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+//                                txtCodigoV.setText(this.NumeroAleatorio());
+//                                this.inicializar();
+//                                this.Borrar1(2);
+//                            }
                         }
-                            acciones.conn.close();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
-                        }
+                        //realizo la pregunta
+        if (añadir) {          
+        int seleccion = JOptionPane.showOptionDialog(
+                null,
+                "¿Desea ver registro generado por la venta?",
+                "IMPRIMIR",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, // null para icono por defecto.
+                new Object[]{"Si", "No"}, // null para YES, NO y CANCEL
+                "Si");
+        if (seleccion == 0) {
+            //genero el reporte
+                            try {
+                                Connection conn = PBD.Conexion_DB.geConnection();
+                                String dir = getRuta() + "\\reporteV2.jrxml";
+                                Map<String, Object> p2 = new HashMap<>();
+                                p2.put("usuario", lblResponsable.getText());
+                                p2.put("ruta", getRuta());
+                                p2.put("registro", txtCodigoV.getText());
+                                JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+                                JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+                                JasperViewer visor = new JasperViewer(mostrarReporte, false);
+                                visor.setVisible(true);
+                            } catch (JRException ex) {
+                                JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE SIN EMBARGO LA VENTA SE REALIZO CON EXITO.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                     if (añadir) {
-                            JOptionPane.showMessageDialog(null, "Venta Exitosa","",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
-                            txtCodigoV.setText(this.NumeroAleatorio());
-                            this.inicializar();
-                            this.Borrar1(2);
-                        }
+//fin genero reporte 
+                                JOptionPane.showMessageDialog(null, "Venta Exitosa", "", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                                txtCodigoV.setText(this.NumeroAleatorio());
+                                this.inicializar();
+                                this.Borrar1(2);
+                            
+        }else{
+                                JOptionPane.showMessageDialog(null, "Venta Exitosa", "", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                                txtCodigoV.setText(this.NumeroAleatorio());
+                                this.inicializar();
+                                this.Borrar1(2);
+        }    
+        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
                 }
-            }
 // </editor-fold>
             } else {
 // <editor-fold desc="CODIGO PARA VENTAS PEDIDOS">
-            if (!txtCodigo.getText().equals("")) {
-                if (tbl.getRowCount() > 0) {
-                    //añadir en descripcion
-                    String codigoDes = "";
-                    codorden = Integer.parseInt(NumeroAleatorio2());
-                    boolean añadir = false;
+                if (!txtCodigo.getText().equals("")) {
+                    if (tbl.getRowCount() > 0) {
+                        //añadir en descripcion
+                        String codigoDes = "";
+                        codorden = Integer.parseInt(NumeroAleatorio2());
+                        boolean añadir = false;
                         try {
                             String sql = "insert into orden(codord ,canord, preord, codven, codprod)"
                                     + "values(?,?,?,?,?)";
@@ -1153,7 +1217,7 @@ this.dispose();
                             int n = ps.executeUpdate();
                             if (n > 0) {
                                 añadir = true;
-                            }else  {
+                            } else {
                                 añadir = false;
                             }
                             acciones.conn.close();
@@ -1162,77 +1226,115 @@ this.dispose();
                             añadir = false;
                         }
 // se almacena la venta en la bd
-                    if (añadir) {
-                        try {
-                       String sql = "insert into ventas(codven, fecven, canven, totven"
-                                + ", codusu, codcli, codped, codord, codvar, tippago, numtrans)"
-                                + "values(?,?,?,?,?,?,?,?,?,?,?)";
+                        if (añadir) {
+                            try {
+                                String sql = "insert into ventas(codven, fecven, canven, totven"
+                                        + ", codusu, codcli, codped, codord, codvar, tippago, numtrans)"
+                                        + "values(?,?,?,?,?,?,?,?,?,?,?)";
 
-                        PreparedStatement ps = acciones.Ingresar(sql);
-                        ps.setString(1, txtCodigoV.getText());
-                        ps.setString(2, txtFecha.getText());
-                        ps.setInt(3, Integer.parseInt(txtCantidad.getText()));
-                        ps.setFloat(4, Float.parseFloat(txtTotal.getText()));
-                        ps.setInt(5, getCodUsu());
-                        ps.setString(6, txtCedula2.getText());
-                        ps.setInt(7, Integer.parseInt(txtCodigo.getText()));
-                        ps.setInt(8, codorden);
-                        ps.setInt(9, 1);
-                        ps.setString(10, cbxPago.getSelectedItem().toString());
-                        ps.setString(11, txtTransaccion.getText());
-                        int n = ps.executeUpdate();
-                        if (n > 0) {
-                            añadir = true;
-                        } else {
-                            añadir = false;
+                                PreparedStatement ps = acciones.Ingresar(sql);
+                                ps.setString(1, txtCodigoV.getText());
+                                ps.setString(2, txtFecha.getText());
+                                ps.setInt(3, Integer.parseInt(txtCantidad.getText()));
+                                ps.setFloat(4, Float.parseFloat(txtTotal.getText()));
+                                ps.setInt(5, getCodUsu());
+                                ps.setString(6, txtCedula2.getText());
+                                ps.setInt(7, Integer.parseInt(txtCodigo.getText()));
+                                ps.setInt(8, codorden);
+                                ps.setInt(9, 1);
+                                ps.setString(10, cbxPago.getSelectedItem().toString());
+                                ps.setString(11, txtTransaccion.getText());
+                                int n = ps.executeUpdate();
+                                if (n > 0) {
+                                    añadir = true;
+                                } else {
+                                    añadir = false;
+                                }
+                                acciones.conn.close();
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
+                                añadir = false;
+                            }
                         }
-                        acciones.conn.close();
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "ERROR AL GUARDAR\ncodigo error:" + e.getMessage());
-                        añadir = false;
-                    }
-                    }
-                    if (añadir) {
-                         //se actualiza la BD con los datos de la matriz
-                    for (int i = 0; i < matriz.length; i++) {
-                        String codigo = String.valueOf(matriz[i][0]);
-                        try {
-                            String sql = "update inventario set canprod=? where codprod=" + codigo;
-                            PreparedStatement ps = acciones.Actualizar(sql);
-                            ps.setInt(1, matriz[i][1]);
-                            int n = ps.executeUpdate();
-                            acciones.conn.close();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
-                            añadir = false;
+                        if (añadir) {
+                            //se actualiza la BD con los datos de la matriz
+                            for (int i = 0; i < matriz.length; i++) {
+                                String codigo = String.valueOf(matriz[i][0]);
+                                try {
+                                    String sql = "update inventario set canprod=? where codprod=" + codigo;
+                                    PreparedStatement ps = acciones.Actualizar(sql);
+                                    ps.setInt(1, matriz[i][1]);
+                                    int n = ps.executeUpdate();
+                                    acciones.conn.close();
+                                } catch (Exception e) {
+                                    JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
+                                    añadir = false;
+                                }
+                            }
                         }
-                    }
-                    }
-                    if (añadir) {
-                         //marco producto como vendido
-                        String codigo = txtCodigo.getText();;
-                        try {
-                            String sql = "update pedidos set venped=? where codped=" + codigo;
-                            PreparedStatement ps = acciones.Actualizar(sql);
-                            ps.setBoolean(1, true);
-                            int n = ps.executeUpdate();
-                            acciones.conn.close();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
-                            añadir = false;
+                        if (añadir) {
+                            //marco producto como vendido
+                            String codigo = txtCodigo.getText();;
+                            try {
+                                String sql = "update pedidos set venped=? where codped=" + codigo;
+                                PreparedStatement ps = acciones.Actualizar(sql);
+                                ps.setBoolean(1, true);
+                                int n = ps.executeUpdate();
+                                acciones.conn.close();
+                            } catch (Exception e) {
+                                JOptionPane.showMessageDialog(null, "ERROR AL ACTUALIZAR LOS DATOS VERIFIQUE QUE SEAN CORRECTOS\n" + e.getMessage());
+                                añadir = false;
+                            }
+
+                            
                         }
-                    
-                    if (añadir) {
-                            JOptionPane.showMessageDialog(null, "Venta Exitosa","",JOptionPane.PLAIN_MESSAGE,iconCorrecto);
-                            txtCodigoV.setText(this.NumeroAleatorio());
-                            this.inicializar();
-                            this.Borrar1(2);
-                        }
+                        //realizo la pregunta
+        if (añadir) {          
+        int seleccion = JOptionPane.showOptionDialog(
+                null,
+                "¿Desea ver registro generado por la venta?",
+                "Selector de opciones",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null, // null para icono por defecto.
+                new Object[]{"Si", "No"}, // null para YES, NO y CANCEL
+                "Si");
+        if (seleccion == 0) {
+            //genero el reporte
+                            try {
+                                Connection conn = PBD.Conexion_DB.geConnection();
+                                String dir = getRuta() + "\\reporteV2.jrxml";
+                                Map<String, Object> p2 = new HashMap<>();
+                                p2.put("usuario", lblResponsable.getText());
+                                p2.put("ruta", getRuta());
+                                p2.put("registro", txtCodigoV.getText());
+                                JasperReport reporteJasper = JasperCompileManager.compileReport(dir);
+                                JasperPrint mostrarReporte = JasperFillManager.fillReport(reporteJasper, p2, conn);
+                                JasperViewer visor = new JasperViewer(mostrarReporte, false);
+                                visor.setVisible(true);
+                            } catch (JRException ex) {
+                                JOptionPane.showMessageDialog(null, "OCURRIO UN ERROR AL CARGAR EL REPORTE SIN EMBARGO LA VENTA SE REALIZO CON EXITO.\n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
+//fin genero reporte 
+if (añadir) {
+                                JOptionPane.showMessageDialog(null, "Venta Exitosa", "", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                                txtCodigoV.setText(this.NumeroAleatorio());
+                                this.inicializar();
+                                this.Borrar1(2);
+                            }
+        }else{
+            if (añadir) {
+                                JOptionPane.showMessageDialog(null, "Venta Exitosa", "", JOptionPane.PLAIN_MESSAGE, iconCorrecto);
+                                txtCodigoV.setText(this.NumeroAleatorio());
+                                this.inicializar();
+                                this.Borrar1(2);
+                            }
+        }    
+        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Selecciones 1 o mas productos", "", JOptionPane.WARNING_MESSAGE);
+                    }
                 }
-            }
 // </editor-fold>
             }
         }
@@ -1360,95 +1462,95 @@ this.dispose();
         int c = evt.getKeyChar();
         if (!txtB1.getText().equals("")) {
             int var = cbxFiltro1.getSelectedIndex();
-            if (var==0) {
+            if (var == 0) {
                 if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
                     try {
-            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
-            String sql = "select * from ventas inner join clientes"
-                    + " on clientes.cedcli = ventas.codcli"
-                    + " where ventas.codven like '"+txtB1.getText()+"%'";
-            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-            ResultSet rs = acciones.Consultar(sql);
-            String[] fila = new String[5];
-            while (rs.next()) {
-                fila[0] = rs.getString("codven");
-                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
-                fila[2] = rs.getString("fecven");
-                fila[3] = rs.getString("canven");
-                fila[4] = format.format(rs.getFloat("totven"));
-                modelo.addRow(fila);
-            }
-            tbl1.setModel(modelo);
-            acciones.conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-                }else{
+                        String[] titulos = {"Codigo", "Cliente", "Fecha", "Cantidad", "Monto"};
+                        String sql = "select * from ventas inner join clientes"
+                                + " on clientes.cedcli = ventas.codcli"
+                                + " where ventas.codven like '" + txtB1.getText() + "%'";
+                        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codven");
+                            fila[1] = rs.getString("nomcli") + " " + rs.getString("apecli");
+                            fila[2] = rs.getString("fecven");
+                            fila[3] = rs.getString("canven");
+                            fila[4] = format.format(rs.getFloat("totven"));
+                            modelo.addRow(fila);
+                        }
+                        tbl1.setModel(modelo);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
+                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                } else {
                     JOptionPane.showMessageDialog(null, "Ingrese solo Numeros o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
                     this.txtB1.setText("");
                 }
             }
             //compuebo el cbx opcion 2
-            if (var==1) {
+            if (var == 1) {
                 if (c >= 65 && c <= 90 || c >= 97 && c <= 122 || c >= 128 && c <= 165 || c == WCKeyEvent.VK_BACK) {
-                     try {
-            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
-            String sql = "select * from ventas inner join clientes"
-                    + " on clientes.cedcli = ventas.codcli"
-                    + " where clientes.nomcli like '"+txtB1.getText()+"%'";
-            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-            ResultSet rs = acciones.Consultar(sql);
-            String[] fila = new String[5];
-            while (rs.next()) {
-                fila[0] = rs.getString("codven");
-                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
-                fila[2] = rs.getString("fecven");
-                fila[3] = rs.getString("canven");
-                fila[4] = format.format(rs.getFloat("totven"));
-                modelo.addRow(fila);
-            }
-            tbl1.setModel(modelo);
-            acciones.conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-                }else{
+                    try {
+                        String[] titulos = {"Codigo", "Cliente", "Fecha", "Cantidad", "Monto"};
+                        String sql = "select * from ventas inner join clientes"
+                                + " on clientes.cedcli = ventas.codcli"
+                                + " where clientes.nomcli like '" + txtB1.getText() + "%'";
+                        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codven");
+                            fila[1] = rs.getString("nomcli") + " " + rs.getString("apecli");
+                            fila[2] = rs.getString("fecven");
+                            fila[3] = rs.getString("canven");
+                            fila[4] = format.format(rs.getFloat("totven"));
+                            modelo.addRow(fila);
+                        }
+                        tbl1.setModel(modelo);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
+                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                } else {
                     JOptionPane.showMessageDialog(null, "Ingrese solo letras o seleccione otro filtro", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
                     this.txtB1.setText("");
                 }
             }
             //compuebo el cbx opcion 3
-            if (var==2) {
-                 if (c >= 47 && c <= 57 || c == WCKeyEvent.VK_BACK)  {
+            if (var == 2) {
+                if (c >= 47 && c <= 57 || c == WCKeyEvent.VK_BACK) {
                     try {
-            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
-            String sql = "select * from ventas inner join clientes"
-                    + " on clientes.cedcli = ventas.codcli"
-                    + " where ventas.fecven like '"+txtB1.getText()+"%'";
-            DefaultTableModel modelo = new DefaultTableModel(null, titulos);
-            ResultSet rs = acciones.Consultar(sql);
-            String[] fila = new String[5];
-            while (rs.next()) {
-                fila[0] = rs.getString("codven");
-                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
-                fila[2] = rs.getString("fecven");
-                fila[3] = rs.getString("canven");
-                fila[4] = format.format(rs.getFloat("totven"));
-                modelo.addRow(fila);
-            }
-            tbl1.setModel(modelo);
-            acciones.conn.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
-                    "Error", JOptionPane.PLAIN_MESSAGE, iconError);
-        }
-                }else{
+                        String[] titulos = {"Codigo", "Cliente", "Fecha", "Cantidad", "Monto"};
+                        String sql = "select * from ventas inner join clientes"
+                                + " on clientes.cedcli = ventas.codcli"
+                                + " where ventas.fecven like '" + txtB1.getText() + "%'";
+                        DefaultTableModel modelo = new DefaultTableModel(null, titulos);
+                        ResultSet rs = acciones.Consultar(sql);
+                        String[] fila = new String[5];
+                        while (rs.next()) {
+                            fila[0] = rs.getString("codven");
+                            fila[1] = rs.getString("nomcli") + " " + rs.getString("apecli");
+                            fila[2] = rs.getString("fecven");
+                            fila[3] = rs.getString("canven");
+                            fila[4] = format.format(rs.getFloat("totven"));
+                            modelo.addRow(fila);
+                        }
+                        tbl1.setModel(modelo);
+                        acciones.conn.close();
+                    } catch (SQLException e) {
+                        JOptionPane.showMessageDialog(null, "Error al consultar Ventas\ncodigo error:" + e.getMessage(),
+                                "Error", JOptionPane.PLAIN_MESSAGE, iconError);
+                    }
+                } else {
                     JOptionPane.showMessageDialog(null, "Ingrese fecha en formato dd/mm/yyy Ej. 24/04/2017", "Advertencia",
-                        JOptionPane.PLAIN_MESSAGE, iconAd);
+                            JOptionPane.PLAIN_MESSAGE, iconAd);
                     this.txtB1.setText("");
                 }
             }
@@ -1462,7 +1564,7 @@ this.dispose();
     }//GEN-LAST:event_txtB1KeyTyped
 
     private void txtTransaccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTransaccionKeyTyped
-     char c = evt.getKeyChar();
+        char c = evt.getKeyChar();
         if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
             //establesco limite
             int lim = txtTransaccion.getText().length();
@@ -1558,11 +1660,10 @@ this.dispose();
 
         txtTransaccion.setEnabled(false);
 
-        
         txtB.setEnabled(false);
         cbxFiltro.setEnabled(false);
         bntAñadir.setEnabled(false);
-        
+
         cbxPago.setEnabled(false);
 
         int y = model.getRowCount();
@@ -1886,33 +1987,34 @@ this.dispose();
 
     private boolean verificacion2() {
         if (jRadioButton2.isSelected()) {
-        if (!txtCedula2.getText().equals("")&&tbl.getRowCount()>0) {
-            if (cbxPago.getSelectedIndex()==0) {
-                return true;
-            }else{
-                if (txtTransaccion.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Ingrese el numero de transaccion", "Advertencia", JOptionPane.PLAIN_MESSAGE,iconAd);
-                    return false;
-                }else
+            if (!txtCedula2.getText().equals("") && tbl.getRowCount() > 0) {
+                if (cbxPago.getSelectedIndex() == 0) {
                     return true;
+                } else {
+                    if (txtTransaccion.getText().equals("")) {
+                        JOptionPane.showMessageDialog(null, "Ingrese el numero de transaccion", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese Cedula del Cliente", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                return false;
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Ingrese Cedula del Cliente", "Advertencia", JOptionPane.PLAIN_MESSAGE,iconAd);
-            return false;
-        }   
-        } else {
-        if (!txtCodigo.getText().equals("")&&tbl.getRowCount()>0) {
-            return true;
-        } else {
-            JOptionPane.showMessageDialog(null, "Ingrese el Codigo de Pedido", "Advertencia", JOptionPane.PLAIN_MESSAGE,iconAd);
-            return false;
-        }   
+            if (!txtCodigo.getText().equals("") && tbl.getRowCount() > 0) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "Ingrese el Codigo de Pedido", "Advertencia", JOptionPane.PLAIN_MESSAGE, iconAd);
+                return false;
+            }
         }
     }
 
     private void Llenar() {
         try {
-            String[] titulos = {"Codigo","Cliente", "Fecha", "Cantidad", "Monto"};
+            String[] titulos = {"Codigo", "Cliente", "Fecha", "Cantidad", "Monto"};
             String sql = "select * from ventas inner join clientes"
                     + " on clientes.cedcli = ventas.codcli";
             DefaultTableModel modelo = new DefaultTableModel(null, titulos);
@@ -1920,7 +2022,7 @@ this.dispose();
             String[] fila = new String[5];
             while (rs.next()) {
                 fila[0] = rs.getString("codven");
-                fila[1] = rs.getString("nomcli")+" "+rs.getString("apecli");
+                fila[1] = rs.getString("nomcli") + " " + rs.getString("apecli");
                 fila[2] = rs.getString("fecven");
                 fila[3] = rs.getString("canven");
                 fila[4] = format.format(rs.getFloat("totven"));
@@ -1933,12 +2035,13 @@ this.dispose();
                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
     }
-private boolean EventoKeyType(int valor, int limitacion){
-            //pido el valor del text y pido el valor limitante
-            if (valor >= limitacion) {
-                return true;
-            }else{
-                return false;
-            }
+
+    private boolean EventoKeyType(int valor, int limitacion) {
+        //pido el valor del text y pido el valor limitante
+        if (valor >= limitacion) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -274,6 +274,11 @@ public class FLoginR extends javax.swing.JFrame {
 
         txtClave.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtClave.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtClave.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClaveKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, 140, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/1497311482_key_16.png"))); // NOI18N
@@ -401,6 +406,11 @@ public class FLoginR extends javax.swing.JFrame {
                 txtClave2ActionPerformed(evt);
             }
         });
+        txtClave2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtClave2KeyTyped(evt);
+            }
+        });
         jPanel3.add(txtClave2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 170, 140, 30));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/agt_family.png"))); // NOI18N
@@ -408,6 +418,11 @@ public class FLoginR extends javax.swing.JFrame {
 
         txtUsuario.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         txtUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txtUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtUsuarioKeyTyped(evt);
+            }
+        });
         jPanel3.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 50, 140, 30));
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 260));
@@ -570,6 +585,43 @@ public class FLoginR extends javax.swing.JFrame {
     private void formWindowLostFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowLostFocus
     this.requestFocus();
     }//GEN-LAST:event_formWindowLostFocus
+
+    private void txtClaveKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClaveKeyTyped
+char c = evt.getKeyChar();
+char[] arrayC1 = txtClave.getPassword(); 
+    String c1 = new String(arrayC1);
+        int lim = c1.length();
+            //establesco limite
+            //cambie este numero que es el limite
+            if (lim >= 12) {
+                evt.consume();
+                getToolkit().beep();
+            }        // TODO add your handling code here:
+    }//GEN-LAST:event_txtClaveKeyTyped
+
+    private void txtClave2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtClave2KeyTyped
+char c = evt.getKeyChar();
+char[] arrayC1 = txtClave2.getPassword(); 
+    String c1 = new String(arrayC1);
+        int lim = c1.length();
+            //establesco limite
+            //cambie este numero que es el limite
+            if (lim >= 12) {
+                evt.consume();
+                getToolkit().beep();
+            }           // TODO add your handling code here:
+    }//GEN-LAST:event_txtClave2KeyTyped
+
+    private void txtUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUsuarioKeyTyped
+char c = evt.getKeyChar();
+        int lim = txtUsuario.getText().length();
+            //establesco limite
+            //cambie este numero que es el limite
+            if (lim >= 12) {
+                evt.consume();
+                getToolkit().beep();
+            }           // TODO add your handling code here:
+    }//GEN-LAST:event_txtUsuarioKeyTyped
 
     /**
      * @param args the command line arguments

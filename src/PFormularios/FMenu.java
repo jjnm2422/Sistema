@@ -170,7 +170,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton8ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 210, 130));
+        jPanel3.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 200, 210, 130));
 
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Clientes.png"))); // NOI18N
         jButton7.setContentAreaFilled(false);
@@ -237,19 +237,20 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
                 jButton6ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, 210, 120));
+        jPanel3.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 340, 210, 120));
 
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Cerrar Sesion.png"))); // NOI18N
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/if_logout_63128.png"))); // NOI18N
         jButton9.setBorderPainted(false);
         jButton9.setContentAreaFilled(false);
         jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton9.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/Cerrar SesionR.png"))); // NOI18N
+        jButton9.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/if_logout_63128 - copia.png"))); // NOI18N
+        jButton9.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/PImagenes/if_logout_63128 - copia.png"))); // NOI18N
         jButton9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton9ActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, 210, 90));
+        jPanel3.add(jButton9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 110, 70, 60));
 
         lblHora.setBackground(new java.awt.Color(255, 255, 255));
         lblHora.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -289,10 +290,7 @@ public class FMenu extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        if (rootPaneCheckingEnabled) {
-            
-        } else {
-        }
+        
         this.dispose();
     PFormularios.FLogin flogin = new PFormularios.FLogin();
     flogin.setVisible(true);
