@@ -5,6 +5,7 @@
  */
 package PFormularios;
 
+import com.mxrck.autocompleter.TextAutoCompleter;
 import com.sun.awt.AWTUtilities;
 import com.sun.webkit.event.WCKeyEvent;
 import java.awt.Color;
@@ -57,6 +58,8 @@ public class FReportes extends javax.swing.JFrame{
     private PBD.Acciones_BD acciones = new PBD.Acciones_BD();
     PClases.CFecha fecha = new PClases.CFecha();
     private String hora = "";
+     TextAutoCompleter txtAuto;
+     TextAutoCompleter txtAuto2;
     private String ampm;
     private String minutos;
     private String segundos;
@@ -70,6 +73,8 @@ public class FReportes extends javax.swing.JFrame{
         this.setlook();
         initComponents();
         setLocationRelativeTo(null);
+        this.txtAuto = new TextAutoCompleter(txtCedula2);
+        this.txtAuto2 = new TextAutoCompleter(txtCedula4);
         getTipoProducto();
         i=0;
     }
@@ -85,6 +90,50 @@ public class FReportes extends javax.swing.JFrame{
             JOptionPane.showMessageDialog(null, "Error al consultar productos\ncodigo error:" + e.getMessage(),
                     "Error", JOptionPane.PLAIN_MESSAGE, iconError);
         }
+    }
+    
+     public void LlenarLista(int x) {
+        txtAuto.removeAllItems();
+        switch (x) {
+            case 1:
+                try {
+                    String sql = "select * from clientes";
+                    ResultSet rs = acciones.Consultar(sql);
+                    while (rs.next()) {
+                        this.AddLista(rs.getString("cedcli"));
+                    }
+                    acciones.conn.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+                break;
+                }
+    }
+     
+     public void LlenarLista2(int x) {
+        txtAuto2.removeAllItems();
+        switch (x) {
+            case 1:
+                try {
+                    String sql = "select * from ventas";
+                    ResultSet rs = acciones.Consultar(sql);
+                    while (rs.next()) {
+                        this.AddLista2(rs.getString("codven"));
+                    }
+                    acciones.conn.close();
+                } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage());
+                }
+                break;
+                }
+    }
+     
+     public void AddLista(Object x) {
+        txtAuto.addItem(x);
+    }
+     
+     public void AddLista2(Object x) {
+        txtAuto2.addItem(x);
     }
     
 public String getRuta() {
@@ -946,6 +995,7 @@ char c = evt.getKeyChar();
         if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
             //establesco limite
             int lim = txtCedula2.getText().length();
+            LlenarLista(1) ;
             //cambie este numero que es el limite
             if (this.EventoKeyType(lim, 9)) {
                 evt.consume();
@@ -1489,6 +1539,7 @@ char c = evt.getKeyChar();
         if (c >= 48 && c <= 57 || c == WCKeyEvent.VK_BACK) {
             //establesco limite
             int lim = txtCedula4.getText().length();
+            LlenarLista2(1);
             //cambie este numero que es el limite
             if (this.EventoKeyType(lim, 8)) {
                 evt.consume();
